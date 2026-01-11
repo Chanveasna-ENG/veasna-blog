@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, I'm Veasna | Automation Specialist</title>
+    <meta name="description" content="Portfolio of ENG Chanveasna, specializing in AI, Workflow Automation, and Web Design.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#2D2D2D',
+                        lightDark: '#4D4D4D',
+                        footerDark: '#3D3D3D',
+                        gold: '#B69328',
+                        offWhite: '#FEFEFE',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans JP', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .lang-jp.hidden, .lang-en.hidden { display: none; }
+        .card-hover:hover { transform: translateY(-4px) scale(1.01); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-darkBg text-offWhite selection:bg-gold selection:text-darkBg">
+
+    <nav class="bg-darkBg border-b border-lightDark sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="text-2xl font-bold tracking-tighter text-gold">Veasna<span class="text-offWhite">.</span></div>
+            
+            <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-widest">
+                <a href="index.html" class="hover:text-gold transition">Home</a>
+                <a href="projects.html" class="hover:text-gold transition">Projects</a>
+                <a href="events.html" class="hover:text-gold transition">Achievements</a>
+                <a href="#contact" class="hover:text-gold transition">Contact</a>
+            </div>
+
+            <button onclick="toggleLanguage()" class="border border-gold text-gold px-4 py-1 text-xs font-bold hover:bg-gold hover:text-darkBg transition uppercase">
+                <span class="lang-en">JP</span><span class="lang-jp">EN</span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+    
+        <section class="min-h-[70vh] flex items-center bg-darkBg">
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center py-20">
+                <div>
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                        <span class="lang-en">Building solutions for your <span class="text-gold">repetitive tasks</span>.</span>
+                        <span class="lang-jp text-3xl">あなたの「単純作業」を<span class="text-gold">自動化</span>で解決します。</span>
+                    </h1>
+                    <p class="mt-6 text-lg text-gray-300">
+                        <span class="lang-en">Specializing in AI and workflow automation to turn tedious manual processes into efficient systems.</span>
+                        <span class="lang-jp">AIと自動化技術を使い、ビジネスの効率を最大化するシステムを構築します。</span>
+                    </p>
+                    <div class="mt-10">
+                        <a href="#projects" class="bg-gold text-darkBg px-8 py-4 font-bold uppercase tracking-widest hover:opacity-90 transition inline-block">
+                            <span class="lang-en">View Projects</span><span class="lang-jp">プロジェクトを見る</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="w-full max-w-sm aspect-square bg-lightDark/20 rounded-full border-4 border-gold/30 flex items-center justify-center relative animate-pulse">
+                        <div class="absolute inset-0 border-2 border-gold rounded-full scale-110 opacity-20"></div>
+                        <svg viewBox="0 0 24 24" class="w-32 h-32 text-gold fill-current">
+                            <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="bg-lightDark py-24">
+            <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="text-gold text-sm font-bold uppercase tracking-[0.3em] mb-4">About Me</h2>
+                    <div class="text-2xl leading-relaxed">
+                        <span class="lang-en">I have been fascinated by technology since my first script. I founded my career on the "Lazy Tech" vision: creating systems where a single person can run a massive operation through automation.</span>
+                        <span class="lang-jp">コンピュータで「自動化」することが大好きです。私のビジョンは、AIとスクリプトを使って、効率的で一人で動かせるビジネスを創ることです。</span>
+                    </div>
+                    <p class="mt-6 text-gray-300">
+                        <span class="lang-en">Senior ICT student at AUPP. Solving problems with code and optimizing every process I find.</span>
+                        <span class="lang-jp">AUPPでITを学ぶ大学生。すべての業務プロセスを最適化することを目標にしています。</span>
+                    </p>
+                    <div class="mt-8">
+                        <a href="mailto:veasna@veasnaec.com" class="text-gold border-b border-gold pb-1 font-bold hover:text-offWhite hover:border-offWhite transition">
+                            veasna@veasnaec.com
+                        </a>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 flex justify-center">
+                    <img src="assets/img/profile.jpg" alt="Veasna" class="grayscale hover:grayscale-0 transition duration-500 border-8 border-darkBg shadow-2xl max-w-sm w-full">
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-lightDark pb-24">
+            <div class="max-w-6xl mx-auto px-6">
+                <h3 class="text-center text-xs uppercase tracking-[0.5em] text-gray-400 mb-12">Core Technical Stack</h3>
+                <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition duration-500">
+                    <div class="text-center">
+                        <span class="block text-2xl font-bold">Python</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-2xl font-bold">PyTorch</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-2xl font-bold">Selenium</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-2xl font-bold">Next.js</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-2xl font-bold">Tailwind</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="bg-darkBg py-24 border-t border-lightDark">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-3xl font-bold mb-12">Recent Projects</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <a href="project/khmerocr.html" class="block bg-lightDark/20 border border-lightDark p-8 card-hover hover:border-gold group">
+                        <div class="text-gold text-xs font-bold mb-4">AI / Deep Learning</div>
+                        <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition">KhmerOCR</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            <span class="lang-en">Automating the extraction of handwritten Khmer characters using advanced modeling.</span>
+                            <span class="lang-jp">クメール語の手書き文字をAIで読み取る自動化ツールです。</span>
+                        </p>
+                    </a>
+
+                    <a href="project/squarespace-comic.html" class="block bg-lightDark/20 border border-lightDark p-8 card-hover hover:border-gold group">
+                        <div class="text-gold text-xs font-bold mb-4">Automation / Web Scraping</div>
+                        <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition">Selenium Workflow</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            <span class="lang-en">Custom script to automate repetitive data entry on Squarespace for clients.</span>
+                            <span class="lang-jp">Seleniumを使って、面倒なWeb作業をすべて自動化しました。</span>
+                        </p>
+                    </a>
+
+                    <a href="project/squarespace-medspa.html" class="block bg-lightDark/20 border border-lightDark p-8 card-hover hover:border-gold group">
+                        <div class="text-gold text-xs font-bold mb-4">Web Design</div>
+                        <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition">MedSpa Web Design</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            <span class="lang-en">Professional, high-conversion web design for modern businesses.</span>
+                            <span class="lang-jp">モダンで使いやすいビジネス向けウェブサイトのデザインです。</span>
+                        </p>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="achievements" class="bg-darkBg py-24 border-t border-lightDark">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-3xl font-bold mb-12 text-gold">Achievements</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <a href="events/cambodia-ctf-2024.html" class="block bg-lightDark/10 border border-lightDark/50 p-8 card-hover hover:border-offWhite group">
+                        <div class="text-gray-500 text-xs font-bold mb-4">Cybersecurity</div>
+                        <h3 class="text-xl font-bold mb-2">Cambodia CTF 2024</h3>
+                        <p class="text-gray-500 text-sm italic">Coming Soon...</p>
+                    </a>
+
+                    <a href="events/ideathon-season2.html" class="block bg-lightDark/10 border border-lightDark/50 p-8 card-hover hover:border-offWhite group">
+                        <div class="text-gray-500 text-xs font-bold mb-4">Business / Tech</div>
+                        <h3 class="text-xl font-bold mb-2">Ideathon Season 2</h3>
+                        <p class="text-gray-500 text-sm italic">Coming Soon...</p>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="bg-footerDark py-12 border-t border-lightDark">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <div class="text-xl font-bold text-gold">Veasna.</div>
+                <p class="text-gray-400 text-sm mt-2">Building solutions for repetitive tasks.</p>
+            </div>
+            <div class="flex space-x-6 text-sm">
+                <a href="index.html" class="hover:text-gold">Home</a>
+                <a href="projects.html" class="hover:text-gold">Projects</a>
+                <a href="events.html" class="hover:text-gold">Achievements</a>
+            </div>
+        </div>
+        <div class="text-center text-xs text-gray-500 mt-8">© 2026 ENG Chanveasna. All rights reserved.</div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
