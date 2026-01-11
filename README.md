@@ -1,5 +1,5 @@
 # Project Structure
-
+```
 / (root)
 ├── index.html                  # Hero, About, Skills, Contact
 ├── projects.html               # Main list of all projects
@@ -19,3 +19,4 @@
     ├── cambodia-ctf-2024.html  # /events/cambodia-ctf-2024.html
     ├── ideathon-season2.html
     └── entrepreneurship-launchpad.html
+```
