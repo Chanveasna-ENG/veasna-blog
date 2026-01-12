@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello, I'm Veasna | Automation Specialist</title>
+    <title>Hello, I'm Veasna</title>
     <meta name="description" content="Portfolio of ENG Chanveasna, specializing in AI, Workflow Automation, and Web Design.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -41,7 +41,7 @@
                 <a href="index.html" class="hover:text-gold transition">Home</a>
                 <a href="projects.html" class="hover:text-gold transition">Projects</a>
                 <a href="events.html" class="hover:text-gold transition">Achievements</a>
-                <a href="#contact" class="hover:text-gold transition">Contact</a>
+                <a href="mailto:veasna@veasnaec.com" class="hover:text-gold transition ">Contact</a>
             </div>
 
             <button onclick="toggleLanguage()" class="border border-gold text-gold px-4 py-1 text-xs font-bold hover:bg-gold hover:text-darkBg transition uppercase">
@@ -69,13 +69,12 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex justify-center">
-                    <div class="w-full max-w-sm aspect-square bg-lightDark/20 rounded-full border-4 border-gold/30 flex items-center justify-center relative animate-pulse">
-                        <div class="absolute inset-0 border-2 border-gold rounded-full scale-110 opacity-20"></div>
-                        <svg viewBox="0 0 24 24" class="w-32 h-32 text-gold fill-current">
-                            <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z"/>
-                        </svg>
-                    </div>
+                <div class="relative flex items-center justify-center md:justify-end">
+                    <div class="absolute w-64 h-64 bg-gold/10 blur-[100px] rounded-full"></div>
+                    
+                    <img src="assets/img/hero.png" 
+                        alt="Workflow Automation" 
+                        class="relative z-10 w-full max-w-none scale-110 object-contain">
                 </div>
             </div>
         </section>
@@ -85,11 +84,22 @@
                 <div class="order-2 md:order-1">
                     <h2 class="text-gold text-sm font-bold uppercase tracking-[0.3em] mb-4">About Me</h2>
                     <div class="text-2xl leading-relaxed">
-                        <span class="lang-en">I have been fascinated by technology since my first script. I founded my career on the "Lazy Tech" vision: creating systems where a single person can run a massive operation through automation.</span>
+                        <span class="lang-en">
+                            I have been fascinated by computers since I was a kid because they have the potential to automate everything. 
+                            My journey started with a simple problem: I hated the tedious task of manually downloading movie episodes. 
+                            So, I built a script to do it for me. Then, I did the same for gaming.
+                        </span>
+                        <span class="lang-jp">コンピュータで「自動化」することが大好きです。私のビジョンは、AIとスクリプトを使って、効率的で一人で動かせるビジネスを創ることです。</span>
+                    </div>
+                    <div class="text-2xl leading-relaxed">
+                        <span class="lang-en">
+                            Today, as a Senior ICT student at AUPP, my philosophy hasn't changed. 
+                            I founded my 'Lazy Tech' vision: creating systems where a single person can run a massive operation through automation.
+                        </span>
                         <span class="lang-jp">コンピュータで「自動化」することが大好きです。私のビジョンは、AIとスクリプトを使って、効率的で一人で動かせるビジネスを創ることです。</span>
                     </div>
                     <p class="mt-6 text-gray-300">
-                        <span class="lang-en">Senior ICT student at AUPP. Solving problems with code and optimizing every process I find.</span>
+                        <span class="lang-en">My goal is always to maximize your efficiency.</span>
                         <span class="lang-jp">AUPPでITを学ぶ大学生。すべての業務プロセスを最適化することを目標にしています。</span>
                     </p>
                     <div class="mt-8">
@@ -99,7 +109,7 @@
                     </div>
                 </div>
                 <div class="order-1 md:order-2 flex justify-center">
-                    <img src="assets/img/profile.jpg" alt="Veasna" class="grayscale hover:grayscale-0 transition duration-500 border-8 border-darkBg shadow-2xl max-w-sm w-full">
+                    <img src="assets/img/profile.jpg" alt="Veasna" class="border-8 border-darkBg shadow-2xl max-w-sm w-full">
                 </div>
             </div>
         </section>
@@ -123,6 +133,9 @@
                     <div class="text-center">
                         <span class="block text-2xl font-bold">Tailwind</span>
                     </div>
+                    <div class="text-center">
+                        <span class="block text-2xl font-bold">n8n</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -136,8 +149,8 @@
                         <div class="text-gold text-xs font-bold mb-4">AI / Deep Learning</div>
                         <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition">KhmerOCR</h3>
                         <p class="text-gray-400 text-sm leading-relaxed">
-                            <span class="lang-en">Automating the extraction of handwritten Khmer characters using advanced modeling.</span>
-                            <span class="lang-jp">クメール語の手書き文字をAIで読み取る自動化ツールです。</span>
+                            <span class="lang-en">Coming soon.</span>
+                            <span class="lang-jp">Coming soon.</span>
                         </p>
                     </a>
 
@@ -145,8 +158,8 @@
                         <div class="text-gold text-xs font-bold mb-4">Automation / Web Scraping</div>
                         <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition">Selenium Workflow</h3>
                         <p class="text-gray-400 text-sm leading-relaxed">
-                            <span class="lang-en">Custom script to automate repetitive data entry on Squarespace for clients.</span>
-                            <span class="lang-jp">Seleniumを使って、面倒なWeb作業をすべて自動化しました。</span>
+                            <span class="lang-en">Coming soon.</span>
+                            <span class="lang-jp">Coming soon.</span>
                         </p>
                     </a>
 
@@ -154,8 +167,8 @@
                         <div class="text-gold text-xs font-bold mb-4">Web Design</div>
                         <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition">MedSpa Web Design</h3>
                         <p class="text-gray-400 text-sm leading-relaxed">
-                            <span class="lang-en">Professional, high-conversion web design for modern businesses.</span>
-                            <span class="lang-jp">モダンで使いやすいビジネス向けウェブサイトのデザインです。</span>
+                            <span class="lang-en">Coming soon.</span>
+                            <span class="lang-jp">Coming soon.</span>
                         </p>
                     </a>
 
@@ -177,6 +190,12 @@
                     <a href="events/ideathon-season2.html" class="block bg-lightDark/10 border border-lightDark/50 p-8 card-hover hover:border-offWhite group">
                         <div class="text-gray-500 text-xs font-bold mb-4">Business / Tech</div>
                         <h3 class="text-xl font-bold mb-2">Ideathon Season 2</h3>
+                        <p class="text-gray-500 text-sm italic">Coming Soon...</p>
+                    </a>
+                    
+                    <a href="events/entrepreneurship-launchpad.html" class="block bg-lightDark/10 border border-lightDark/50 p-8 card-hover hover:border-offWhite group">
+                        <div class="text-gray-500 text-xs font-bold mb-4">Business</div>
+                        <h3 class="text-xl font-bold mb-2">Entrepreneurship Launchpad</h3>
                         <p class="text-gray-500 text-sm italic">Coming Soon...</p>
                     </a>
 
