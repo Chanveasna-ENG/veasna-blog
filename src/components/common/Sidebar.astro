@@ -1,0 +1,36 @@
+---
+// Placeholder links as requested
+const socialLinks = [
+  { name: "Email", url: "mailto:veasna@veasnaec.com", icon: "✉️" },
+  { name: "Telegram", url: "#", icon: "✈️" }, // Placeholder
+  { name: "LinkedIn", url: "#", icon: "💼" }, // Placeholder
+  { name: "Instagram", url: "#", icon: "📸" }, // Placeholder
+];
+---
+
+<aside class="space-y-8">
+  <!-- Profile Widget -->
+  <div class="bg-lightDark/10 border border-lightDark rounded-xl p-8 text-center sticky top-24">
+    <div class="w-32 h-32 mx-auto bg-darkBg rounded-full border-4 border-gold shadow-xl mb-6 flex items-center justify-center overflow-hidden">
+        <!-- Placeholder for Profile Image -->
+        <span class="text-4xl">👨‍💻</span>
+    </div>
+    
+    <h3 class="text-2xl font-serif font-bold text-offWhite mb-2">ENG Chanveasna</h3>
+    <p class="text-gray-400 text-sm font-sans leading-relaxed mb-6">
+      Architecting scalable systems and automating the mundane. Welcome to my digital garden.
+    </p>
+
+    <div class="flex flex-col gap-3">
+      {socialLinks.map(link => (
+        <a 
+          href={link.url}
+          class="flex items-center justify-center gap-3 bg-darkBg border border-lightDark py-2 px-4 rounded-lg hover:border-gold hover:text-gold transition text-sm font-sans uppercase tracking-wider"
+        >
+          <span>{link.icon}</span>
+          {link.name}
+        </a>
+      ))}
+    </div>
+  </div>
+</aside>

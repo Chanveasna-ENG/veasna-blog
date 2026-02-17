@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+// Note: Actual images need to be in src/assets/ or public/. 
+// For now we use placeholders or assume public/assets/img/ exists as per the HTML.
+---
+
+<BaseLayout title="Hello, I'm Veasna" activePage="/">
+  <!-- Hero Section -->
+  <section class="min-h-[70vh] flex items-center bg-darkBg">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center py-20">
+      <div>
+        <h1 class="text-4xl md:text-6xl font-bold leading-tight font-serif">
+          Building solutions for your <span class="text-gold">repetitive tasks</span>.
+        </h1>
+        <p class="mt-6 text-lg text-gray-300 font-sans">
+          Specializing in AI and workflow automation to turn tedious manual processes into efficient systems.
+        </p>
+        <div class="mt-10">
+          <a href="#projects" class="bg-gold text-darkBg px-8 py-4 font-bold uppercase tracking-widest hover:opacity-90 transition inline-block rounded-xl font-sans">
+            View Work
+          </a>
+        </div>
+      </div>
+      <!-- Decorative Element -->
+      <div class="relative flex items-center justify-center md:justify-end">
+        <div class="absolute w-64 h-64 bg-gold/10 blur-[100px] rounded-full"></div>
+        <!-- 
+           Note: In a real Astro project, use <Image /> component for optimization.
+           Keeping <img> for now to match strict HTML migration.
+        -->
+        <div class="relative z-10 w-full max-w-sm h-64 bg-lightDark/30 rounded-xl flex items-center justify-center border border-lightDark">
+             <span class="text-gray-500 font-sans">Hero Image Placeholder</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="bg-lightDark py-24">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+      <div class="order-2 md:order-1">
+        <h2 class="text-gold text-sm font-bold uppercase tracking-[0.3em] mb-4 font-sans">About Me</h2>
+        <div class="text-2xl leading-relaxed font-serif">
+          I have been fascinated by computers since I was a kid because they have the potential to automate everything. 
+          My journey started with a simple problem: I hated the tedious task of manually downloading movie episodes.
+        </div>
+        <p class="mt-6 text-gray-300 font-sans">
+          My goal is always to maximize your efficiency.
+        </p>
+        <div class="mt-8">
+          <a href="mailto:veasna@veasnaec.com" class="text-gold border-b border-gold pb-1 font-bold hover:text-offWhite hover:border-offWhite transition font-sans">
+            veasna@veasnaec.com
+          </a>
+        </div>
+      </div>
+      <div class="order-1 md:order-2 flex justify-center">
+        <!-- Rounded corners applied here -->
+        <div class="w-full max-w-sm h-80 bg-darkBg rounded-xl shadow-2xl flex items-center justify-center border-8 border-darkBg">
+             <span class="text-gray-500 font-sans">Profile Image</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="min-h-[50vh] flex items-center justify-center bg-darkBg">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 font-serif">About Me</h1>
+      <p class="text-xl text-gray-300 mb-8 font-sans">
+        My goal is to create systems where a single person can run a massive operation through automation.
+      </p>
+      
+      <div class="bg-lightDark/20 p-8 rounded-xl border border-lightDark text-left">
+        <h2 class="text-2xl font-bold text-gold mb-4 font-serif">My Philosophy</h2>
+        <p class="text-offWhite leading-relaxed font-serif">
+            I founded my 'Lazy Tech' vision: creating systems that work so you don't have to. 
+            Whether it's web scraping, AI integration, or simple script automation, I believe technology 
+            should serve us, not the other way around.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- Skills Section -->
+  <section class="bg-lightDark pb-24">
+    <div class="max-w-6xl mx-auto px-6">
+      <h3 class="text-center text-xs uppercase tracking-[0.5em] text-gray-400 mb-12 font-sans">Core Technical Stack</h3>
+      <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition duration-500 font-serif">
+        {["Python", "PyTorch", "Selenium", "Next.js", "Tailwind", "n8n"].map(skill => (
+            <div class="text-center">
+                <span class="block text-2xl font-bold">{skill}</span>
+            </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="bg-darkBg py-24 border-t border-lightDark">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-12 font-serif">Recent Projects</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        {/* Project Card 1 */}
+        <a href="#" class="block bg-lightDark/20 border border-lightDark p-8 rounded-xl hover:-translate-y-1 hover:scale-[1.01] hover:border-gold transition duration-300 group">
+          <div class="text-gold text-xs font-bold mb-4 font-sans">AI / Deep Learning</div>
+          <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition font-serif">KhmerOCR</h3>
+          <p class="text-gray-400 text-sm leading-relaxed font-sans">Coming soon.</p>
+        </a>
+
+        {/* Project Card 2 */}
+        <a href="#" class="block bg-lightDark/20 border border-lightDark p-8 rounded-xl hover:-translate-y-1 hover:scale-[1.01] hover:border-gold transition duration-300 group">
+          <div class="text-gold text-xs font-bold mb-4 font-sans">Automation</div>
+          <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition font-serif">Selenium Workflow</h3>
+          <p class="text-gray-400 text-sm leading-relaxed font-sans">Coming soon.</p>
+        </a>
+
+        {/* Project Card 3 */}
+        <a href="#" class="block bg-lightDark/20 border border-lightDark p-8 rounded-xl hover:-translate-y-1 hover:scale-[1.01] hover:border-gold transition duration-300 group">
+            <div class="text-gold text-xs font-bold mb-4 font-sans">Web Design</div>
+            <h3 class="text-xl font-bold mb-4 group-hover:text-gold transition font-serif">MedSpa Design</h3>
+            <p class="text-gray-400 text-sm leading-relaxed font-sans">Coming soon.</p>
+          </a>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>

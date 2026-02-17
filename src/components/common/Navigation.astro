@@ -1,0 +1,43 @@
+---
+interface Props {
+  activePage?: string;
+}
+
+const { activePage } = Astro.props;
+
+const links = [
+  { text: "Home", href: "/" },
+  { text: "About Me", href: "/about-me" },
+  { text: "Contact", href: "mailto:veasna@veasnaec.com" },
+];
+---
+
+<nav class="bg-darkBg border-b border-lightDark sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="text-2xl font-bold tracking-tighter text-gold font-serif">
+      Veasna<span class="text-offWhite">.</span>
+    </div>
+    
+    <div class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-widest font-sans">
+      {links.map(link => (
+        <a 
+          href={link.href} 
+          class:list={[
+            "transition duration-300",
+            activePage === link.href ? "text-gold" : "text-offWhite hover:text-gold"
+          ]}
+        >
+          {link.text}
+        </a>
+      ))}
+    </div>
+
+    <!-- Mobile Menu Trigger (Placeholder for future implementation) -->
+    <button class="md:hidden text-gold">
+      <span class="sr-only">Menu</span>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+    </button>
+  </div>
+</nav>

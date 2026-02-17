@@ -1,0 +1,79 @@
+---
+interface Props {
+  current: number;
+  lastPage: number;
+  url: {
+    prev?: string;
+    next?: string;
+    base: string; // e.g. "/page" or ""
+  };
+}
+
+const { current, lastPage, url } = Astro.props;
+
+// Helper to generate page numbers (Simple Google style: window around current)
+function getPageNumbers() {
+  const delta = 2; // Number of pages to show on each side
+  const range = [];
+  for (let i = Math.max(2, current - delta); i <= Math.min(lastPage - 1, current + delta); i++) {
+    range.push(i);
+  }
+
+  if (current - delta > 2) {
+    range.unshift("...");
+  }
+  if (current + delta < lastPage - 1) {
+    range.push("...");
+  }
+
+  range.unshift(1);
+  if (lastPage !== 1) range.push(lastPage);
+
+  return range;
+}
+
+const pages = getPageNumbers();
+---
+
+<nav class="flex justify-center items-center gap-2 mt-12 font-sans text-sm font-medium">
+    <!-- Prev -->
+    {url.prev ? (
+        <a href={url.prev} class="w-10 h-10 flex items-center justify-center rounded-lg border border-lightDark hover:border-gold hover:text-gold transition">
+            &lt;
+        </a>
+    ) : (
+        <span class="w-10 h-10 flex items-center justify-center rounded-lg border border-transparent text-gray-600 cursor-not-allowed">
+            &lt;
+        </span>
+    )}
+
+    <!-- Page Numbers -->
+    {pages.map((page) => (
+        page === "..." ? (
+            <span class="px-2 text-gray-500">...</span>
+        ) : (
+            <a 
+                href={page === 1 ? '/' : `/page/${page}`}
+                class:list={[
+                    "w-10 h-10 flex items-center justify-center rounded-lg border transition",
+                    page === current 
+                        ? "border-gold text-gold bg-gold/10" 
+                        : "border-lightDark hover:border-gold hover:text-gold"
+                ]}
+            >
+                {page}
+            </a>
+        )
+    ))}
+
+    <!-- Next -->
+    {url.next ? (
+        <a href={url.next} class="w-10 h-10 flex items-center justify-center rounded-lg border border-lightDark hover:border-gold hover:text-gold transition">
+            &gt;
+        </a>
+    ) : (
+        <span class="w-10 h-10 flex items-center justify-center rounded-lg border border-transparent text-gray-600 cursor-not-allowed">
+            &gt;
+        </span>
+    )}
+</nav>

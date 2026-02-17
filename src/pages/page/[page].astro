@@ -1,0 +1,72 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import Sidebar from '../../components/common/Sidebar.astro';
+import Pagination from '../../components/common/Pagination.astro';
+
+// 1. Generate Static Paths
+export const getStaticPaths = (async ({ paginate }) => {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+  
+  const sortedPosts = allPosts.sort((a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf());
+  
+  // Slice pagination. 
+  // NOTE: Page 1 is handled by index.astro, but paginate() generates it too.
+  // We can include it here as a fallback or strict /page/1 url, 
+  // but usually users prefer domain.com/ over domain.com/page/1.
+  return paginate(sortedPosts, { pageSize: 10 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<BaseLayout title={`Page ${page.currentPage} | Veasna`} activePage="/">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-10 gap-12">
+            
+            <!-- Left Column (70%) -->
+            <main class="lg:col-span-7">
+                
+                 <!-- Search & Filter Placeholder (Condensed for inner pages) -->
+                 <div class="mb-8 flex justify-between items-center bg-lightDark/10 border border-lightDark rounded-xl p-4">
+                    <span class="text-gray-400 text-sm font-sans">
+                        Showing page <span class="text-gold font-bold">{page.currentPage}</span> of {page.lastPage}
+                    </span>
+                    <!-- Placeholder Sort -->
+                    <div class="text-xs text-gray-500 uppercase tracking-widest font-bold">
+                        Sorted by Date
+                    </div>
+                </div>
+
+                <!-- Blog Grid -->
+                <div class="grid gap-6">
+                    {page.data.map(post => (
+                        <BlogCard post={post} />
+                    ))}
+                </div>
+
+                <!-- Pagination -->
+                <Pagination 
+                    current={page.currentPage} 
+                    lastPage={page.lastPage} 
+                    url={{ 
+                        base: '', 
+                        prev: page.url.prev,
+                        next: page.url.next
+                    }} 
+                />
+
+            </main>
+
+            <!-- Right Column (30%) -->
+            <aside class="lg:col-span-3">
+                <Sidebar />
+            </aside>
+
+        </div>
+    </div>
+</BaseLayout>
