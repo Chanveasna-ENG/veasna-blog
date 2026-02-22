@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Apply the default background, text color, and body font */
+  html,
+  body {
+    @apply bg-darkBg text-offWhite font-serif antialiased;
+  }
+
+  /* Apply the decorative font and gold accent to all headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-alice text-gold;
+  }
+
+  /* Ensure standard link styling unless overridden by components */
+  a {
+    @apply text-gold hover:text-offWhite transition-colors duration-200;
+  }
+}

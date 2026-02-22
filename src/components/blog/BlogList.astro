@@ -1,0 +1,119 @@
+---
+import type { Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import { formatDateICT } from '../../utils/date';
+
+interface Props {
+  page: Page<CollectionEntry<'blog'>>;
+  // The base path for the pagination links, defaulting to the TRD specification
+  baseUrl?: string; 
+}
+
+const { page, baseUrl = '/posts/page' } = Astro.props;
+
+// Pure function to generate an array of page numbers without mutating external state
+const generatePageNumbers = (lastPage: number): number[] => {
+  return Array.from({ length: lastPage }, (_, i) => i + 1);
+};
+
+const pageNumbers = generatePageNumbers(page.lastPage);
+
+// Calculate explicit First and Last URLs based on the provided baseUrl
+const firstPageUrl = `${baseUrl}/1`;
+const lastPageUrl = `${baseUrl}/${page.lastPage}`;
+---
+
+<div class="w-full max-w-4xl mx-auto flex flex-col space-y-10">
+  
+  {/* Vertical Stack of Blog Previews */}
+  <div class="flex flex-col space-y-6">
+    {page.data.map((post) => (
+      <article class="p-6 bg-darkBg border border-gray-700 rounded-lg shadow-sm hover:border-gold transition-colors duration-200 group">
+        <a href={`/posts/${post.slug}`} class="block">
+          <h2 class="text-2xl font-alice text-gold group-hover:text-yellow-500 transition-colors duration-200 mb-2">
+            {post.data.title}
+          </h2>
+          <p class="text-sm text-gray-300 mb-4 line-clamp-3">
+            {post.data.description}
+          </p>
+          <div class="flex flex-wrap items-center justify-between text-xs text-gray-500 uppercase tracking-wider">
+            <span class="bg-gray-800 px-2 py-1 rounded text-gold border border-gray-700">
+              {post.data.category}
+            </span>
+            <time datetime={post.data.createdAt.toISOString()}>
+              {formatDateICT(post.data.createdAt)}
+            </time>
+          </div>
+        </a>
+      </article>
+    ))}
+  </div>
+
+  {/* Pagination Controls */}
+  {page.lastPage > 1 && (
+    <nav class="flex justify-center items-center space-x-2 border-t border-gray-700 pt-8" aria-label="Pagination">
+      
+      {/* << First Page */}
+      <a
+        href={firstPageUrl}
+        class={`px-3 py-2 rounded-md border transition-colors ${page.url.prev ? 'border-gray-600 text-offWhite hover:border-gold hover:text-gold' : 'border-gray-800 text-gray-600 cursor-not-allowed pointer-events-none'}`}
+        aria-disabled={!page.url.prev}
+        aria-label="First page"
+      >
+        &lt;&lt;
+      </a>
+
+      {/* < Previous Page */}
+      <a
+        href={page.url.prev || '#'}
+        class={`px-3 py-2 rounded-md border transition-colors ${page.url.prev ? 'border-gray-600 text-offWhite hover:border-gold hover:text-gold' : 'border-gray-800 text-gray-600 cursor-not-allowed pointer-events-none'}`}
+        aria-disabled={!page.url.prev}
+        aria-label="Previous page"
+      >
+        &lt;
+      </a>
+
+      {/* Page Numbers (Hidden on very small screens to save space) */}
+      <div class="hidden sm:flex space-x-2">
+        {pageNumbers.map((pageNum) => {
+          const isCurrent = pageNum === page.currentPage;
+          return (
+            <a
+              href={`${baseUrl}/${pageNum}`}
+              class={`px-3 py-2 rounded-md border transition-colors ${isCurrent ? 'border-gold text-darkBg bg-gold font-bold' : 'border-gray-600 text-offWhite hover:border-gold hover:text-gold'}`}
+              aria-current={isCurrent ? 'page' : undefined}
+            >
+              {pageNum}
+            </a>
+          );
+        })}
+      </div>
+
+      {/* Mobile Page Indicator */}
+      <span class="sm:hidden text-sm text-gray-400 font-medium px-2">
+        {page.currentPage} / {page.lastPage}
+      </span>
+
+      {/* > Next Page */}
+      <a
+        href={page.url.next || '#'}
+        class={`px-3 py-2 rounded-md border transition-colors ${page.url.next ? 'border-gray-600 text-offWhite hover:border-gold hover:text-gold' : 'border-gray-800 text-gray-600 cursor-not-allowed pointer-events-none'}`}
+        aria-disabled={!page.url.next}
+        aria-label="Next page"
+      >
+        &gt;
+      </a>
+
+      {/* >> Last Page */}
+      <a
+        href={lastPageUrl}
+        class={`px-3 py-2 rounded-md border transition-colors ${page.url.next ? 'border-gray-600 text-offWhite hover:border-gold hover:text-gold' : 'border-gray-800 text-gray-600 cursor-not-allowed pointer-events-none'}`}
+        aria-disabled={!page.url.next}
+        aria-label="Last page"
+      >
+        &gt;&gt;
+      </a>
+
+    </nav>
+  )}
+</div>
