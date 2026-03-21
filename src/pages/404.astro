@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactButton from '../components/common/ContactButton.astro';
+---
+
+<BaseLayout title="404 - Page Not Found | Veasna." description="The page you are looking for does not exist.">
+  
+  {/* 404 Content Container */}
+  <div class="flex flex-col items-center justify-center text-center py-24 md:py-32 flex-grow w-full">
+    
+    <h1 class="text-7xl md:text-9xl font-alice text-gold mb-4 drop-shadow-lg">
+      404
+    </h1>
+    
+    <h2 class="text-2xl md:text-3xl font-bold text-offWhite mb-6">
+      Page Not Found
+    </h2>
+    
+    <p class="text-gray-400 mb-10 max-w-md mx-auto">
+      Oops! The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+    </p>
+    
+    <ContactButton 
+      href="/" 
+      text="Return to Home" 
+      icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>`}
+    />
+
+  </div>
+
+</BaseLayout>

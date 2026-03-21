@@ -1,0 +1,82 @@
+---
+// This component implements the primary site navigation per TRD 4.2.A.
+// It is fully responsive and uses a mobile-first layout approach.
+import SearchBar from '../interactive/SearchBar';
+---
+
+<nav class="sticky top-0 z-50 w-full backdrop-blur-md bg-darkBg/80 border-b border-gray-700">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      
+      {/* Left Section: Logo */}
+      <div class="flex-shrink-0 flex items-center">
+        <a href="/" class="text-2xl font-alice text-gold hover:text-offWhite transition-colors duration-200">
+          Veasna.
+        </a>
+      </div>
+
+      {/* Middle Section (Desktop): Navigation Links */}
+      <div class="hidden md:flex flex-1 justify-center items-center space-x-8">
+        <a href="/" class="text-offWhite hover:text-gold transition-colors duration-200 text-sm font-medium">Home</a>
+        <a href="/about" class="text-offWhite hover:text-gold transition-colors duration-200 text-sm font-medium">About Me</a>
+      </div>
+
+      {/* Right Section: CTA & Mobile Menu Toggle */}
+      <div class="flex items-center gap-8">
+        <SearchBar client:load />
+
+        {/* Contact CTA (Visible on all breakpoints, space permitting) */}
+        <a 
+          href="mailto:veasna@veasnaec.com" 
+          class="hidden sm:inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-darkBg bg-gold hover:bg-yellow-600 transition-colors duration-200 shadow-sm"
+        >
+          Contact Me
+        </a>
+
+        {/* Hamburger Menu Icon (Mobile Only) */}
+        <div class="flex md:hidden items-center">
+          <button 
+            type="button" 
+            id="mobile-menu-button"
+            class="inline-flex items-center justify-center p-2 rounded-md text-offWhite hover:text-gold focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gold"
+            aria-controls="mobile-menu" 
+            aria-expanded="false"
+          >
+            <span class="sr-only">Open main menu</span>
+            {/* Hamburger Icon */}
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  {/* Mobile Menu Dropdown/Drawer (Hidden by default) */}
+  <div class="hidden md:hidden border-t border-gray-700 bg-darkBg" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-offWhite hover:text-gold hover:bg-gray-800 transition-colors duration-200">Home</a>
+      <a href="/about" class="block px-3 py-2 rounded-md text-base font-medium text-offWhite hover:text-gold hover:bg-gray-800 transition-colors duration-200">About Me</a>
+      {/* Fallback Contact CTA for very small screens where the main button might be hidden */}
+      <a href="mailto:veasna@veasnaec.com" class="block sm:hidden px-3 py-2 mt-4 rounded-md text-base font-medium text-darkBg bg-gold hover:bg-yellow-600 transition-colors duration-200 text-center">
+        Contact Me
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Client-side logic to handle the mobile menu toggle
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+      mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+</script>

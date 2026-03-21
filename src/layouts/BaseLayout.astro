@@ -1,0 +1,30 @@
+---
+import '../styles/global.css';
+import MetaHead from '../components/common/MetaHead.astro';
+import Navigation from '../components/common/Navigation.astro';
+import Footer from '../components/common/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <MetaHead title={title} description={description} image={image} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Navigation />
+
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

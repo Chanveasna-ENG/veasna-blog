@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BlogPreview from './BlogPreview.astro';
+
+interface Props {
+  currentPost: CollectionEntry<'blog'>;
+}
+
+const { currentPost } = Astro.props;
+
+// Fetch all non-draft posts to compare against
+const allPosts = await getCollection('blog', (post) => !post.data.draft);
+
+// --- Build-Time Recommendation Engine (Vector Space Model) ---
+
+/**
+ * Normalizes and splits text into meaningful tokens.
+ * Filters out extremely short words to act as a rudimentary stop-word remover.
+ */
+const tokenize = (text: string): string[] => {
+  if (!text) return [];
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '') // Remove punctuation
+    .split(/\s+/)
+    .filter((word) => word.length > 3);
+};
+
+/**
+ * Calculates a similarity score between two posts based on weighted overlapping terms.
+ */
+const calculateSimilarity = (
+  postA: CollectionEntry<'blog'>,
+  postB: CollectionEntry<'blog'>
+): number => {
+  // Additive smoothing: Start with a base score of 1 so it's never 0
+  let score = 1;
+
+  // 1. Tag Similarity (Highest Weight: 5)
+  // Tags are explicitly defined by the author and indicate strong categorical relationships.
+  const tagsA = postA.data.tags.map((t) => t.toLowerCase());
+  const tagsB = postB.data.tags.map((t) => t.toLowerCase());
+  const commonTags = tagsA.filter((t) => tagsB.includes(t));
+  score += commonTags.length * 5;
+
+  // 2. Category Match (Weight: 3)
+  // Posts in the same category are inherently related.
+  if (postA.data.category === postB.data.category) {
+    score += 3;
+  }
+
+  // 3. Title Token Similarity (Weight: 2)
+  const titleTokensA = tokenize(postA.data.title);
+  const titleTokensB = tokenize(postB.data.title);
+  const commonTitleTokens = titleTokensA.filter((t) => titleTokensB.includes(t));
+  score += commonTitleTokens.length * 2;
+
+  // 4. Description Token Similarity (Weight: 1)
+  const descTokensA = tokenize(postA.data.description);
+  const descTokensB = tokenize(postB.data.description);
+  const commonDescTokens = descTokensA.filter((t) => descTokensB.includes(t));
+  score += commonDescTokens.length * 1;
+
+  return score;
+};
+
+// Execute the pipeline: Filter self -> Score -> Sort -> Slice Top 3
+const similarPosts = allPosts
+  .filter((post) => post.slug !== currentPost.slug)
+  .map((post) => ({
+    post,
+    score: calculateSimilarity(currentPost, post),
+  }))
+  .sort((a, b) => {
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+    // Secondary sort: if scores are equal, sort by newest
+    const dateA = a.post.data.lastModifiedAt || a.post.data.createdAt;
+    const dateB = b.post.data.lastModifiedAt || b.post.data.createdAt;
+    return dateB.getTime() - dateA.getTime();
+  })
+  .slice(0, 3)
+  .map((item) => item.post);
+---
+
+{/* Only render the section if we found matching posts */}
+{similarPosts.length > 0 && (
+  <section class="mt-16 pt-8 border-t border-gray-800" aria-labelledby="similar-posts-heading">
+    <div class="flex items-center mb-6">
+      <h2 id="similar-posts-heading" class="text-2xl font-alice text-gold">
+        You might also like
+      </h2>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {similarPosts.map((post) => (
+        <BlogPreview post={post} />
+      ))}
+    </div>
+  </section>
+)}

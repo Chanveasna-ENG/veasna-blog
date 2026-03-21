@@ -1,0 +1,56 @@
+---
+import ContactButton from './ContactButton.astro';
+
+interface Props {
+  name?: string;
+  role?: string;
+  bio?: string;
+  imageUrl?: string;
+  email?: string;
+}
+
+const {
+  name = "Chanveasna Eng",
+  role = "Principal Technical Architect",
+  bio = "I specialize in building high-performance, strictly typed static architectures. My focus is on leveraging build-time logic to ensure zero-latency user experiences and robust, scalable systems.",
+  imageUrl = "/images/profile.jpg", // Ensure this image exists in public/images/
+  email = "mailto:veasna@veasnaec.com"
+} = Astro.props;
+---
+
+<div class="w-full bg-darkBg border border-gray-700 rounded-xl shadow-md overflow-hidden p-6 md:p-8 hover:border-gold transition-colors duration-300">
+  <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 items-center">
+    
+    {/* Left Side: Image */}
+    <div class="flex justify-center md:justify-start">
+      <div class="w-32 h-32 md:w-40 md:h-40 overflow-hidden rounded-full border-4 border-gold shadow-lg flex-shrink-0">
+        <img 
+          src={imageUrl} 
+          alt={`Profile picture of ${name}`} 
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    </div>
+
+    {/* Right Side: Content */}
+    <div class="flex flex-col text-center md:text-left">
+      <h2 class="text-3xl font-alice text-gold mb-1">{name}</h2>
+      <p class="text-sm text-gray-400 uppercase tracking-wider font-semibold mb-4">{role}</p>
+      
+      <p class="text-gray-300 mb-6 max-w-2xl">
+        {bio}
+      </p>
+
+      {/* Action */}
+      <div class="mt-auto">
+        <ContactButton 
+          href={email} 
+          text="Get in Touch" 
+          icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>`}
+        />
+      </div>
+    </div>
+    
+  </div>
+</div>

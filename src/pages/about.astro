@@ -1,0 +1,61 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogContent from '../components/blog/BlogContent.astro';
+import HorizonProfileCard from '../components/common/HorizonProfileCard.astro';
+import TableOfContent from '../components/blog/TableOfContent.astro';
+
+// Fetch the 'about' entry directly from the collection
+const aboutPost = await getEntry('blog', 'about');
+
+if (!aboutPost) {
+  throw new Error("Could not find src/content/blog/about.md");
+}
+
+const { Content, headings } = await render(aboutPost);
+---
+
+<BaseLayout title={`${aboutPost.data.title} | Veasna.`} description={aboutPost.data.description}>
+  
+  {/* Main Body Grid Layout (70% / 30% visual split) */}
+  <div class="w-full grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 mt-8 mb-16">
+    
+    {/* Left Column (70%) - Main Content */}
+    <div class="flex flex-col space-y-10 min-w-0">
+      
+      {/* Page Header */}
+      <header class="border-b border-gray-800 pb-8 mb-2">
+        <h1 class="text-4xl md:text-5xl font-alice text-gold mb-4 leading-tight">
+          {aboutPost.data.title}
+        </h1>
+        <p class="text-gray-300">
+          {aboutPost.data.description}
+        </p>
+      </header>
+
+      {/* Mobile Table of Contents */}
+      <div class="block lg:hidden">
+        <TableOfContent headings={headings} />
+      </div>
+
+      {/* Markdown Body Renderer */}
+      <BlogContent>
+        <Content />
+      </BlogContent>
+
+      {/* Bottom CTA / Horizon Card */}
+      <div class="pt-8 border-t border-gray-800 mt-12">
+         <h3 class="text-2xl font-alice text-gold mb-6">Let's Work Together</h3>
+         <HorizonProfileCard />
+      </div>
+
+    </div>
+
+    {/* Right Column (30%) - Sticky Sidebar */}
+    <aside class="hidden lg:block relative w-full">
+      <TableOfContent headings={headings} />
+    </aside>
+
+  </div>
+
+</BaseLayout>
