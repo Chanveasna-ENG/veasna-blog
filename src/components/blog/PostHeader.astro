@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDateICT } from '../../utils/date';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+
+// Enforce fallback date logic
+const targetDate = post.data.lastModifiedAt || post.data.createdAt;
+---
+
+<header class="mb-10 flex flex-col items-start border-b border-gray-800 pb-8">
+  
+  {/* Category & Version Badges */}
+  <div class="flex items-center gap-3 mb-4">
+    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-800 text-gold border border-gray-700 uppercase tracking-wider">
+      {post.data.category}
+    </span>
+    <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-800 text-gray-400 border border-gray-700">
+      v{post.data.version}
+    </span>
+  </div>
+  
+  {/* Post Title */}
+  <h1 class="text-4xl md:text-5xl font-alice text-gold mb-6 leading-tight">
+    {post.data.title}
+  </h1>
+  
+  {/* Author & Date Meta */}
+  <div class="flex flex-wrap items-center text-sm text-gray-400 gap-x-4 gap-y-2">
+    <time datetime={targetDate.toISOString()}>
+      Last Modified: <span class="text-offWhite font-medium">{formatDateICT(targetDate)}</span>
+    </time>
+    <span class="hidden sm:inline text-gray-600">|</span>
+    <span>
+      By <span class="text-offWhite font-medium">{post.data.author}</span>
+    </span>
+  </div>
+
+  {/* Tags Array */}
+  <div class="flex flex-wrap gap-2 mt-6">
+    {post.data.tags.map((tag) => (
+       <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700 hover:border-gold transition-colors duration-200">
+        #{tag}
+      </span>
+    ))}
+  </div>
+  
+</header>

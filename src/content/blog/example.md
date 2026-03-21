@@ -10,11 +10,11 @@ tags: ["astro", "typescript", "architecture"]
 draft: false
 ---
 
-# Build-Time Logic First
+## Build-Time Logic First
 
 By utilizing a discriminated union on the category field, we ensure that every Markdown file parsed during the build step strictly adheres to our defined schema. If a required field like createdAt is missing, or if a date is formatted incorrectly, the build will fail immediately.
 
-# Why This Matters
+## Why This Matters
 
 - Zero Runtime Errors: Malformed data never reaches the client.
 - Predictable UI: Components can assume properties exist without defensive checks (e.g., if (post.data.title)).

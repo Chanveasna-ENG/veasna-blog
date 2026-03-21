@@ -1,0 +1,54 @@
+---
+import ContactButton from './ContactButton.astro';
+
+// Define the expected props for the Profile Card.
+// Providing defaults allows it to be used quickly without passing props every time,
+// while still allowing overrides if needed.
+interface Props {
+  name?: string;
+  role?: string;
+  bio?: string;
+  imageUrl?: string;
+  email?: string;
+}
+
+const {
+  name = "Chanveasna Eng",
+  role = "Principal Technical Architect",
+  bio = "I specialize in building high-performance, strictly typed static architectures. I prioritize build-time logic and zero-latency user experiences.",
+  imageUrl = "/images/profile.jpg", // Assumes you have an image in public/images/
+  email = "mailto:veasna@veasnaec.com"
+} = Astro.props;
+---
+
+<div class="flex flex-col items-center text-center p-6 bg-darkBg border border-gray-700 rounded-lg shadow-sm">
+  
+  {/* Circular Image Crop */}
+  <div class="w-32 h-32 mb-4 overflow-hidden rounded-full border-2 border-gold flex-shrink-0">
+    <img 
+      src={imageUrl} 
+      alt={`Profile picture of ${name}`} 
+      class="w-full h-full object-cover"
+      loading="lazy"
+    />
+  </div>
+
+  {/* Name & Role */}
+  <h3 class="text-2xl font-alice text-gold mb-1">{name}</h3>
+  <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-4">{role}</p>
+
+  {/* Introduction Bio */}
+  <p class="text-gray-300 mb-6">
+    {bio}
+  </p>
+
+  {/* Action: Contact Button Instance */}
+  <div class="mt-auto w-full">
+    <ContactButton 
+      href={email} 
+      text="Get in Touch" 
+      icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>`}
+    />
+  </div>
+
+</div>

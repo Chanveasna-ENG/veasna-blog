@@ -1,14 +1,16 @@
 @import "tailwindcss";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config "../../tailwind.config.mjs";
 
 @layer base {
   /* Apply the default background, text color, and body font */
   html,
   body {
     @apply bg-darkBg text-offWhite font-serif antialiased;
+  }
+
+  /* Make standard paragraphs slightly larger by default */
+  p {
+    @apply text-lg leading-relaxed;
   }
 
   /* Apply the decorative font and gold accent to all headings */

@@ -1,34 +1,30 @@
 ---
 import '../styles/global.css';
+import MetaHead from '../components/common/MetaHead.astro';
+import Navigation from '../components/common/Navigation.astro';
+import Footer from '../components/common/Footer.astro';
 
 interface Props {
   title: string;
   description: string;
+  image?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-
-    <!-- Primary Meta Tags -->
-    <title>{title}</title>
-    <meta name="title" content={title} />
-    <meta name="description" content={description} />
+    <MetaHead title={title} description={description} image={image} />
   </head>
   <body class="min-h-screen flex flex-col">
-    <!-- Header/Nav placeholder -->
+    <Navigation />
 
-    <main class="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <slot />
     </main>
 
-    <!-- Footer placeholder -->
+    <Footer />
   </body>
 </html>

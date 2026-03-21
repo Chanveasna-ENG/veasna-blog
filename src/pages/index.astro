@@ -1,17 +1,69 @@
 ---
+import { getCollection } from 'astro:content';
 
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogList from '../components/blog/BlogList.astro';
+import ProfileCard from '../components/common/ProfileCard.astro';
+
+/**
+ * Technical Requirement 4.3.1: Main Blog Page
+ * Implementation: Server-side rendering of the first 10 posts using the BlogList component.
+ */
+
+// 1. Fetch all non-draft posts
+const allPosts = await getCollection('blog', (post) => !post.data.draft);
+
+// 2. Sort by date (Newest first) as the default order
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateA = a.data.lastModifiedAt || a.data.createdAt;
+  const dateB = b.data.lastModifiedAt || b.data.createdAt;
+  return dateB.getTime() - dateA.getTime();
+});
+
+// 3. Construct the 'Page' object for the BlogList component (First 10 posts)
+const PAGE_SIZE = 10;
+const paginatedData = sortedPosts.slice(0, PAGE_SIZE);
+
+const page = {
+  data: paginatedData,
+  start: 0,
+  end: Math.min(PAGE_SIZE - 1, sortedPosts.length - 1),
+  size: PAGE_SIZE,
+  total: sortedPosts.length,
+  currentPage: 1,
+  lastPage: Math.ceil(sortedPosts.length / PAGE_SIZE),
+  url: {
+    current: '/',
+    prev: undefined,
+    next: sortedPosts.length > PAGE_SIZE ? '/page/2' : undefined,
+  },
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Veasna. | Principal Technical Architect" description="Building solutions for repetitive tasks with high-performance static architectures.">
+  
+  {/* Main Body Grid Layout (70% / 30% visual split per TRD 4.3.1) */}
+  <div class="w-full grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 mt-8 mb-16 px-4 md:px-0">
+    
+    {/* Left Column (70%) */}
+    <div class="flex flex-col space-y-10">
+      
+      <div>
+        <h2 class="text-3xl md:text-4xl font-alice text-gold mt-2">Hello there.</h2>
+      </div>
+
+      {/* Primary Content Feed (Server-Side Component) */}
+      <BlogList page={page} />
+
+    </div>
+
+    {/* Right Column (30%) */}
+    <aside class="flex flex-col space-y-8">
+      <div class="sticky top-24">
+        <ProfileCard />
+      </div>
+    </aside>
+
+  </div>
+
+</BaseLayout>

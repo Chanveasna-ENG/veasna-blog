@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogContent from '../../components/blog/BlogContent.astro';
+import PostHeader from '../../components/blog/PostHeader.astro';
+import HorizonProfileCard from '../../components/common/HorizonProfileCard.astro';
+import SimilarBlogList from '../../components/blog/SimilarBlogList.astro';
+import TableOfContent from '../../components/blog/TableOfContent.astro';
+
+// 1. Generate static routes for every post at build time
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog', (post) => !post.data.draft);
+  
+  return blogEntries.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+
+// 2. Render the markdown into HTML and extract the heading tree
+const { Content, headings } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} | Veasna.`} description={post.data.description}>
+  
+  {/* Main Body Grid Layout (70% / 30% visual split) */}
+  <div class="w-full grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 mt-8 mb-16">
+    
+    {/* Left Column (70%) */}
+    <div class="flex flex-col min-w-0">
+      
+      {/* Extracted Post Header Component */}
+      <PostHeader post={post} />
+
+      {/* Mobile Table of Contents (Hidden on Desktop) */}
+      <div class="block lg:hidden mb-10">
+        <TableOfContent headings={headings} />
+      </div>
+
+      {/* Markdown Body Renderer */}
+      <BlogContent>
+        <Content />
+      </BlogContent>
+
+      {/* Content Footer Elements */}
+      <div class="mt-16 pt-12 border-t border-gray-800 flex flex-col space-y-12">
+        <HorizonProfileCard />
+        
+        {/* Generates build-time recommendations */}
+        <SimilarBlogList currentPost={post} />
+      </div>
+
+    </div>
+
+    {/* Right Column (30%) - Desktop Sticky Sidebar */}
+    {/* The sticky behavior and max-height logic is encapsulated within TableOfContent itself */}
+    <aside class="hidden lg:block relative w-full">
+      <TableOfContent headings={headings} />
+    </aside>
+
+  </div>
+
+</BaseLayout>

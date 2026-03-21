@@ -1,0 +1,38 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+// Expects the headings array natively provided by Astro's render() function
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+// Purely filter to show only H2 and H3 headings.
+// H1 is the post title (already visible), and H4+ makes the TOC too noisy.
+const toc = headings.filter((heading) => heading.depth > 1 && heading.depth <= 3);
+---
+
+{/* Only render the TOC if there are actual headings to display */}
+{toc.length > 0 && (
+  <nav 
+    class="w-full lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] flex flex-col bg-darkBg/50 border border-gray-700 lg:border-none p-6 lg:p-0 rounded-lg lg:rounded-none mb-8 lg:mb-0"
+    aria-label="Table of Contents"
+  >
+    <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 border-b border-gray-700 pb-2 flex-shrink-0">
+      Table of Contents
+    </h2>
+    <ul class="flex flex-col space-y-2.5 lg:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent pr-2 pb-2">
+      {toc.map((heading) => (
+        <li class={heading.depth === 3 ? 'ml-4' : 'ml-0'}>
+          <a 
+            href={`#${heading.slug}`}
+            class="text-sm text-gray-300 hover:text-gold transition-colors duration-200 block leading-snug"
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

@@ -7,7 +7,7 @@ export default {
     extend: {
       colors: {
         gold: '#B69328',
-        darkBg: '#2D2D2D',
+        darkBg: '#181818',
         offWhite: '#FEFEFE'
       },
       fontFamily: {

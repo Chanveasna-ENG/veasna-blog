@@ -1,143 +1,207 @@
-// Need to break down too long too smelly
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Fuse from 'fuse.js';
 
-// Define the shape of our search index based on TRD 2.4
+/**
+ * Strict category typing based on TRD Discriminated Union
+ */
+type PostCategory = 'blog' | 'project' | 'participation' | 'learning' | 'random';
+
 interface SearchIndexItem {
   slug: string;
   title: string;
   description: string;
-  category: 'blog' | 'project' | 'participation' | 'learning' | 'random';
+  category: PostCategory;
   tags: string[];
   author: string;
   date: string;
 }
 
+const SEARCH_CONFIG = {
+  KEYS: ['title', 'description', 'category', 'tags', 'author'],
+  THRESHOLD: 0.3,
+  LIMIT: 5,
+  INDEX_PATH: '/search-index.json',
+};
+
+/**
+ * Senior Implementation: SearchBar
+ * Isolated logic for fuzzy search and index fetching.
+ */
 export default function SearchBar() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchIndexItem[]>([]);
   const [isFocused, setIsFocused] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [indexData, setIndexData] = useState<SearchIndexItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Fetch the search index on component mount
+  // Initialize Fuse instance only when indexData changes (Performance)
+  const fuse = useMemo(() => {
+    if (indexData.length === 0) return null;
+    return new Fuse(indexData, {
+      keys: SEARCH_CONFIG.KEYS,
+      threshold: SEARCH_CONFIG.THRESHOLD,
+      includeScore: true,
+    });
+  }, [indexData]);
+
   useEffect(() => {
     const fetchIndex = async () => {
-      setIsLoading(true);
-      setError(null);
+      setStatus('loading');
       try {
-        const response = await fetch('/search-index.json');
-        if (!response.ok) {
-          throw new Error('Failed to load search index');
-        }
+        const response = await fetch(SEARCH_CONFIG.INDEX_PATH);
+        if (!response.ok) throw new Error('Fetch failed');
+        
         const data: SearchIndexItem[] = await response.json();
         setIndexData(data);
+        setStatus('idle');
       } catch (err) {
-        console.error('Search Index Error:', err);
-        setError('Search unavailable.');
-      } finally {
-        setIsLoading(false);
+        setStatus('error');
+        console.error(err);
       }
     };
 
     fetchIndex();
   }, []);
 
-  // Handle outside clicks to close the dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+      if (!searchContainerRef.current?.contains(event.target as Node)) {
         setIsFocused(false);
+        if (query.trim() === '') {
+          setIsExpanded(false);
+        }
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => { document.removeEventListener('mousedown', handleClickOutside); };
   }, []);
 
-  // Perform fuzzy search when query or index changes
+  // Effect: Run Search Logic
   useEffect(() => {
-    if (!query.trim() || indexData.length === 0) {
+    if (!query.trim() || !fuse) {
       setResults([]);
       return;
     }
 
-    // Configure Fuse.js per TRD specifications
-    const fuse = new Fuse(indexData, {
-      keys: ['title', 'description'],
-      threshold: 0.3, // Fuzzy tolerance
-      includeScore: true
-    });
-
     const searchResults = fuse.search(query);
-    // Extract the original items from the search results and limit to 5
-    setResults(searchResults.map((result) => result.item).slice(0, 5));
-  }, [query, indexData]);
+    const flatResults = searchResults
+      .map((r) => r.item)
+      .slice(0, SEARCH_CONFIG.LIMIT);
+      
+    setResults(flatResults);
+  }, [query, fuse]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+  // Handle Enter Key
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && query.trim() !== '') {
+      globalThis.location.href = `/search?q=${encodeURIComponent(query.trim())}`;
+    }
   };
 
   return (
-    <div className="relative w-full max-w-lg mx-auto" ref={searchContainerRef}>
-      {/* Search Input */}
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          {/* Magnifying Glass Icon */}
-          <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-          </svg>
+    <div className={`relative transition-all duration-300 ease-in-out ${isExpanded ? 'w-64 sm:w-80 md:w-96' : 'w-8'}`} ref={searchContainerRef}>
+      {isExpanded ? (
+        <div className="relative w-full">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <SearchIcon />
+          </div>
+          <input
+            ref={inputRef}
+            type="text"
+            className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-full bg-darkBg text-offWhite placeholder-gray-400 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold sm:text-base transition-all shadow-sm"
+            placeholder="Search logs..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onKeyDown={handleKeyDown}
+            disabled={status === 'error'}
+          />
+          {status === 'loading' && <LoadingSpinner />}
         </div>
-        <input
-          type="text"
-          className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-full leading-5 bg-darkBg text-offWhite placeholder-gray-400 focus:outline-none focus:bg-gray-800 focus:border-gold focus:ring-1 focus:ring-gold sm:text-sm transition-colors duration-200 shadow-sm"
-          placeholder="Search posts..."
-          value={query}
-          onChange={handleInputChange}
-          onFocus={() => setIsFocused(true)}
-          aria-label="Search posts"
-          disabled={isLoading || error !== null}
-        />
-        {/* Loading Indicator inside input */}
-        {isLoading && (
-           <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-             <span className="text-xs text-gray-400 animate-pulse">Loading...</span>
-           </div>
-        )}
-      </div>
+      ) : (
+        <button
+          onClick={() => {
+            setIsExpanded(true);
+            setTimeout(() => inputRef.current?.focus(), 50);
+          }}
+          className="text-gray-300 hover:text-gold transition-colors focus:outline-none flex items-center justify-center mt-1"
+          aria-label="Open search"
+        >
+          <SearchIcon />
+        </button>
+      )}
 
-      {/* Results Dropdown */}
-      {isFocused && query.trim() !== '' && (
-        <div className="absolute z-10 w-full mt-2 bg-gray-800 rounded-md shadow-lg border border-gray-700 max-h-96 overflow-y-auto">
-          {error ? (
-            <div className="p-4 text-sm text-red-400 text-center">{error}</div>
-          ) : results.length > 0 ? (
-            <ul className="py-1">
-              {results.map((result) => (
-                <li key={result.slug}>
-                  <a
-                    href={`/posts/${result.slug}`}
-                    className="block px-4 py-3 hover:bg-gray-700 transition-colors duration-150"
-                  >
-                    <div className="flex justify-between items-baseline mb-1">
-                      <h4 className="text-sm font-medium text-gold truncate">{result.title}</h4>
-                      <span className="text-xs text-gray-400 uppercase tracking-wider ml-2 bg-gray-900 px-2 py-0.5 rounded">
-                        {result.category}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-300 line-clamp-2">{result.description}</p>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="p-4 text-sm text-gray-400 text-center">No results found for "{query}"</div>
-          )}
+      {isExpanded && isFocused && query.trim() !== '' && (
+        <div className="absolute z-50 w-72 right-0 sm:left-0 sm:w-full mt-2 bg-gray-900/95 backdrop-blur-md rounded-xl shadow-2xl border border-gray-700 max-h-96 overflow-hidden">
+          <SearchResultsList results={results} status={status} query={query} />
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * Sub-component: SearchResultsList
+ * Implementation of "Single Responsibility" at the component level.
+ */
+function SearchResultsList({ 
+  results, 
+  status, 
+  query 
+}: { 
+  readonly results: SearchIndexItem[]; 
+  readonly status: string; 
+  readonly query: string; 
+}) {
+  if (status === 'error') {
+    return <div className="p-4 text-sm text-red-400 text-center">Search index unavailable.</div>;
+  }
+
+  if (results.length === 0) {
+    return <div className="p-4 text-sm text-gray-500 text-center">No matches for "{query}"</div>;
+  }
+
+  return (
+    <ul className="py-2">
+      {results.map((item) => (
+        <li key={item.slug}>
+          <a
+            href={`/posts/${item.slug}`}
+            className="block px-4 py-3 hover:bg-gray-800 transition-colors group"
+          >
+            <div className="flex justify-between items-center mb-1">
+              <h4 className="text-sm font-medium text-gold group-hover:text-yellow-400 truncate">
+                {item.title}
+              </h4>
+              <span className="text-[10px] text-gray-400 uppercase font-bold bg-gray-800 px-2 py-0.5 rounded border border-gray-700">
+                {item.category}
+              </span>
+            </div>
+            <p className="text-xs text-gray-400 line-clamp-1">{item.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+  );
+}
+
+function LoadingSpinner() {
+  return (
+    <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+      <div className="h-3 w-3 border-2 border-gold/30 border-t-gold rounded-full animate-spin" />
     </div>
   );
 }
