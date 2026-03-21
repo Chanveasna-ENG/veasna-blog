@@ -1,0 +1,12 @@
+services:
+  astro-blog:
+    build: .
+    container_name: veasna-blog
+    ports:
+      - "6969:80" # Maps port 8080 on your host to 80 on the Nginx container
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
