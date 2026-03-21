@@ -28,7 +28,7 @@ pipeline {
                 
                 # Install rsync for exact file mirroring
                 if ! command -v rsync > /dev/null 2>&1; then
-                    sudo apt-get update && sudo apt-get install -y rsync
+                    apt-get update && apt-get install -y rsync
                 fi
                 
                 # Ensure the deployment directories exist
