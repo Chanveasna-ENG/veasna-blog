@@ -3,7 +3,7 @@ services:
     build: .
     container_name: veasna-blog
     ports:
-      - "6969:8080" # Maps port 6969 on your host to 8080 on the Nginx container
+      - "8001:8080" # Maps port 6969 on your host to 8080 on the Nginx container
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
