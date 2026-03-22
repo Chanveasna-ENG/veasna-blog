@@ -54,7 +54,7 @@ export default function SearchBar() {
       try {
         const response = await fetch(SEARCH_CONFIG.INDEX_PATH);
         if (!response.ok) throw new Error('Fetch failed');
-        
+
         const data: SearchIndexItem[] = await response.json();
         setIndexData(data);
         setStatus('idle');
@@ -107,7 +107,7 @@ export default function SearchBar() {
     const flatResults = searchResults
       .map((r) => r.item)
       .slice(0, SEARCH_CONFIG.LIMIT);
-      
+
     setResults(flatResults);
   }, [query, fuse]);
 
@@ -152,7 +152,7 @@ export default function SearchBar() {
       )}
 
       {isExpanded && isFocused && query.trim() !== '' && (
-        <div className="absolute z-50 w-72 right-0 sm:left-0 sm:w-full mt-2 bg-gray-900/95 backdrop-blur-md rounded-xl shadow-2xl border border-gray-700 max-h-96 overflow-hidden">
+        <div className="absolute z-50 w-full left-0 mt-2 bg-gray-900/95 backdrop-blur-md rounded-xl shadow-2xl border border-gray-700 max-h-96 overflow-hidden">
           <SearchResultsList results={results} status={status} query={query} />
         </div>
       )}
@@ -164,14 +164,14 @@ export default function SearchBar() {
  * Sub-component: SearchResultsList
  * Implementation of "Single Responsibility" at the component level.
  */
-function SearchResultsList({ 
-  results, 
-  status, 
-  query 
-}: { 
-  readonly results: SearchIndexItem[]; 
-  readonly status: string; 
-  readonly query: string; 
+function SearchResultsList({
+  results,
+  status,
+  query
+}: {
+  readonly results: SearchIndexItem[];
+  readonly status: string;
+  readonly query: string;
 }) {
   if (status === 'error') {
     return <div className="p-4 text-sm text-red-400 text-center">Search index unavailable.</div>;
