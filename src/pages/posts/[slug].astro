@@ -29,7 +29,11 @@ const { post } = Astro.props;
 const { Content, headings } = await render(post);
 ---
 
-<BaseLayout title={`${post.data.title} | Veasna.`} description={post.data.description}>
+<BaseLayout 
+  title={`${post.data.title} | Veasna.`} 
+  description={post.data.description}
+  image={post.data.coverImage?.src}
+>
   
   {/* Main Body Grid Layout (70% / 30% visual split) */}
   <div class="w-full grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 mt-8 mb-16">
