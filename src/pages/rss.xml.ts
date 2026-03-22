@@ -7,7 +7,7 @@ export async function GET(context: APIContext) {
   const posts = await getCollection('blog', (post) => !post.data.draft);
 
   // 2. Sort posts by date (newest first)
-  const sortedPosts = posts.sort((a, b) => {
+  const sortedPosts = [...posts].sort((a, b) => {
     const dateA = a.data.lastModifiedAt || a.data.createdAt;
     const dateB = b.data.lastModifiedAt || b.data.createdAt;
     return dateB.getTime() - dateA.getTime();
@@ -16,9 +16,9 @@ export async function GET(context: APIContext) {
   // 3. Generate the RSS feed XML
   return rss({
     // `<title>` field in output xml
-    title: 'Veasna. | Principal Technical Architect',
+    title: 'Chanveasna ENG',
     // `<description>` field in output xml
-    description: 'Building solutions for repetitive tasks with high-performance static architectures.',
+    description: 'Thoughts, insights, and technical deep dives from Chanveasna ENG.',
     // Pulls from your astro.config.mjs `site` property
     site: context.site || 'https://veasnaec.com',
     // Array of `<item>`s in output xml

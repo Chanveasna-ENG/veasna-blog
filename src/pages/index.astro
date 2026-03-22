@@ -36,11 +36,13 @@ const page = {
     current: '/',
     prev: undefined,
     next: sortedPosts.length > PAGE_SIZE ? '/page/2' : undefined,
+    first: undefined,
+    last: sortedPosts.length > PAGE_SIZE ? `/page/${Math.ceil(sortedPosts.length / PAGE_SIZE)}` : undefined,
   },
 };
 ---
 
-<BaseLayout title="Veasna. | Principal Technical Architect" description="Building solutions for repetitive tasks with high-performance static architectures.">
+<BaseLayout title="Veasna. | Problem Solver" description="Thoughts, insights, and technical deep dives from Chanveasna ENG.">
   
   {/* Main Body Grid Layout (70% / 30% visual split per TRD 4.3.1) */}
   <div class="w-full grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 mt-8 mb-16 px-4 md:px-0">
