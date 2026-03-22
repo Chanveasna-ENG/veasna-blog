@@ -4,12 +4,12 @@
 import SearchBar from '../interactive/SearchBar';
 ---
 
-<nav class="sticky top-0 z-50 w-full backdrop-blur-md bg-darkBg/80 border-b border-gray-700">
+<nav id="main-nav" class="sticky top-0 z-50 w-full backdrop-blur-md bg-darkBg/80 border-b border-gray-700">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       
       {/* Left Section: Logo */}
-      <div class="flex-shrink-0 flex items-center">
+      <div id="nav-logo" class="flex-shrink-0 flex items-center">
         <a href="/" class="text-2xl font-alice text-gold hover:text-offWhite transition-colors duration-200">
           Veasna.
         </a>
@@ -22,7 +22,7 @@ import SearchBar from '../interactive/SearchBar';
       </div>
 
       {/* Right Section: CTA & Mobile Menu Toggle */}
-      <div class="flex items-center gap-8">
+      <div class="flex items-center gap-4 sm:gap-8 nav-right-section w-full sm:w-auto justify-end">
         <SearchBar client:load />
 
         {/* Contact CTA (Visible on all breakpoints, space permitting) */}
@@ -80,3 +80,16 @@ import SearchBar from '../interactive/SearchBar';
     });
   }
 </script>
+
+<style>
+  @media (max-width: 639px) { /* Tailwinds sm breakpoint */
+    #main-nav.search-expanded #nav-logo {
+      display: none !important;
+    }
+    #main-nav.search-expanded .nav-right-section {
+      width: 100% !important;
+      justify-content: flex-end !important; /* Locks layout to the right */
+    }
+    /* Let the width transition purely determine size, no flex-grow snaps */
+  }
+</style>

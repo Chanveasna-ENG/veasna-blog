@@ -68,6 +68,21 @@ export default function SearchBar() {
   }, []);
 
   useEffect(() => {
+    const nav = document.getElementById('main-nav');
+    if (nav) {
+      if (isExpanded) {
+        nav.classList.add('search-expanded');
+      } else {
+        // Wait for the 300ms CSS transition to finish before restoring the flex layout
+        const timer = setTimeout(() => {
+          nav.classList.remove('search-expanded');
+        }, 300);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isExpanded]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (!searchContainerRef.current?.contains(event.target as Node)) {
         setIsFocused(false);
@@ -104,7 +119,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className={`relative transition-all duration-300 ease-in-out ${isExpanded ? 'w-64 sm:w-80 md:w-96' : 'w-8'}`} ref={searchContainerRef}>
+    <div className={`relative transition-all duration-300 ease-in-out ${isExpanded ? 'w-[calc(100vw-6rem)] sm:w-80 md:w-96' : 'w-8'}`} ref={searchContainerRef}>
       {isExpanded ? (
         <div className="relative w-full">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
