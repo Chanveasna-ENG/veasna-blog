@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     environment {
-        PROJECT_DIR = '/home/evilsna/blog-deployment'
-        APP_DIR = '/home/evilsna/blog-deployment/Chanveasna-ENG.github.io'
+        PROJECT_DIR = '${env.HOME}/blog-deployment'
+        APP_DIR = '${env.HOME}/blog-deployment/veasna-blog'
     }
     
     stages {
@@ -12,7 +12,7 @@ pipeline {
                 retry(3) {
                     script {
                         echo 'Attempting to pull code from GitHub...'
-                        git url: 'https://github.com/Chanveasna-ENG/Chanveasna-ENG.github.io.git', branch: 'main'
+                        git url: 'https://github.com/Chanveasna-ENG/veasna-blog.git', branch: 'main'
                     }
                 }
             }
@@ -28,23 +28,29 @@ pipeline {
                 
                 # Install rsync for exact file mirroring
                 if ! command -v rsync > /dev/null 2>&1; then
-                    sudo apt-get update && sudo apt-get install -y rsync
+                    apt-get update && apt-get install -y rsync
                 fi
                 
-                # Ensure the deployment directories exist
                 mkdir -p ${APP_DIR}
                 '''
             }
         }
         
-        stage('Deploy Codebase & Rebuild') {
+        stage('Deploy Codebase') {
             steps {
                 sh '''
                 # Mirror workspace to host directory, strictly excluding the .git folder
                 rsync -a --delete --exclude='.git' ./ ${APP_DIR}/
-                
+                '''
+            }
+        }
+        
+        stage('Rebuild') {
+            steps {
+                sh '''
                 cd ${APP_DIR}
-                docker compose up -d --build
+                docker compose down veasna-blog
+                docker compose up -d --build veasna-blog
                 '''
             }
         }
