@@ -96,7 +96,7 @@ const similarPosts = allPosts
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {similarPosts.map((post) => (
-        <BlogPreview post={post} />
+        <BlogPreview post={post} isCompact={true} />
       ))}
     </div>
   </section>

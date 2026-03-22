@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { formatDateICT } from '../../utils/date';
 
@@ -13,6 +14,18 @@ const targetDate = post.data.lastModifiedAt || post.data.createdAt;
 ---
 
 <header class="mb-10 flex flex-col items-start border-b border-gray-800 pb-8">
+  
+  {/* Cover Image */}
+  {post.data.coverImage && (
+    <div class="w-full mb-8 rounded-2xl overflow-hidden border border-gray-800 shadow-xl bg-gray-900">
+      <Image 
+        src={post.data.coverImage} 
+        alt={post.data.coverAlt || post.data.title}
+        class="w-full h-auto object-cover max-h-[350px]"
+        loading="eager"
+      />
+    </div>
+  )}
   
   {/* Category & Version Badges */}
   <div class="flex items-center gap-3 mb-4">
@@ -30,7 +43,7 @@ const targetDate = post.data.lastModifiedAt || post.data.createdAt;
   </h1>
   
   {/* Author & Date Meta */}
-  <div class="flex flex-wrap items-center text-sm text-gray-400 gap-x-4 gap-y-2">
+  <div class="flex flex-wrap items-center text-gray-400 gap-x-4 gap-y-2">
     <time datetime={targetDate.toISOString()}>
       Last Modified: <span class="text-offWhite font-medium">{formatDateICT(targetDate)}</span>
     </time>
@@ -48,5 +61,45 @@ const targetDate = post.data.lastModifiedAt || post.data.createdAt;
       </span>
     ))}
   </div>
+
+  {/* Type-Specific Metadata */}
+  {(post.data.repoUrl || post.data.demoUrl || post.data.eventResult || post.data.eventLocation || post.data.eventDate) && (
+    <div class="mt-8 flex flex-col gap-3 p-5 bg-darkBg border border-gray-800 rounded-lg w-full">
+      {post.data.repoUrl && (
+        <div class="flex items-start gap-3">
+          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Repository:</span>
+          <a href={post.data.repoUrl} target="_blank" rel="noopener noreferrer" class="text-gold hover:underline break-all">
+            {post.data.repoUrl}
+          </a>
+        </div>
+      )}
+      {post.data.demoUrl && (
+        <div class="flex items-start gap-3">
+          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Live Demo:</span>
+          <a href={post.data.demoUrl} target="_blank" rel="noopener noreferrer" class="text-gold hover:underline break-all">
+            {post.data.demoUrl}
+          </a>
+        </div>
+      )}
+      {post.data.eventResult && (
+        <div class="flex items-start gap-3">
+          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Event Result:</span>
+          <span class="text-offWhite font-medium">{post.data.eventResult}</span>
+        </div>
+      )}
+      {post.data.eventLocation && (
+        <div class="flex items-start gap-3">
+          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Location:</span>
+          <span class="text-gray-300">{post.data.eventLocation}</span>
+        </div>
+      )}
+      {post.data.eventDate && (
+        <div class="flex items-start gap-3">
+          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Event Date:</span>
+          <span class="text-gray-300">{formatDateICT(post.data.eventDate)}</span>
+        </div>
+      )}
+    </div>
+  )}
   
 </header>

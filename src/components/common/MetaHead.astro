@@ -8,7 +8,7 @@ interface Props {
 const { 
   title, 
   description, 
-  image = '/default-og-image.png' // Assumes you will add a default OG image to /public
+  image = '/favicon.svg' // Assumes you will add a default OG image to /public
 } = Astro.props;
 
 // Compute the canonical URL properly whether locally or deployed
@@ -29,6 +29,8 @@ const socialImageURL = new URL(image, Astro.site || Astro.url);
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+<meta name="author" content="Chanveasna ENG" />
+<meta name="theme-color" content="#181818" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
@@ -36,6 +38,8 @@ const socialImageURL = new URL(image, Astro.site || Astro.url);
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={socialImageURL} />
+<meta property="og:site_name" content="Chanveasna ENG" />
+<meta property="og:locale" content="en_US" />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
