@@ -1,7 +1,7 @@
 ---
 category: "random"
 title: "About Me"
-description: "I'm Chanveasna, a Principal Technical Architect passionate about static site generation, strict type safety, and zero-latency web experiences."
+description: "I'm Veasna, a curious learner, problem solver."
 createdAt: 2026-03-21
 version: "1.0.0"
 author: "Chanveasna Eng"
