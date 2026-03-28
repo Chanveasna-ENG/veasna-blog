@@ -1,13 +1,16 @@
 ---
-category: "blog"
-title: "Understanding Build-Time Type Safety in Astro"
-description: "How to leverage Zod and Astro Content Collections to ensure zero runtime data errors and strictly enforce schema."
+category: blog
+title: Understanding Build-Time Type Safety in Astro
+description: How to leverage Zod and Astro Content Collections to ensure zero runtime data errors and strictly enforce schema.
 createdAt: 2026-02-22
 lastModifiedAt: 2026-02-23
-version: "1.0.0"
-author: "Chanveasna Eng"
-tags: ["astro", "typescript", "architecture"]
-draft: false
+version: 1.0.0
+author: Chanveasna Eng
+tags:
+  - astro
+  - typescript
+  - architecture
+draft: true
 ---
 
 ## Build-Time Logic First
