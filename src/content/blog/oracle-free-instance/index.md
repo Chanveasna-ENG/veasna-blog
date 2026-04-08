@@ -23,8 +23,7 @@ author: "Chanveasna ENG"
 tags: ["Oracle Cloud", "OCI", "VPS", "Automation", "Terraform", "DevOps"]
 
 # Set to true to hide this post from production builds (Useful for WIP)
-draft: true
-
+draft: false
 
 # --- Images ---
 
