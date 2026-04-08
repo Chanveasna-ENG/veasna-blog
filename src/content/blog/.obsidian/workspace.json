@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "how-it-is-started/index.md",
+                "file": "data-flow.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "data-flow"
             }
           }
         ]
@@ -185,6 +185,8 @@
   },
   "active": "511d6f0fe2b9e8f8",
   "lastOpenFiles": [
+    "how-it-is-started/index.md",
+    "data-flow.md",
     "fighting-with-heat/index.md",
     "fighting-with-heat/cover.jpg",
     "fighting-with-heat",
@@ -193,7 +195,6 @@
     "example-template copy",
     "how-it-is-started/cover.jpg",
     "example.md",
-    "how-it-is-started/index.md",
     "cover.jpg",
     "how-it-is-started/cover1.jpg",
     "example-template/index.md",
