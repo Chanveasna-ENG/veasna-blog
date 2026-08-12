@@ -27,7 +27,7 @@ export async function GET(): Promise<Response> {
       const targetDate = post.data.lastModifiedAt || post.data.createdAt;
 
       return {
-        slug: post.slug,
+        slug: post.id,
         title: post.data.title,
         description: post.data.description,
         category: post.data.category,

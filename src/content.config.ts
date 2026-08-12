@@ -1,7 +1,8 @@
+import { glob } from 'astro/loaders';
 import { z, defineCollection } from 'astro:content';
 
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
   schema: ({ image }) => z.object({
     // --- Universal Fields (Applied to ALL types) ---
     title: z.string().max(100, "Title too long"),

@@ -29,7 +29,7 @@ const lastPageUrl = `${baseUrl}/${page.lastPage}`;
   <div class="flex flex-col space-y-6">
     {page.data.map((post) => (
       <article class="p-6 bg-darkBg border border-gray-700 rounded-lg shadow-sm hover:border-gold transition-colors duration-200 group">
-        <a href={`/posts/${post.slug}`} class="block">
+        <a href={`/posts/${post.id}`} class="block">
           <h2 class="text-2xl font-alice text-gold group-hover:text-yellow-500 transition-colors duration-200 mb-2">
             {post.data.title}
           </h2>

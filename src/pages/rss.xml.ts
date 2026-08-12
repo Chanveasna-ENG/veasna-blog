@@ -27,7 +27,7 @@ export async function GET(context: APIContext) {
       pubDate: post.data.createdAt,
       description: post.data.description,
       // Compute the RSS item's link using the post's slug
-      link: `/posts/${post.slug}/`,
+      link: `/posts/${post.id}/`,
     })),
     // (optional) inject custom xml
     customData: `<language>en-us</language>`,

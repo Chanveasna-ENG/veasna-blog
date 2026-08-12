@@ -67,7 +67,7 @@ const calculateSimilarity = (
 
 // Execute the pipeline: Filter self -> Score -> Sort -> Slice Top 3
 const similarPosts = allPosts
-  .filter((post) => post.slug !== currentPost.slug)
+  .filter((post) => post.id !== currentPost.id)
   .map((post) => ({
     post,
     score: calculateSimilarity(currentPost, post),
