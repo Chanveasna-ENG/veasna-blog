@@ -1,0 +1,84 @@
+---
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+
+const medievalCornerSize = 69;
+
+const services = [
+  {
+    title: 'Web Application & Lead Portals',
+    icon: '/svg/sketch-laptop.svg',
+    description: 'High-converting static and full-stack web platforms engineered for maximum authority, lightning speed, and seamless lead capture.',
+    highlights: ['Astro / Next.js Architecture', 'Conversion-Optimized Layouts', 'SEO & Core Web Vitals Peak']
+  },
+  {
+    title: 'Business Process Automation',
+    icon: '/svg/sketch-blueprint.svg',
+    description: 'Custom automated pipelines that eliminate manual operational bottlenecks, synchronize data, and run 24/7 autonomously.',
+    highlights: ['Content & Mass Publishing', 'CRM & Lead Intake Sync', 'Custom API Integrations']
+  },
+  {
+    title: 'Infrastructure & Resilience',
+    icon: '/svg/sketch-shield.svg',
+    description: 'Hardened cloud infrastructure and micro-services built to guarantee 99.9% uptime and bulletproof security.',
+    highlights: ['Docker & Containerization', 'Automated CI/CD Pipelines', 'Zero-Downtime Deployment']
+  }
+];
+---
+
+<section id="services" class="w-full py-16 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        Core Capabilities
+      </Heading>
+      <Paragraph variant="lead" align="center">
+        Bridging medieval craft attention with cutting-edge software engineering to solve complex business operations.
+      </Paragraph>
+      <MedievalDivider variant="feather" className="mt-4" />
+    </div>
+
+    <!-- 3-Column Services Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {services.map((service) => (
+        <div class="medieval-frame p-8 flex flex-col justify-between relative group hover:border-bronze transition-colors">
+          <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
+          <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
+          <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
+          <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
+
+          <div>
+            <!-- Sketch Icon Container -->
+            <div class="w-16 h-16 mb-6 p-3 bg-transparent border border-ink/40 flex items-center justify-center text-ink group-hover:text-bronze transition-colors">
+              <img src={service.icon} alt={service.title} class="w-full h-full object-contain" />
+            </div>
+
+            <!-- Title -->
+            <Heading as="h3" size="card" className="mb-3 group-hover:text-bronze transition-colors">
+              {service.title}
+            </Heading>
+
+            <!-- Description -->
+            <Paragraph variant="muted" className="mb-6">
+              {service.description}
+            </Paragraph>
+          </div>
+
+          <!-- Feature Bullet List -->
+          <ul class="border-t border-ink/10 pt-4 space-y-2">
+            {service.highlights.map((item) => (
+              <li class="font-body text-xs text-ink flex items-center gap-2">
+                <span class="text-bronze font-bold">✓</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

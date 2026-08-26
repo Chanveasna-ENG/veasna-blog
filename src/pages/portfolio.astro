@@ -1,0 +1,178 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MedievalCorner from '../components/ui/MedievalCorner.astro';
+import MedievalDivider from '../components/ui/MedievalDivider.astro';
+import Heading from '../components/ui/Heading.astro';
+import Paragraph from '../components/ui/Paragraph.astro';
+import SubtitleTag from '../components/ui/SubtitleTag.astro';
+import SecondaryButton from '../components/ui/SecondaryButton.astro';
+import PrimaryButton from '../components/ui/PrimaryButton.astro';
+
+const medievalCornerSize = 48;
+
+// 1. Fetch all published projects
+const allProjects = await getCollection(
+  'blog',
+  (post) => !post.data.draft && post.data.category === 'project'
+);
+
+// 2. Sort newest first
+const sortedProjects = allProjects.sort((a, b) => {
+  const dateA = a.data.lastModifiedAt || a.data.createdAt;
+  const dateB = b.data.lastModifiedAt || b.data.createdAt;
+  return dateB.getTime() - dateA.getTime();
+});
+---
+
+<BaseLayout
+  title="Systems Portfolio | Chanveasna ENG"
+  description="Explore production web platforms, custom microservices, and autonomous integration workflows engineered for scalability and measurable business ROI."
+>
+  <div class="w-full max-w-6xl mx-auto py-12 px-4 sm:px-6">
+    <!-- Page Header -->
+    <header class="text-center max-w-3xl mx-auto mb-14">
+      <SubtitleTag variant="bordered" size="sm" className="mb-4">
+        Engineering Archive
+      </SubtitleTag>
+      <Heading as="h1" size="hero" align="center" className="mb-6">
+        Systems Portfolio
+      </Heading>
+      <Paragraph variant="lead" align="center">
+        A documented catalog of high-impact web architectures, business
+        automation pipelines, and infrastructure solutions built to eliminate
+        operational friction.
+      </Paragraph>
+      <MedievalDivider variant="diamond" spacing="md" />
+    </header>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      {
+        sortedProjects.map((project) => (
+          <article class="medieval-frame p-8 relative flex flex-col justify-between group hover:border-bronze transition-colors">
+            <MedievalCorner
+              position="top-left"
+              size={medievalCornerSize}
+              className="absolute top-1 left-1 text-ink"
+            />
+            <MedievalCorner
+              position="top-right"
+              size={medievalCornerSize}
+              className="absolute top-1 right-1 text-ink"
+            />
+            <MedievalCorner
+              position="bottom-left"
+              size={medievalCornerSize}
+              className="absolute bottom-1 left-1 text-ink"
+            />
+            <MedievalCorner
+              position="bottom-right"
+              size={medievalCornerSize}
+              className="absolute bottom-1 right-1 text-ink"
+            />
+
+            <div>
+              <!-- Visual Preview Frame -->
+              <div class="w-full aspect-[16/10] overflow-hidden border border-ink/30 relative mb-6 bg-parchmentDark/40">
+                <img
+                  src="/images/profile.jpg"
+                  alt={`${project.data.title} Architecture Preview`}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 border border-bronze/20 pointer-events-none" />
+              </div>
+
+              <!-- Tags Row -->
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                {project.data.tags.map((tag) => (
+                  <SubtitleTag variant="ghost" size="sm">
+                    #{tag}
+                  </SubtitleTag>
+                ))}
+              </div>
+
+              <!-- Title -->
+              <Heading
+                as="h2"
+                size="card"
+                className="mb-4 group-hover:text-bronze transition-colors"
+              >
+                {project.data.title}
+              </Heading>
+
+              <!-- Description -->
+              <Paragraph variant="muted" className="mb-6 leading-relaxed">
+                {project.data.description}
+              </Paragraph>
+            </div>
+
+            <!-- Action Link / Card Footer -->
+            <div class="pt-6 border-t border-ink/15 flex items-center justify-between mt-auto">
+              <span class="font-heading font-semibold text-xs text-bronze uppercase tracking-widest">
+                Comprehensive Case Study
+              </span>
+              <SecondaryButton
+                href={`/posts/${project.id}`}
+                className="text-xs !py-2 !px-4"
+              >
+                Read Architecture &rarr;
+              </SecondaryButton>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Empty State Fallback -->
+    {
+      sortedProjects.length === 0 && (
+        <div class="medieval-frame p-12 text-center max-w-xl mx-auto my-12">
+          <Heading as="h3" size="card" align="center" className="mb-3">
+            Projects In Staging
+          </Heading>
+          <Paragraph variant="muted" align="center">
+            New architectural case studies are currently undergoing
+            documentation and will be released shortly.
+          </Paragraph>
+        </div>
+      )
+    }
+
+    <!-- Bottom Contact CTA Banner -->
+    <div class="mt-20 medieval-frame p-10 text-center relative engraved-shadow">
+      <MedievalCorner
+        position="top-left"
+        size={medievalCornerSize}
+        className="absolute top-1 left-1 text-ink"
+      />
+      <MedievalCorner
+        position="top-right"
+        size={medievalCornerSize}
+        className="absolute top-1 right-1 text-ink"
+      />
+      <MedievalCorner
+        position="bottom-left"
+        size={medievalCornerSize}
+        className="absolute bottom-1 left-1 text-ink"
+      />
+      <MedievalCorner
+        position="bottom-right"
+        size={medievalCornerSize}
+        className="absolute bottom-1 right-1 text-ink"
+      />
+
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        Need a Custom Solution Engineered?
+      </Heading>
+      <Paragraph variant="lead" align="center" className="max-w-xl mx-auto mb-8">
+        Whether you require an autonomous webhook pipeline, a high-converting web
+        portal, or hardened cloud infrastructure.
+      </Paragraph>
+      <PrimaryButton href="mailto:contact@chanveasna.eng" size="md">
+        Discuss Your Architecture
+      </PrimaryButton>
+    </div>
+  </div>
+</BaseLayout>

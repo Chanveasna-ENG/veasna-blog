@@ -1,0 +1,188 @@
+---
+import { getCollection } from 'astro:content';
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+import SecondaryButton from '../ui/SecondaryButton.astro';
+
+const medievalCornerSize = 48;
+
+// 1. Fetch non-draft projects
+const projects = await getCollection(
+  'blog',
+  (post) => !post.data.draft && post.data.category === 'project'
+);
+
+// Sort newest first
+const sortedProjects = projects.sort((a, b) => {
+  const dateA = a.data.lastModifiedAt || a.data.createdAt;
+  const dateB = b.data.lastModifiedAt || b.data.createdAt;
+  return dateB.getTime() - dateA.getTime();
+});
+---
+
+<section id="portfolio" class="w-full py-12 px-4 sm:px-6">
+
+  <div class="max-w-3xl mx-auto text-center mb-10">
+    <SubtitleTag variant="bordered" size="sm" className="mb-3">
+      Proven Outcomes &amp; Architecture
+    </SubtitleTag>
+    <Heading as="h2" size="section" align="center" className="mb-3">
+      Building Systems That Drive Results
+    </Heading>
+    <MedievalDivider variant="feather" spacing="sm" />
+    <Paragraph variant="lead" align="center" className="mb-6 max-w-2xl mx-auto">
+      Explore production web platforms, custom microservices, and autonomous
+      integration workflows engineered for scalability and measurable business ROI.
+    </Paragraph>
+    <div class="flex justify-center mb-4">
+      <SecondaryButton href="/portfolio">
+        View All Work &rarr;
+      </SecondaryButton>
+    </div>
+  </div>
+
+  <!-- Draggable Horizontal Scroll-Snap Container -->
+  <div class="w-full max-w-6xl mx-auto relative">
+    <div
+      id="portfolio-scroll-container"
+      class="flex items-stretch overflow-x-auto snap-x snap-mandatory gap-6 pb-6 pt-2 px-1 scroll-smooth select-none cursor-grab active:cursor-grabbing scrollbar-none"
+    >
+      {
+        sortedProjects.map((item) => (
+          <article class="w-[300px] sm:w-[380px] md:w-[420px] flex-shrink-0 snap-start medieval-frame p-6 sm:p-7 relative flex flex-col justify-between group hover:border-bronze transition-colors pointer-events-auto">
+            <MedievalCorner
+              position="top-left"
+              size={medievalCornerSize}
+              className="absolute top-1 left-1 text-ink"
+            />
+            <MedievalCorner
+              position="top-right"
+              size={medievalCornerSize}
+              className="absolute top-1 right-1 text-ink"
+            />
+            <MedievalCorner
+              position="bottom-left"
+              size={medievalCornerSize}
+              className="absolute bottom-1 left-1 text-ink"
+            />
+            <MedievalCorner
+              position="bottom-right"
+              size={medievalCornerSize}
+              className="absolute bottom-1 right-1 text-ink"
+            />
+
+            <div>
+              <!-- Project Visual Preview Mockup Box -->
+              <div class="w-full aspect-[16/10] overflow-hidden border border-ink/40 mb-5 relative bg-parchmentDark/40 pointer-events-none">
+                <img
+                  src="/images/profile.jpg"
+                  alt={`${item.data.title} Architecture Preview`}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 border border-bronze/20 pointer-events-none" />
+              </div>
+
+              <!-- Category / Tech Tag -->
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <SubtitleTag variant="ghost" size="sm">
+                  {item.data.tags[0] || 'System Architecture'}
+                </SubtitleTag>
+              </div>
+
+              <!-- Title -->
+              <Heading
+                as="h3"
+                size="card"
+                className="mb-3 group-hover:text-bronze transition-colors line-clamp-2"
+              >
+                {item.data.title}
+              </Heading>
+
+              <!-- Description / Problem Solved -->
+              <Paragraph variant="muted" className="mb-6 line-clamp-3">
+                {item.data.description}
+              </Paragraph>
+            </div>
+
+            <!-- Footer Action Row -->
+            <div class="pt-4 border-t border-ink/15 flex items-center justify-between mt-auto">
+              <span class="font-heading font-semibold text-xs text-bronze uppercase tracking-widest">
+                Case Study
+              </span>
+              <a
+                href={`/posts/${item.id}`}
+                class="portfolio-card-link inline-flex items-center justify-center w-9 h-9 border border-ink text-ink bg-parchment/60 group-hover:bg-bronze group-hover:text-parchment group-hover:border-bronze transition-all"
+                aria-label={`Read case study: ${item.data.title}`}
+              >
+                <span class="text-sm font-bold">&rarr;</span>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupPortfolioDrag() {
+    const slider = document.getElementById('portfolio-scroll-container');
+    if (!slider) return;
+
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let hasDragged = false;
+
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      hasDragged = false;
+      slider.classList.add('cursor-grabbing');
+      slider.classList.remove('scroll-smooth', 'snap-x', 'snap-mandatory');
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('mouseleave', () => {
+      if (!isDown) return;
+      isDown = false;
+      slider.classList.remove('cursor-grabbing');
+      slider.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
+    });
+
+    slider.addEventListener('mouseup', () => {
+      if (!isDown) return;
+      isDown = false;
+      slider.classList.remove('cursor-grabbing');
+      slider.classList.add('scroll-smooth', 'snap-x', 'snap-mandatory');
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 1.5; // Drag sensitivity
+      if (Math.abs(walk) > 6) {
+        hasDragged = true;
+      }
+      slider.scrollLeft = scrollLeft - walk;
+    });
+
+    // Suppress link click when dragging
+    slider.querySelectorAll('.portfolio-card-link').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        if (hasDragged) {
+          e.preventDefault();
+        }
+      });
+    });
+  }
+
+  // Setup on initial load and view transitions
+  setupPortfolioDrag();
+  document.addEventListener('astro:after-swap', setupPortfolioDrag);
+</script>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Outer Double Line Border Frame -->
+  <rect x="4" y="4" width="192" height="192" stroke-width="2" />
+  <rect x="10" y="10" width="180" height="180" stroke-width="1" stroke-dasharray="4 2" />
+  <!-- Corner Flourish Brackets -->
+  <path d="M4 24V4H24" stroke-width="2" />
+  <path d="M176 4H196V24" stroke-width="2" />
+  <path d="M196 176V196H176" stroke-width="2" />
+  <path d="M24 196H4V176" stroke-width="2" />
+  <!-- Corner Knot Dots -->
+  <circle cx="17" cy="17" r="2" fill="currentColor" />
+  <circle cx="183" cy="17" r="2" fill="currentColor" />
+  <circle cx="183" cy="183" r="2" fill="currentColor" />
+  <circle cx="17" cy="183" r="2" fill="currentColor" />
+</svg>

@@ -1,0 +1,233 @@
+---
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
+import SecondaryButton from '../ui/SecondaryButton.astro';
+
+const medievalCornerSize = 48;
+---
+
+<section id="contact" class="w-full py-16 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <!-- Left Column: Copy, Direct Action & Proof Status -->
+      <div class="lg:col-span-5 flex flex-col justify-between pt-2">
+        <div>
+          <SubtitleTag variant="bordered" size="sm" className="mb-4">
+            Initiate Architecture
+          </SubtitleTag>
+          <Heading as="h2" size="section" className="mb-4">
+            Start Your Project
+          </Heading>
+          <Paragraph variant="lead" className="mb-6 leading-relaxed">
+            Join the ranks of businesses that trust engineered precision.
+            Initiate a discovery discussion or describe your technical
+            parameters to bring your automation vision to life.
+          </Paragraph>
+
+          <div class="mb-8">
+            <SecondaryButton href="mailto:contact@chanveasna.eng">
+              Direct Email Consultation &rarr;
+            </SecondaryButton>
+          </div>
+        </div>
+
+        <!-- Trust / Availability Badge -->
+        <div
+          class="flex items-center gap-3 p-4 bg-parchmentDark/50 border border-ink/20 text-ink text-sm font-body"
+        >
+          <span class="w-2.5 h-2.5 rounded-full bg-green-600 animate-pulse flex-shrink-0"></span>
+          <span>
+            <strong>Active Availability:</strong> Accepting Q3/Q4 Architecture &amp;
+            n8n Automation Projects.
+          </span>
+        </div>
+      </div>
+
+      <!-- Right Column: Medieval Framed Intake Form -->
+      <div class="lg:col-span-7">
+        <div class="medieval-frame p-8 sm:p-10 relative bg-parchment/40">
+          <MedievalCorner
+            position="top-left"
+            size={medievalCornerSize}
+            className="absolute top-1 left-1 text-ink"
+          />
+          <MedievalCorner
+            position="top-right"
+            size={medievalCornerSize}
+            className="absolute top-1 right-1 text-ink"
+          />
+          <MedievalCorner
+            position="bottom-left"
+            size={medievalCornerSize}
+            className="absolute bottom-1 left-1 text-ink"
+          />
+          <MedievalCorner
+            position="bottom-right"
+            size={medievalCornerSize}
+            className="absolute bottom-1 right-1 text-ink"
+          />
+
+          <form id="project-inquiry-form" class="space-y-5">
+            <!-- Spam Honeypot Trap (Hidden from real users) -->
+            <input
+              type="text"
+              name="_gotcha"
+              class="hidden"
+              tabindex="-1"
+              autocomplete="off"
+            />
+
+            <!-- Name & Email 2-Column Row -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label
+                  for="form-name"
+                  class="block font-heading font-semibold text-sm text-ink mb-1.5"
+                >
+                  Name / Company <span class="text-bronze">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="form-name"
+                  name="name"
+                  required
+                  placeholder="Enter full name"
+                  class="w-full bg-parchment border border-ink/40 px-4 py-3 text-ink font-body text-sm placeholder:text-ink/40 focus:border-bronze focus:outline-none focus:ring-1 focus:ring-bronze transition-all"
+                />
+              </div>
+
+              <div>
+                <label
+                  for="form-email"
+                  class="block font-heading font-semibold text-sm text-ink mb-1.5"
+                >
+                  Email Address <span class="text-bronze">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="form-email"
+                  name="email"
+                  required
+                  placeholder="name@domain.com"
+                  class="w-full bg-parchment border border-ink/40 px-4 py-3 text-ink font-body text-sm placeholder:text-ink/40 focus:border-bronze focus:outline-none focus:ring-1 focus:ring-bronze transition-all"
+                />
+              </div>
+            </div>
+
+            <!-- Subject / Project Type Select -->
+            <div>
+              <label
+                for="form-subject"
+                class="block font-heading font-semibold text-sm text-ink mb-1.5"
+              >
+                Inquiry Type <span class="text-bronze">*</span>
+              </label>
+              <select
+                id="form-subject"
+                name="subject"
+                required
+                class="w-full bg-parchment border border-ink/40 px-4 py-3 text-ink font-body text-sm focus:border-bronze focus:outline-none focus:ring-1 focus:ring-bronze transition-all cursor-pointer"
+              >
+                <option value="n8n Workflow Automation">
+                  n8n Workflow Automation
+                </option>
+                <option value="Autonomous Lead Intake & CRM Pipeline">
+                  Autonomous Lead Intake &amp; CRM Pipeline
+                </option>
+                <option value="Custom Web Application & Architecture">
+                  Custom Web Application &amp; Architecture
+                </option>
+                <option value="Webhook Queue & API Integration">
+                  Webhook Queue &amp; API Integration
+                </option>
+                <option value="Cloud & Infrastructure Modernization">
+                  Cloud &amp; Infrastructure Modernization
+                </option>
+                <option value="General Architecture Consultation">
+                  General Architecture Consultation
+                </option>
+              </select>
+            </div>
+
+            <!-- Message Textarea -->
+            <div>
+              <label
+                for="form-message"
+                class="block font-heading font-semibold text-sm text-ink mb-1.5"
+              >
+                Project Parameters &amp; Goals <span class="text-bronze">*</span>
+              </label>
+              <textarea
+                id="form-message"
+                name="message"
+                required
+                rows="4"
+                placeholder="Describe the bottlenecks you want to resolve or system specifications..."
+                class="w-full bg-parchment border border-ink/40 px-4 py-3 text-ink font-body text-sm placeholder:text-ink/40 focus:border-bronze focus:outline-none focus:ring-1 focus:ring-bronze transition-all resize-none"
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-2">
+              <PrimaryButton type="submit" className="w-full text-center justify-center">
+                Submit Project Inquiry &rarr;
+              </PrimaryButton>
+            </div>
+
+            <!-- Status Feedback Container -->
+            <div
+              id="form-status"
+              class="hidden p-4 border font-body text-sm text-center"
+            >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupProjectInquiryForm() {
+    const form = document.getElementById('project-inquiry-form') as HTMLFormElement | null;
+    const statusBox = document.getElementById('form-status');
+    if (!form || !statusBox) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Check honeypot
+      const honeypot = form.querySelector<HTMLInputElement>('input[name="_gotcha"]');
+      if (honeypot && honeypot.value !== '') {
+        // Silently drop bot submission
+        return;
+      }
+
+      const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Dispatching Parameters...';
+      }
+
+      // Simulate instantaneous client-side acknowledgment (ready for API wire-up)
+      setTimeout(() => {
+        statusBox.classList.remove('hidden', 'border-crimson', 'text-crimson', 'bg-crimson/10');
+        statusBox.classList.add('border-bronze', 'text-ink', 'bg-parchmentDark');
+        statusBox.innerHTML =
+          '<strong>Inquiry Registered:</strong> Your project parameters have been received. We will review your architecture and respond within 24 hours.';
+
+        form.reset();
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Submit Project Inquiry →';
+        }
+      }, 600);
+    });
+  }
+
+  setupProjectInquiryForm();
+  document.addEventListener('astro:after-swap', setupProjectInquiryForm);
+</script>

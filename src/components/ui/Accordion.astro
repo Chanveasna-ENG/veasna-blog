@@ -1,0 +1,38 @@
+---
+import Paragraph from './Paragraph.astro';
+
+export interface AccordionItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: AccordionItem[];
+  className?: string;
+}
+
+const { items = [], className = '' } = Astro.props;
+---
+
+<div class={`w-full divide-y divide-ink/20 border-t border-b border-ink/20 ${className}`}>
+  {
+    items.map((item) => (
+      <details class="group py-2 transition-all">
+        <summary class="flex items-center justify-between cursor-pointer py-4 select-none list-none [&::-webkit-details-marker]:hidden">
+          <span class="font-heading font-semibold text-lg md:text-xl text-ink group-hover:text-bronze transition-colors pr-6 text-left">
+            {item.question}
+          </span>
+          <span
+            class="w-8 h-8 rounded-full border border-ink/40 text-ink bg-transparent flex items-center justify-center flex-shrink-0 group-hover:border-bronze group-hover:text-bronze transition-all duration-300 group-open:rotate-45 font-bold text-lg leading-none select-none"
+            aria-hidden="true"
+          >
+            +
+          </span>
+        </summary>
+        <div class="pt-1 pb-5 pr-8 md:pr-12 text-ink/80 leading-relaxed text-base">
+          <Paragraph variant="body">{item.answer}</Paragraph>
+        </div>
+      </details>
+    ))
+  }
+</div>

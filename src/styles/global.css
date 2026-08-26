@@ -2,31 +2,70 @@
 @config "../../tailwind.config.mjs";
 
 @layer base {
-
-  /* Apply the default background, text color, and body font */
   html,
   body {
-    @apply bg-darkBg text-offWhite font-serif antialiased;
+    background-color: #F7F4EC;
+    background-image: url('/images/bg.png');
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #1A1A1A;
+    font-family: 'Lora', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Make standard paragraphs slightly larger by default, and apply the same to blog prose */
   p,
   .prose p {
-    @apply text-lg leading-relaxed text-offWhite;
+    color: #2B2B2A;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.75;
   }
 
-  /* Apply the decorative font and gold accent to all headings */
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    @apply font-alice text-gold;
+    font-family: 'Cormorant Garamond', 'Cinzel', serif;
+    color: #1A1A1A;
+    letter-spacing: 0.02em;
+    font-weight: 600;
   }
 
-  /* Ensure standard link styling unless overridden by components */
   a {
-    @apply text-gold hover:text-offWhite transition-colors duration-200;
+    color: #4A2E0B;
+    transition: color 200ms ease-in-out;
   }
+
+  a:hover {
+    color: #1A1A1A;
+  }
+}
+
+/* Custom Medieval Utility Classes */
+.medieval-frame {
+  position: relative;
+  border: 1px solid #1A1A1A;
+  background-color: transparent;
+  box-shadow: 0 4px 20px rgba(26, 26, 26, 0.05);
+}
+
+.medieval-frame::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px dashed #4A2E0B;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.engraved-shadow {
+  box-shadow: 4px 4px 0px 0px #1A1A1A;
+}
+
+.engraved-shadow:hover {
+  box-shadow: 6px 6px 0px 0px #4A2E0B;
 }

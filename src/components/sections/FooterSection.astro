@@ -1,0 +1,39 @@
+---
+import MedievalDivider from '../ui/MedievalDivider.astro';
+---
+
+<footer class="w-full py-8 px-4 sm:px-8 bg-transparent">
+  <!-- Top Medieval Divider acting as ornate top border for footer -->
+  <MedievalDivider variant="diamond" className="mt-0 mb-8" />
+
+  <div
+    class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
+  >
+    <!-- Prominent Big Footer Logo using wax-seal.png -->
+    <a href="/" class="flex items-center gap-4 group">
+      <img
+        src="/wax-seal.png"
+        alt="Chanveasna ENG Logo"
+        class="w-14 h-14 md:w-16 md:h-16 object-contain group-hover:scale-105 transition-transform"
+      />
+      <span
+        class="font-heading font-bold text-xl md:text-2xl text-ink group-hover:text-bronze transition-colors"
+      >
+        CHANVEASNA ENG
+      </span>
+    </a>
+
+    <div class="flex items-center gap-6 font-heading text-sm text-inkMuted">
+      <a href="/posts/1" class="hover:text-ink transition-colors"
+        >Blog Archive</a
+      >
+      <a href="/about" class="hover:text-ink transition-colors">About</a>
+      <a href="/rss.xml" class="hover:text-ink transition-colors">RSS</a>
+      <a href="#contact" class="hover:text-ink transition-colors">Contact</a>
+    </div>
+
+    <div class="font-body text-xs text-inkMuted">
+      &copy; {new Date().getFullYear()} Chanveasna ENG. All rights reserved.
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,31 @@
+---
+interface Props {
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  size?: number;
+  className?: string;
+}
+
+const { position = 'top-left', size = 120, className = '' } = Astro.props;
+
+const rotationMap: Record<string, string> = {
+  'top-left': 'rotate-0',
+  'top-right': 'rotate-90',
+  'bottom-right': 'rotate-180',
+  'bottom-left': '-rotate-90'
+};
+
+const rotationClass = rotationMap[position] || 'rotate-0';
+---
+
+<div
+  class={`inline-block pointer-events-none text-ink ${rotationClass} ${className}`}
+  style={`width: ${size}px; height: ${size}px;`}
+>
+  <img
+    src="/svg/medieval-corner.svg"
+    alt="Medieval Corner Flourish"
+    width={size}
+    height={size}
+    class="w-full h-full object-contain display-block"
+  />
+</div>

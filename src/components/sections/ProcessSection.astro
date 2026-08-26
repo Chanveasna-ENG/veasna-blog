@@ -1,0 +1,131 @@
+---
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+
+const medievalCornerSize = 48;
+
+const steps = [
+  {
+    step: '01',
+    title: 'Client Onboarding & Architecture',
+    description:
+      'Discovery interview, technical requirement modeling, architecture blueprint, scope, timeline, and security parameters defined before a single line of code is written.',
+    icon: '/svg/sketch-blueprint.svg',
+    image: '/images/profile.jpg',
+    imageAlt: 'Architecture Discovery & Planning'
+  },
+  {
+    step: '02',
+    title: 'Development & Iterative Feedback',
+    description:
+      'Clean-room system construction, automated CI/CD test suites, and continuous staging deployments ensuring clear feedback cycles from inception to final build.',
+    icon: '/svg/sketch-laptop.svg',
+    image: '/images/profile.jpg',
+    imageAlt: 'Iterative Engineering & Feedback'
+  },
+  {
+    step: '03',
+    title: 'Handover & Systems Training',
+    description:
+      'Upon final verification, you receive recorded video walkthroughs, full system documentation runbooks, and 30 days of dedicated transition support.',
+    icon: '/svg/sketch-shield.svg',
+    image: '/images/profile.jpg',
+    imageAlt: 'Handover & Documentation'
+  }
+];
+---
+
+<section id="process" class="w-full py-16 px-4 sm:px-6">  
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <SubtitleTag variant="bordered" size="sm" className="mb-3">
+        Proven Methodology
+      </SubtitleTag>
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        System Delivery &amp; Execution Flow
+      </Heading>
+      <MedievalDivider variant="feather" spacing="sm" />
+    </div>
+
+    <!-- 3-Column Step Process Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {
+        steps.map((item) => (
+          <div class="medieval-frame p-8 relative flex flex-col justify-between group hover:border-bronze transition-colors overflow-hidden">
+            <MedievalCorner
+              position="top-left"
+              size={medievalCornerSize}
+              className="absolute top-1 left-1 text-ink"
+            />
+            <MedievalCorner
+              position="top-right"
+              size={medievalCornerSize}
+              className="absolute top-1 right-1 text-ink"
+            />
+            <MedievalCorner
+              position="bottom-left"
+              size={medievalCornerSize}
+              className="absolute bottom-1 left-1 text-ink"
+            />
+            <MedievalCorner
+              position="bottom-right"
+              size={medievalCornerSize}
+              className="absolute bottom-1 right-1 text-ink"
+            />
+
+            <!-- Giant Watermark Step Number -->
+            <div
+              class="absolute -top-3 -right-2 font-heading font-bold text-6xl md:text-7xl text-bronze/10 select-none pointer-events-none"
+              aria-hidden="true"
+            >
+              {item.step}
+            </div>
+
+            <div class="relative z-10">
+              <!-- Step Icon Badge -->
+              <div class="w-14 h-14 mb-6 p-3 bg-transparent border border-ink/40 flex items-center justify-center text-ink group-hover:text-bronze group-hover:border-bronze transition-colors">
+                <img
+                  src={item.icon}
+                  alt={`${item.title} icon`}
+                  class="w-full h-full object-contain"
+                />
+              </div>
+
+              <!-- Step Number Tag & Title -->
+              <span class="inline-block font-heading font-semibold text-xs text-bronze uppercase tracking-widest mb-1.5">
+                Stage {item.step}
+              </span>
+              <Heading
+                as="h3"
+                size="card"
+                className="mb-3 group-hover:text-bronze transition-colors"
+              >
+                {item.title}
+              </Heading>
+
+              <!-- Description -->
+              <Paragraph variant="muted" className="mb-6 leading-relaxed">
+                {item.description}
+              </Paragraph>
+            </div>
+
+            <!-- Visual Preview Mockup Box -->
+            <div class="w-full aspect-[16/10] overflow-hidden border border-ink/30 relative mt-auto bg-parchmentDark/40">
+              <img
+                src={item.image}
+                alt={item.imageAlt}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 border border-bronze/20 pointer-events-none" />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+---
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
+import WaxSeal from '../ui/WaxSeal.astro';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+
+const medievalCornerSize = 150;
+---
+
+<section id="contact" class="w-full py-16 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto text-center">
+    <div class="medieval-frame p-10 sm:p-16 relative engraved-shadow">
+      <MedievalCorner
+        position="top-left"
+        size={medievalCornerSize}
+        className="absolute top-1 left-1 text-ink"
+      />
+      <MedievalCorner
+        position="top-right"
+        size={medievalCornerSize}
+        className="absolute top-1 right-1 text-ink"
+      />
+      <MedievalCorner
+        position="bottom-left"
+        size={medievalCornerSize}
+        className="absolute bottom-1 left-1 text-ink"
+      />
+      <MedievalCorner
+        position="bottom-right"
+        size={medievalCornerSize}
+        className="absolute bottom-1 right-1 text-ink"
+      />
+
+      <div class="mb-6 flex justify-center">
+        <WaxSeal size="lg" text="CONFIDENTIAL" />
+      </div>
+
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        Ready to Transform Your Operations?
+      </Heading>
+
+      <Paragraph variant="lead" align="center" className="max-w-xl mx-auto mb-8">
+        Let's discuss your custom web platform or automation workflow. I will
+        map out the architectural strategy for your enterprise.
+      </Paragraph>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <PrimaryButton href="mailto:contact@chanveasna.eng" size="lg">
+          Claim Strategy Call
+        </PrimaryButton>
+      </div>
+
+      <Paragraph variant="caption" align="center" className="mt-6">
+        Direct response within 24 business hours. Guaranteed confidentiality.
+      </Paragraph>
+    </div>
+  </div>
+</section>

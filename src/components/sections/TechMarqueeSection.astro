@@ -1,0 +1,83 @@
+---
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Heading from '../ui/Heading.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+
+interface TechLogo {
+  name: string;
+  src: string;
+}
+
+const techLogos: TechLogo[] = [
+  { name: 'Docker', src: '/logos/docker.svg' },
+  { name: 'Astro', src: '/logos/astro.svg' },
+  { name: 'Next.js', src: '/logos/nextjs.svg' },
+  { name: 'React', src: '/logos/react.svg' },
+  { name: 'TypeScript', src: '/logos/typescript.svg' },
+  { name: 'Python', src: '/logos/python.svg' },
+  { name: 'PostgreSQL', src: '/logos/postgresql.svg' },
+  { name: 'Redis', src: '/logos/redis.svg' },
+  { name: 'Tailwind CSS', src: '/logos/tailwind.svg' },
+  { name: 'Nginx', src: '/logos/nginx.svg' }
+];
+
+// Duplicate list for seamless infinite loop
+const marqueeItems = [...techLogos, ...techLogos];
+---
+
+<section id="ecosystem" class="w-full py-6 px-4">
+  <!-- Top Medieval Divider -->
+  <MedievalDivider variant="diamond" spacing="md" />
+
+  <div class="max-w-5xl mx-auto flex flex-col items-center text-center mb-8">
+    <SubtitleTag variant="bordered" size="sm" className="mb-3">
+      Tools &amp; Frameworks
+    </SubtitleTag>
+    <Heading as="h2" size="section" align="center">
+      Integrated Platforms &amp; Ecosystem
+    </Heading>
+  </div>
+
+  <!-- Infinite Scroll Marquee Container -->
+  <div class="w-full max-w-6xl mx-auto relative overflow-hidden py-4">
+    <!-- Scrolling Track -->
+    <div class="flex items-center w-max marquee-track">
+      {
+        marqueeItems.map((item) => (
+          <div class="flex items-center gap-3 px-6 py-3 mx-3 bg-parchment/60 border border-ink/30 rounded-none shadow-sm hover:border-bronze hover:shadow-md transition-all flex-shrink-0 group select-none">
+            <img
+              src={item.src}
+              alt={`${item.name} Logo`}
+              width="24"
+              height="24"
+              class="w-6 h-6 object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform"
+              loading="lazy"
+            />
+            <span class="font-heading font-semibold text-sm tracking-wider text-ink group-hover:text-bronze transition-colors whitespace-nowrap">
+              {item.name}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Bottom Medieval Divider -->
+  <MedievalDivider variant="diamond" spacing="md" />
+</section>
+
+<style>
+  @keyframes marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-track {
+    animation: marquee-scroll 28s linear infinite;
+    will-change: transform;
+  }
+</style>

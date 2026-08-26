@@ -1,0 +1,30 @@
+---
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  target?: string;
+  className?: string;
+}
+
+const { href, type, target = '_self', className = '' } = Astro.props;
+
+const baseClasses = `relative inline-flex items-center justify-center px-6 py-3 font-heading font-semibold uppercase tracking-wider text-ink bg-transparent hover:bg-parchmentDark border-2 border-ink transition-all duration-200 group cursor-pointer ${className}`;
+---
+
+{
+  href ? (
+    <a href={href} target={target} class={baseClasses}>
+      <span class="absolute inset-[2px] border border-ink opacity-30 group-hover:opacity-60 pointer-events-none" />
+      <span class="relative z-10">
+        <slot />
+      </span>
+    </a>
+  ) : (
+    <button type={type || 'button'} class={baseClasses}>
+      <span class="absolute inset-[2px] border border-ink opacity-30 group-hover:opacity-60 pointer-events-none" />
+      <span class="relative z-10">
+        <slot />
+      </span>
+    </button>
+  )
+}

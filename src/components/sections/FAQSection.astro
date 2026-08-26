@@ -1,0 +1,58 @@
+---
+import Accordion, { type AccordionItem } from '../ui/Accordion.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+import Heading from '../ui/Heading.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+
+interface Props {
+  items?: AccordionItem[];
+}
+
+const defaultFAQItems: AccordionItem[] = [
+  {
+    question: 'What types of systems and web platforms do you engineer?',
+    answer:
+      'I specialize in high-converting web architectures (Astro, Next.js, React), autonomous webhook queues, distributed data synchronization pipelines, and resilient containerized cloud infrastructure.'
+  },
+  {
+    question: 'How do you approach legacy system migration and CRM automation?',
+    answer:
+      'Migrations are executed via zero-downtime blue-green strategies. Form and intake pipelines are decoupled through edge workers, schema validation, and asynchronous queue workers ensuring 100% data fidelity with zero dropped leads.'
+  },
+  {
+    question: 'What is the standard engagement timeline from onboarding to deployment?',
+    answer:
+      'Standard projects follow a predictable 2 to 4-week delivery lifecycle: Stage 01 Architectural Blueprinting & Modeling (Week 1), Stage 02 Core Engineering & Iterative Staging (Weeks 2–3), and Stage 03 Runbook Handover & Transition Training (Week 4).'
+  },
+  {
+    question: 'Will our internal team be able to update content and maintain the system independently?',
+    answer:
+      'Yes. Systems are built using typed Content Collections, typed CMS backends, and modular components, accompanied by bespoke recorded video walkthroughs and operational runbooks.'
+  },
+  {
+    question: 'What post-launch support and documentation do you provide?',
+    answer:
+      'Every completed delivery includes 30 days of dedicated transition support, automated health monitoring setup, and comprehensive documentation detailing operational procedures and recovery failovers.'
+  }
+];
+
+const { items = defaultFAQItems } = Astro.props;
+---
+
+<section id="faq" class="w-full py-16 px-4 sm:px-6">
+  <div class="max-w-4xl mx-auto">
+    <!-- Centered Header Block -->
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <SubtitleTag variant="bordered" size="sm" className="mb-3">
+        FAQS
+      </SubtitleTag>
+      <Heading as="h2" size="section" align="center" className="mb-3">
+        Frequently Addressed Inquiries
+      </Heading>
+      <MedievalDivider variant="feather" spacing="sm" />
+    </div>
+
+    <!-- Reusable Accordion Component -->
+    <Accordion items={items} />
+  </div>
+</section>

@@ -1,0 +1,67 @@
+---
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
+import SecondaryButton from '../ui/SecondaryButton.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+
+const medievalCornerSize = 150;
+---
+
+<section class="w-full py-4 md:py-8 px-4 sm:px-6 relative overflow-hidden">
+  <div class="max-w-4xl mx-auto text-center relative z-10">
+    <!-- Outer Medieval Line Frame Container -->
+    <div class="medieval-frame p-8 sm:p-12 md:p-16 relative">
+      <MedievalCorner
+        position="top-left"
+        size={medievalCornerSize}
+        className="absolute top-1 left-1 text-ink"
+      />
+      <MedievalCorner
+        position="top-right"
+        size={medievalCornerSize}
+        className="absolute top-1 right-1 text-ink"
+      />
+      <MedievalCorner
+        position="bottom-left"
+        size={medievalCornerSize}
+        className="absolute bottom-1 left-1 text-ink"
+      />
+      <MedievalCorner
+        position="bottom-right"
+        size={medievalCornerSize}
+        className="absolute bottom-1 right-1 text-ink"
+      />
+
+      <!-- Subtitle Tag -->
+      <SubtitleTag variant="bordered" size="md" className="mb-6">
+        Digital Realm Builder &amp; Workflow Architect
+      </SubtitleTag>
+
+      <!-- Main Headline -->
+      <Heading as="h1" size="hero" align="center" className="mb-6">
+        Forging Scalable Web Systems &amp; Autonomous Workflows
+      </Heading>
+
+      <!-- Value Subheadline -->
+      <Paragraph variant="lead" align="center" className="max-w-2xl mx-auto mb-8">
+        I design high-converting web applications and engineered automation
+        pipelines that scale operations, capture enterprise leads, and eliminate
+        repetitive toil.
+      </Paragraph>
+
+      <!-- Primary & Secondary CTA Buttons -->
+      <div
+        class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6"
+      >
+        <PrimaryButton href="#contact" size="lg">
+          Book Consultation
+        </PrimaryButton>
+        <SecondaryButton href="#case-studies">
+          Explore Outcomes
+        </SecondaryButton>
+      </div>
+    </div>
+  </div>
+</section>

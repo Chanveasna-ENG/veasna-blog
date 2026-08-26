@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 10 2000 40" width="100%" height="100%">
+  <defs>
+    <!-- Solid high-visibility fade gradient for the left quill line -->
+    <linearGradient id="quill-fade-left" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1A1A1A" stop-opacity="0.2" />
+      <stop offset="20%" stop-color="#1A1A1A" stop-opacity="0.6" />
+      <stop offset="60%" stop-color="#1A1A1A" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#1A1A1A" stop-opacity="1" />
+    </linearGradient>
+
+    <!-- Solid high-visibility fade gradient for the right quill line -->
+    <linearGradient id="quill-fade-right" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1A1A1A" stop-opacity="1" />
+      <stop offset="40%" stop-color="#1A1A1A" stop-opacity="0.9" />
+      <stop offset="80%" stop-color="#1A1A1A" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#1A1A1A" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Base diamond unit with center dot -->
+    <g id="dot-diamond">
+      <rect x="-6" y="-6" width="12" height="12" transform="rotate(45)" fill="none" stroke="#4A2E0B" stroke-width="1.8" />
+      <rect x="-2" y="-2" width="4" height="4" transform="rotate(45)" fill="#4A2E0B" />
+    </g>
+  </defs>
+
+  <!-- Left Side: Edge-to-edge bold quill line -->
+  <g>
+    <path d="M 980 28.5 L 600 28.5 Q 200 29.0 0 29.5 L 0 30.5 Q 200 31.0 600 31.5 L 980 31.5 Z" fill="url(#quill-fade-left)" />
+    <line x1="0" y1="30" x2="980" y2="30" stroke="url(#quill-fade-left)" stroke-width="1.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Right Side: Edge-to-edge bold quill line -->
+  <g>
+    <path d="M 1020 28.5 L 1400 28.5 Q 1800 29.0 2000 29.5 L 2000 30.5 Q 1800 31.0 1400 31.5 L 1020 31.5 Z" fill="url(#quill-fade-right)" />
+    <line x1="1020" y1="30" x2="2000" y2="30" stroke="url(#quill-fade-right)" stroke-width="1.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Centered geometric motif (x=1000, y=30) -->
+  <g transform="translate(1000, 30)">
+    <!-- Central hollow diamond -->
+    <rect x="-4" y="-4" width="8" height="8" transform="rotate(45)" fill="none" stroke="#4A2E0B" stroke-width="1.6" />
+
+    <!-- Surrounding 4 diamonds -->
+    <use href="#dot-diamond" x="0" y="-11" />
+    <use href="#dot-diamond" x="0" y="11" />
+    <use href="#dot-diamond" x="-11" y="0" />
+    <use href="#dot-diamond" x="11" y="0" />
+  </g>
+</svg>

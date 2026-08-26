@@ -1,0 +1,39 @@
+---
+interface Props {
+  platform: 'linkedin' | 'upwork' | 'instagram' | 'email' | 'github';
+  href: string;
+  label?: string;
+  className?: string;
+}
+
+const { platform, href, label, className = '' } = Astro.props;
+
+const defaultLabels: Record<string, string> = {
+  linkedin: 'LinkedIn',
+  upwork: 'Upwork',
+  instagram: 'Instagram',
+  email: 'Email',
+  github: 'GitHub'
+};
+
+const displayLabel = label || defaultLabels[platform] || platform;
+const iconSrc = `/svg/icon-${platform}.svg`;
+---
+
+<a
+  href={href}
+  target={platform === 'email' ? '_self' : '_blank'}
+  rel={platform === 'email' ? undefined : 'noopener noreferrer'}
+  aria-label={displayLabel}
+  title={displayLabel}
+  class={`inline-flex items-center justify-center w-11 h-11 border border-ink text-ink bg-parchment/60 hover:bg-parchmentDark hover:border-bronze transition-all duration-200 shadow-sm hover:shadow-md group ${className}`}
+>
+  <img
+    src={iconSrc}
+    alt={displayLabel}
+    width="20"
+    height="20"
+    class="w-5 h-5 object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform"
+    loading="lazy"
+  />
+</a>

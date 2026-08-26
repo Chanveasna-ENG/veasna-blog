@@ -3,11 +3,9 @@
   <path d="M12 12c-3.3 0-6 2.7-6 6v32c0 3.3 2.7 6 6 6h40c3.3 0 6-2.7 6-6V18c0-3.3-2.7-6-6-6H12z" stroke-width="1.5" />
   <path d="M6 18c0-3.3 2.7-6 6-6h40" />
   <path d="M12 18v36" stroke-dasharray="2 2" />
-  <!-- Blueprint Workflow Nodes -->
   <circle cx="24" cy="28" r="4" stroke-width="1.5" />
   <circle cx="44" cy="28" r="4" stroke-width="1.5" />
   <circle cx="34" cy="44" r="4" stroke-width="1.5" />
   <path d="M28 28h12M26 31l6 10M42 31l-6 10" stroke-width="1.25" />
-  <!-- Gears / Compass details -->
   <path d="M34 20v4M34 32v4" stroke-width="1" />
 </svg>

@@ -1,0 +1,38 @@
+---
+interface Props {
+  variant?: 'knot' | 'diamond' | 'divider-1' | 'feather' | 'simple';
+  spacing?: 'none' | 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+const { variant = 'diamond', spacing = 'md', className = '' } = Astro.props;
+const isDiamond = variant === 'knot' || variant === 'diamond' || variant === 'divider-1';
+
+const spacingMap: Record<string, string> = {
+  none: 'my-0',
+  sm: 'my-2.5',
+  md: 'my-8',
+  lg: 'my-12'
+};
+
+const selectedSpacing = spacingMap[spacing] || spacingMap.md;
+---
+
+<div class={`w-full flex items-center justify-center ${selectedSpacing} text-ink ${className}`}>
+  {isDiamond && (
+    <div class="w-full max-w-5xl flex items-center justify-center px-2">
+      <!-- Standalone public/svg/divider-diamond.svg -->
+      <img src="/svg/divider-diamond.svg" alt="Medieval Diamond Divider" class="w-full max-w-full object-contain" />
+    </div>
+  )}
+
+  {variant === 'feather' && (
+    <div class="w-full max-w-lg flex items-center justify-center">
+      <img src="/svg/medieval-divider-feather.svg" alt="Medieval Quill Feather Divider" class="h-6 md:h-8 w-full max-w-[400px] object-contain" />
+    </div>
+  )}
+
+  {variant === 'simple' && (
+    <div class="w-full max-w-md h-[1px] bg-gradient-to-r from-transparent via-bronze to-transparent opacity-60"></div>
+  )}
+</div>

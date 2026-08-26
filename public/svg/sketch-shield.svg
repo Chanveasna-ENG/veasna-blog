@@ -2,7 +2,6 @@
   <!-- Medieval Shield / Infrastructure Sketch -->
   <path d="M32 6L10 14v18c0 14.5 9.5 24 22 28 12.5-4 22-13.5 22-28V14L32 6z" stroke-width="1.75" />
   <path d="M32 12L14 18.5v13.5c0 11.5 7.5 19 18 22.5 10.5-3.5 18-11 18-22.5V18.5L32 12z" stroke-width="1" stroke-dasharray="2 2" />
-  <!-- Central Lock / Server Node Line Art -->
   <rect x="24" y="28" width="16" height="14" rx="2" stroke-width="1.5" />
   <path d="M28 28v-4a4 4 0 018 0v4" stroke-width="1.5" />
   <circle cx="32" cy="34" r="1.5" fill="currentColor" />
