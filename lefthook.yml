@@ -6,3 +6,11 @@ pre-commit:
       run: pnpm biome check --staged {staged_files}
     astro-check:
       run: pnpm exec astro check
+
+pre-push:
+  parallel: false
+  commands:
+    unit-tests:
+      run: pnpm run test
+    changeset-check:
+      run: pnpm changeset status --since=HEAD~1
