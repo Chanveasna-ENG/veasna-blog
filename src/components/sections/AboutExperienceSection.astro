@@ -1,0 +1,140 @@
+---
+import Heading from '../ui/Heading.astro';
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+
+const medievalCornerSize = 48;
+
+const competencyCategories = [
+  {
+    title: 'Workflow & Integration Engines',
+    icon: '/svg/sketch-blueprint.svg',
+    skills: [
+      'n8n Architecture & Self-Hosting',
+      'Make.com & Zapier Workflows',
+      'Custom Webhook Queue Buffers',
+      'Autonomous CRM & Intake Sync',
+      'API Reverse Engineering & Parsing'
+    ]
+  },
+  {
+    title: 'Messaging & Bot Ecosystems',
+    icon: '/svg/sketch-shield.svg',
+    skills: [
+      'Telegram & Discord Bot Engineering',
+      'WhatsApp Business API Flows',
+      'Messenger & Instagram DM Triggers',
+      'Persistent State Machines (SQLite/Postgres)',
+      'Payment Webhooks & User Tiering'
+    ]
+  },
+  {
+    title: 'Web Platforms & AI Engineering',
+    icon: '/svg/sketch-laptop.svg',
+    skills: [
+      'Astro, Next.js & React Frameworks',
+      'Custom LLM Agents & Document RAG',
+      'Docker Containerization & Linux VPS',
+      'High-Speed E-Commerce & Portals',
+      'Performance Optimization & Core Web Vitals'
+    ]
+  }
+];
+
+const milestones = [
+  {
+    period: '2024 — Present',
+    role: 'Lead Systems Architect & Automation Specialist',
+    company: 'Chanveasna ENG (Independent Practice)',
+    description:
+      'Designing and deploying autonomous business pipelines, high-converting Astro web applications, and multi-platform messaging bots for founders and scaling businesses worldwide.'
+  },
+  {
+    period: '2023 — 2024',
+    role: 'Automation & Full-Stack Engineer',
+    company: 'Enterprise Client Engagements',
+    description:
+      'Engineered programmatic data pipelines (including automated ingestion of 2,000+ pages), synchronized multi-app CRM workflows, and hardened self-hosted cloud infrastructure.'
+  }
+];
+---
+
+<section id="experience" class="w-full py-16 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <SubtitleTag variant="bordered" size="sm" className="mb-3">
+        Technical Mastery
+      </SubtitleTag>
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        Core Competencies &amp; Track Record
+      </Heading>
+      <Paragraph variant="lead" align="center">
+        Battle-tested engineering skills and proven system deployments crafted to eliminate operational bottlenecks.
+      </Paragraph>
+      <MedievalDivider variant="diamond" className="mt-4" />
+    </div>
+
+    <!-- 3-Column Competencies Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      {competencyCategories.map((cat) => (
+        <div class="medieval-frame p-7 relative bg-parchment/50 flex flex-col justify-between">
+          <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
+          <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
+          <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
+          <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
+
+          <div>
+            <div class="w-12 h-12 p-2 mb-5 border border-ink/40 flex items-center justify-center text-ink">
+              <img src={cat.icon} alt={cat.title} class="w-full h-full object-contain" />
+            </div>
+
+            <Heading as="h3" size="card" className="mb-4 font-bold text-lg text-ink">
+              {cat.title}
+            </Heading>
+
+            <ul class="space-y-2 border-t border-ink/10 pt-4">
+              {cat.skills.map((skill) => (
+                <li class="font-body text-xs text-ink flex items-center gap-2">
+                  <span class="text-bronze font-bold">✓</span>
+                  <span>{skill}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Production Milestones Timeline -->
+    <div class="max-w-4xl mx-auto mb-14">
+      <Heading as="h3" size="card" align="center" className="mb-8 font-bold">
+        Production Engineering Journey
+      </Heading>
+
+      <div class="space-y-6">
+        {milestones.map((m) => (
+          <div class="medieval-frame p-6 sm:p-8 bg-parchment/40 relative">
+            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
+              <Heading as="h4" size="sub" className="text-ink font-bold">
+                {m.role}
+              </Heading>
+              <span class="font-heading font-semibold text-xs text-bronze uppercase tracking-wider">
+                {m.period}
+              </span>
+            </div>
+            <span class="block text-xs font-body text-inkMuted mb-3 font-semibold">
+              {m.company}
+            </span>
+            <Paragraph variant="muted" className="text-sm leading-relaxed">
+              {m.description}
+            </Paragraph>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>

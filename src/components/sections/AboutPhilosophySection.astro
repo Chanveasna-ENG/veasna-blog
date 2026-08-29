@@ -1,0 +1,96 @@
+---
+import Heading from '../ui/Heading.astro';
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+
+const medievalCornerSize = 48;
+
+const values = [
+  {
+    num: '01',
+    title: 'Autonomous Leverage (Zero Toil)',
+    description:
+      'Repetitive operational tasks and manual data entry are bottlenecks to growth. If a task happens twice, it should be engineered to run 24/7 autonomously without human fatigue.'
+  },
+  {
+    num: '02',
+    title: 'Deterministic Reliability & Failovers',
+    description:
+      'Fragile automations that break silently destroy trust. Every workflow, webhook queue, and messaging bot is constructed with retry mechanisms, state persistence, and real-time failure alerts.'
+  },
+  {
+    num: '03',
+    title: 'Quality Consistency & Clean Architecture',
+    description:
+      'Applying medieval craftsmanship to digital software engineering. Clean pipelines, strict typing, and modular architectures guarantee your systems scale smoothly without constant maintenance.'
+  },
+  {
+    num: '04',
+    title: 'Direct Partnership & Complete Ownership',
+    description:
+      'No middlemen, bloated agency overhead, or closed-garden lock-in. You receive transparent documentation, direct communication, and 100% ownership of your code, workflows, and infrastructure.'
+  }
+];
+---
+
+<section id="philosophy" class="w-full py-16 px-4 sm:px-6 bg-parchmentDark/30 border-y border-ink/10">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <SubtitleTag variant="bordered" size="sm" className="mb-3">
+        Core Philosophy
+      </SubtitleTag>
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        Engineering Values That Drive Every Build
+      </Heading>
+      <Paragraph variant="lead" align="center">
+        Automation is not just about saving minutes—it is about establishing an unyielding foundation where your business operations run autonomously with predictable precision.
+      </Paragraph>
+      <MedievalDivider variant="feather" className="mt-4" />
+    </div>
+
+    <!-- 4-Pillar Narrative Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {values.map((val) => (
+        <div class="medieval-frame p-8 relative bg-parchment/70 group hover:border-bronze transition-colors">
+          <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
+          <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
+          <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
+          <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
+
+          <div class="flex items-baseline justify-between mb-4">
+            <span class="font-heading font-bold text-2xl text-bronze">
+              {val.num}
+            </span>
+            <SubtitleTag variant="ghost" size="sm" color="ink">
+              Principle
+            </SubtitleTag>
+          </div>
+
+          <Heading as="h3" size="card" className="mb-3 group-hover:text-bronze transition-colors">
+            {val.title}
+          </Heading>
+
+          <Paragraph variant="muted" className="text-sm leading-relaxed">
+            {val.description}
+          </Paragraph>
+        </div>
+      ))}
+    </div>
+
+    <!-- Manifesto Quote Callout Box -->
+    <div class="mt-12 medieval-frame p-8 sm:p-10 bg-parchment text-center max-w-4xl mx-auto border border-ink/30">
+      <p class="font-heading text-lg sm:text-xl md:text-2xl text-ink font-semibold italic leading-relaxed mb-4">
+        "True digital architecture does not demand constant babysitting. It hums silently in the background, reliably capturing leads, syncing data, and converting visitors into loyal clients."
+      </p>
+      <div class="flex items-center justify-center gap-3">
+        <span class="w-8 h-[1px] bg-bronze"></span>
+        <span class="font-heading font-bold uppercase tracking-widest text-xs text-bronze">Chanveasna ENG</span>
+        <span class="w-8 h-[1px] bg-bronze"></span>
+      </div>
+    </div>
+
+  </div>
+</section>
