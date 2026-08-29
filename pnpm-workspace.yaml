@@ -1,6 +1,8 @@
 allowBuilds:
   '@biomejs/biome': true
   esbuild: true
+  lefthook: true
+  pagefind: true
   sharp: true
 minimumReleaseAgeExclude:
   - astro@7.2.1

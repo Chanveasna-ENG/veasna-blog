@@ -1,65 +1,41 @@
-import Fuse from 'fuse.js';
-import { useEffect, useMemo, useState } from 'react';
-import type { SearchIndexItem } from '../../pages/search-index.json.ts';
-import { formatDateICT } from '../../utils/date';
+import { useEffect, useState } from 'react';
+import { type SearchResultItem, search } from '../../utils/search';
 
 export default function SearchFeed() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchIndexItem[]>([]);
-  const [indexData, setIndexData] = useState<SearchIndexItem[]>([]);
+  const [results, setResults] = useState<SearchResultItem[]>([]);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('loading');
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageSize = 10;
 
-  // 1. Grab URL query and fetch index on mount
+  // 1. Grab URL query and perform search on mount
   useEffect(() => {
     const params = new URLSearchParams(globalThis.location.search);
     const q = params.get('q') || '';
     setQuery(q);
 
-    const fetchIndex = async () => {
+    if (!q.trim()) {
+      setResults([]);
+      setStatus('idle');
+      return;
+    }
+
+    const runSearch = async () => {
+      setStatus('loading');
       try {
-        const res = await fetch('/search-index.json');
-        const data = await res.json();
-        setIndexData(data);
+        const searchResults = await search(q);
+        setResults(searchResults);
         setStatus('idle');
-      } catch (err) {
+      } catch {
         setStatus('error');
-        console.error(err);
       }
     };
-    fetchIndex();
+
+    runSearch();
   }, []);
 
-  // 2. Initialize Fuse engine
-  const fuse = useMemo(() => {
-    if (indexData.length === 0) {
-      return null;
-    }
-    return new Fuse(indexData, {
-      keys: ['title', 'description'],
-      threshold: 0.3
-    });
-  }, [indexData]);
-
-  // 3. Perform search when query or data changes
-  useEffect(() => {
-    if (status !== 'idle' || !fuse) {
-      return;
-    }
-
-    if (!query.trim()) {
-      setResults([]);
-      return;
-    }
-
-    const searchResults = fuse.search(query).map((r) => r.item);
-    setResults(searchResults);
-    setCurrentPage(1);
-  }, [query, fuse, status]);
-
-  // 4. Pagination Math
+  // 2. Pagination Math
   const totalPages = Math.ceil(results.length / pageSize);
   const currentResults = results.slice(
     (currentPage - 1) * pageSize,
@@ -77,7 +53,7 @@ export default function SearchFeed() {
 
       <div className="flex flex-col space-y-6">
         {status === 'loading' && (
-          <p className="text-gray-400">Loading search index...</p>
+          <p className="text-gray-400">Loading search results...</p>
         )}
         {status === 'idle' && results.length === 0 && query && (
           <p className="text-gray-400">No matching content found.</p>
@@ -85,21 +61,25 @@ export default function SearchFeed() {
 
         {currentResults.map((post) => (
           <article
-            key={post.slug}
+            key={post.url}
             className="p-6 bg-darkBg border border-gray-700 rounded-lg shadow-sm hover:border-gold transition-colors duration-200 group"
           >
-            <a href={`/posts/${post.slug}`} className="block">
+            <a href={post.url} className="block">
               <h2 className="text-2xl font-alice text-gold group-hover:text-yellow-500 transition-colors duration-200 mb-2">
                 {post.title}
               </h2>
-              <p className="text-gray-300 mb-4 line-clamp-3">
-                {post.description}
-              </p>
+              <p
+                className="text-gray-300 mb-4 line-clamp-3"
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: Pagefind produces trusted sanitized excerpt html
+                dangerouslySetInnerHTML={{ __html: post.excerpt }}
+              />
               <div className="flex flex-wrap items-center justify-between text-xs text-gray-500 uppercase tracking-wider">
-                <span className="bg-gray-800 px-2 py-1 rounded text-gold border border-gray-700">
-                  {post.category}
-                </span>
-                <time dateTime={post.date}>{formatDateICT(post.date)}</time>
+                {post.category && (
+                  <span className="bg-gray-800 px-2 py-1 rounded text-gold border border-gray-700">
+                    {post.category}
+                  </span>
+                )}
+                {post.date && <time dateTime={post.date}>{post.date}</time>}
               </div>
             </a>
           </article>

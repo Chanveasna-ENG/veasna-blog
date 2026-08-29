@@ -1,0 +1,8 @@
+pre-commit:
+  parallel: false
+  commands:
+    biome-check:
+      glob: "*.{js,ts,jsx,tsx,json,css,astro}"
+      run: pnpm biome check --staged {staged_files}
+    astro-check:
+      run: pnpm exec astro check

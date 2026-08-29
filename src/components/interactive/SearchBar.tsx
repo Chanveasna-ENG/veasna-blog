@@ -1,81 +1,19 @@
-import Fuse from 'fuse.js';
 import type React from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { type SearchResultItem, search } from '../../utils/search';
 
 /**
- * Strict category typing based on TRD Discriminated Union
- */
-type PostCategory =
-  | 'blog'
-  | 'project'
-  | 'participation'
-  | 'learning'
-  | 'random';
-
-interface SearchIndexItem {
-  slug: string;
-  title: string;
-  description: string;
-  category: PostCategory;
-  tags: string[];
-  author: string;
-  date: string;
-}
-
-const searchConfig = {
-  keys: ['title', 'description', 'category', 'tags', 'author'],
-  threshold: 0.3,
-  limit: 5,
-  indexPath: '/search-index.json'
-};
-
-/**
- * Senior Implementation: SearchBar
- * Isolated logic for fuzzy search and index fetching.
+ * SearchBar: Navbar quick-search component powered by Pagefind
  */
 export default function SearchBar() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<SearchIndexItem[]>([]);
+  const [results, setResults] = useState<SearchResultItem[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [indexData, setIndexData] = useState<SearchIndexItem[]>([]);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Initialize Fuse instance only when indexData changes (Performance)
-  const fuse = useMemo(() => {
-    if (indexData.length === 0) {
-      return null;
-    }
-    return new Fuse(indexData, {
-      keys: searchConfig.keys,
-      threshold: searchConfig.threshold,
-      includeScore: true
-    });
-  }, [indexData]);
-
-  useEffect(() => {
-    const fetchIndex = async () => {
-      setStatus('loading');
-      try {
-        const response = await fetch(searchConfig.indexPath);
-        if (!response.ok) {
-          throw new Error('Fetch failed');
-        }
-
-        const data: SearchIndexItem[] = await response.json();
-        setIndexData(data);
-        setStatus('idle');
-      } catch (err) {
-        setStatus('error');
-        console.error(err);
-      }
-    };
-
-    fetchIndex();
-  }, []);
 
   useEffect(() => {
     const nav = document.getElementById('main-nav');
@@ -83,7 +21,6 @@ export default function SearchBar() {
       if (isExpanded) {
         nav.classList.add('search-expanded');
       } else {
-        // Wait for the 300ms CSS transition to finish before restoring the flex layout
         const timer = setTimeout(() => {
           nav.classList.remove('search-expanded');
         }, 300);
@@ -108,22 +45,29 @@ export default function SearchBar() {
     };
   }, [query]);
 
-  // Effect: Run Search Logic
+  // Query Pagefind with debounce
   useEffect(() => {
-    if (!(query.trim() && fuse)) {
+    const trimmed = query.trim();
+    if (!trimmed) {
       setResults([]);
+      setStatus('idle');
       return;
     }
 
-    const searchResults = fuse.search(query);
-    const flatResults = searchResults
-      .map((r) => r.item)
-      .slice(0, searchConfig.limit);
+    setStatus('loading');
+    const timer = setTimeout(async () => {
+      try {
+        const searchResults = await search(trimmed, 5);
+        setResults(searchResults);
+        setStatus('idle');
+      } catch {
+        setStatus('error');
+      }
+    }, 150);
 
-    setResults(flatResults);
-  }, [query, fuse]);
+    return () => clearTimeout(timer);
+  }, [query]);
 
-  // Handle Enter Key
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && query.trim() !== '') {
       globalThis.location.href = `/search?q=${encodeURIComponent(query.trim())}`;
@@ -176,16 +120,12 @@ export default function SearchBar() {
   );
 }
 
-/**
- * Sub-component: SearchResultsList
- * Implementation of "Single Responsibility" at the component level.
- */
 function SearchResultsList({
   results,
   status,
   query
 }: {
-  readonly results: SearchIndexItem[];
+  readonly results: SearchResultItem[];
   readonly status: string;
   readonly query: string;
 }) {
@@ -197,7 +137,7 @@ function SearchResultsList({
     );
   }
 
-  if (results.length === 0) {
+  if (results.length === 0 && status !== 'loading') {
     return (
       <div className="p-4 text-sm text-gray-500 text-center">
         No matches for "{query}"
@@ -208,22 +148,26 @@ function SearchResultsList({
   return (
     <ul className="py-2">
       {results.map((item) => (
-        <li key={item.slug}>
+        <li key={item.url}>
           <a
-            href={`/posts/${item.slug}`}
+            href={item.url}
             className="block px-4 py-3 hover:bg-gray-800 transition-colors group"
           >
             <div className="flex justify-between items-center mb-1">
               <h4 className="text-sm font-medium text-gold group-hover:text-yellow-400 truncate">
                 {item.title}
               </h4>
-              <span className="text-[10px] text-gray-400 uppercase font-bold bg-gray-800 px-2 py-0.5 rounded border border-gray-700">
-                {item.category}
-              </span>
+              {item.category && (
+                <span className="text-[10px] text-gray-400 uppercase font-bold bg-gray-800 px-2 py-0.5 rounded border border-gray-700">
+                  {item.category}
+                </span>
+              )}
             </div>
-            <p className="text-xs text-gray-400 line-clamp-1">
-              {item.description}
-            </p>
+            <p
+              className="text-xs text-gray-400 line-clamp-1"
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: Pagefind produces trusted sanitized excerpt html
+              dangerouslySetInnerHTML={{ __html: item.excerpt }}
+            />
           </a>
         </li>
       ))}

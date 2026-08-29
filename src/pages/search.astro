@@ -9,7 +9,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="w-full grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 mt-8 mb-16 px-4 md:px-0">
     
     <div class="flex flex-col space-y-10 min-w-0">
-      <SearchFeed client:only="react" />
+      <SearchFeed client:load />
     </div>
 
     <aside class="flex flex-col space-y-8">
