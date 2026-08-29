@@ -53,7 +53,9 @@ const calculateSimilarity = (
   // 3. Title Token Similarity (Weight: 2)
   const titleTokensA = tokenize(postA.data.title);
   const titleTokensB = tokenize(postB.data.title);
-  const commonTitleTokens = titleTokensA.filter((t) => titleTokensB.includes(t));
+  const commonTitleTokens = titleTokensA.filter((t) =>
+    titleTokensB.includes(t)
+  );
   score += commonTitleTokens.length * 2;
 
   // 4. Description Token Similarity (Weight: 1)
@@ -70,7 +72,7 @@ const similarPosts = allPosts
   .filter((post) => post.id !== currentPost.id)
   .map((post) => ({
     post,
-    score: calculateSimilarity(currentPost, post),
+    score: calculateSimilarity(currentPost, post)
   }))
   .sort((a, b) => {
     if (b.score !== a.score) {

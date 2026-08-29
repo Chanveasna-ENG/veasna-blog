@@ -10,7 +10,9 @@ const { headings } = Astro.props;
 
 // Purely filter to show only H2 and H3 headings.
 // H1 is the post title (already visible), and H4+ makes the TOC too noisy.
-const toc = headings.filter((heading) => heading.depth > 1 && heading.depth <= 3);
+const toc = headings.filter(
+  (heading) => heading.depth > 1 && heading.depth <= 3
+);
 ---
 
 {/* Only render the TOC if there are actual headings to display */}

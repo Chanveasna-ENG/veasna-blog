@@ -45,7 +45,7 @@ export async function GET(): Promise<Response> {
     });
   } catch (error) {
     console.error('Failed to generate search index:', error);
-    
+
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
       status: 500,
       headers: {

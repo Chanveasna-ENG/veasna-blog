@@ -1,8 +1,8 @@
 ---
 import Accordion, { type AccordionItem } from '../ui/Accordion.astro';
-import SubtitleTag from '../ui/SubtitleTag.astro';
 import Heading from '../ui/Heading.astro';
 import MedievalDivider from '../ui/MedievalDivider.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
 
 interface Props {
   items?: AccordionItem[];
@@ -20,12 +20,14 @@ const defaultFAQItems: AccordionItem[] = [
       'Migrations are executed via zero-downtime blue-green strategies. Form and intake pipelines are decoupled through edge workers, schema validation, and asynchronous queue workers ensuring 100% data fidelity with zero dropped leads.'
   },
   {
-    question: 'What is the standard engagement timeline from onboarding to deployment?',
+    question:
+      'What is the standard engagement timeline from onboarding to deployment?',
     answer:
       'Standard projects follow a predictable 2 to 4-week delivery lifecycle: Stage 01 Architectural Blueprinting & Modeling (Week 1), Stage 02 Core Engineering & Iterative Staging (Weeks 2–3), and Stage 03 Runbook Handover & Transition Training (Week 4).'
   },
   {
-    question: 'Will our internal team be able to update content and maintain the system independently?',
+    question:
+      'Will our internal team be able to update content and maintain the system independently?',
     answer:
       'Yes. Systems are built using typed Content Collections, typed CMS backends, and modular components, accompanied by bespoke recorded video walkthroughs and operational runbooks.'
   },

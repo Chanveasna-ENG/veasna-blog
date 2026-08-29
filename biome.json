@@ -1,0 +1,101 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": [
+      "dist/**",
+      ".astro/**",
+      "node_modules/**",
+      "public/**",
+      "package-lock.json",
+      "pnpm-lock.yaml"
+    ],
+    "include": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.mjs",
+      "**/*.json",
+      "**/*.css",
+      "**/*.astro"
+    ]
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "none",
+      "bracketSpacing": true
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "all": true,
+      "a11y": {
+        "useAltText": "error",
+        "useValidAriaProps": "error"
+      },
+      "complexity": {
+        "useOptionalChain": "error",
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": {
+            "maxAllowedComplexity": 15
+          }
+        }
+      },
+      "correctness": {
+        "useImportExtensions": "off",
+        "useExhaustiveDependencies": "error",
+        "useHookAtTopLevel": "error"
+      },
+      "style": {
+        "noDefaultExport": "off",
+        "useConst": "error",
+        "useTemplate": "error",
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            "strictCase": false
+          }
+        },
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["camelCase", "kebab-case", "PascalCase", "export"]
+          }
+        }
+      },
+      "suspicious": {
+        "noConsole": "off",
+        "noExplicitAny": "error",
+        "noReactSpecificProps": "off",
+        "noArrayIndexKey": "error"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "include": ["**/*.astro"],
+      "linter": {
+        "enabled": false
+      }
+    }
+  ]
+}

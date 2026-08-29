@@ -1,12 +1,12 @@
 ---
-import type { Page } from 'astro';
 import type { CollectionEntry } from 'astro:content';
+import type { Page } from 'astro';
 import { formatDateICT } from '../../utils/date';
 
 interface Props {
   page: Page<CollectionEntry<'blog'>>;
   // The base path for the pagination links, defaulting to the TRD specification
-  baseUrl?: string; 
+  baseUrl?: string;
 }
 
 const { page, baseUrl = '/posts/page' } = Astro.props;

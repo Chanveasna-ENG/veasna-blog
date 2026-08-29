@@ -1,5 +1,5 @@
-import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
@@ -18,7 +18,8 @@ export async function GET(context: APIContext) {
     // `<title>` field in output xml
     title: 'Chanveasna ENG',
     // `<description>` field in output xml
-    description: 'Thoughts, insights, and technical deep dives from Chanveasna ENG.',
+    description:
+      'Thoughts, insights, and technical deep dives from Chanveasna ENG.',
     // Pulls from your astro.config.mjs `site` property
     site: context.site || 'https://veasnaec.com',
     // Array of `<item>`s in output xml
@@ -27,9 +28,9 @@ export async function GET(context: APIContext) {
       pubDate: post.data.createdAt,
       description: post.data.description,
       // Compute the RSS item's link using the post's slug
-      link: `/posts/${post.id}/`,
+      link: `/posts/${post.id}/`
     })),
     // (optional) inject custom xml
-    customData: `<language>en-us</language>`,
+    customData: '<language>en-us</language>'
   });
 }

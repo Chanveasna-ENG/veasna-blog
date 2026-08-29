@@ -4,7 +4,7 @@
  */
 export function formatDateICT(dateInput: Date | string | number): string {
   const date = new Date(dateInput);
-  
+
   return new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Asia/Phnom_Penh',
     year: 'numeric',

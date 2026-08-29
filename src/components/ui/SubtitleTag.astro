@@ -31,7 +31,10 @@ const variantClasses: Record<string, string> = {
 
 const sizeClasses: Record<string, string> = {
   sm: variant === 'ghost' ? 'text-xs px-0 py-0' : 'text-xs px-3.5 py-1',
-  md: variant === 'ghost' ? 'text-xs md:text-sm px-0 py-0' : 'text-xs md:text-sm px-4 py-1'
+  md:
+    variant === 'ghost'
+      ? 'text-xs md:text-sm px-0 py-0'
+      : 'text-xs md:text-sm px-4 py-1'
 };
 
 const selectedColor = colorClasses[color] || colorClasses.bronze;

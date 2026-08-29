@@ -17,15 +17,15 @@ export default {
         // Alias
         gold: '#4A2E0B',
         darkBg: '#1A1A1A',
-        offWhite: '#F7F4EC',
+        offWhite: '#F7F4EC'
       },
       fontFamily: {
         heading: ['"Cormorant Garamond"', 'Cinzel', 'serif'],
         body: ['Lora', 'Inter', 'serif'],
         alice: ['"Cormorant Garamond"', 'Cinzel', 'serif'],
-        serif: ['Lora', 'serif'],
-      },
-    },
+        serif: ['Lora', 'serif']
+      }
+    }
   },
-  plugins: [typography],
+  plugins: [typography]
 };

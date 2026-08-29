@@ -6,7 +6,8 @@ interface Props {
 }
 
 const { variant = 'diamond', spacing = 'md', className = '' } = Astro.props;
-const isDiamond = variant === 'knot' || variant === 'diamond' || variant === 'divider-1';
+const isDiamond =
+  variant === 'knot' || variant === 'diamond' || variant === 'divider-1';
 
 const spacingMap: Record<string, string> = {
   none: 'my-0',

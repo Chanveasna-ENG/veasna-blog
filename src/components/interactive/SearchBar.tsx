@@ -1,10 +1,16 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Fuse from 'fuse.js';
+import type React from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 /**
  * Strict category typing based on TRD Discriminated Union
  */
-type PostCategory = 'blog' | 'project' | 'participation' | 'learning' | 'random';
+type PostCategory =
+  | 'blog'
+  | 'project'
+  | 'participation'
+  | 'learning'
+  | 'random';
 
 interface SearchIndexItem {
   slug: string;
@@ -16,11 +22,11 @@ interface SearchIndexItem {
   date: string;
 }
 
-const SEARCH_CONFIG = {
-  KEYS: ['title', 'description', 'category', 'tags', 'author'],
-  THRESHOLD: 0.3,
-  LIMIT: 5,
-  INDEX_PATH: '/search-index.json',
+const searchConfig = {
+  keys: ['title', 'description', 'category', 'tags', 'author'],
+  threshold: 0.3,
+  limit: 5,
+  indexPath: '/search-index.json'
 };
 
 /**
@@ -40,11 +46,13 @@ export default function SearchBar() {
 
   // Initialize Fuse instance only when indexData changes (Performance)
   const fuse = useMemo(() => {
-    if (indexData.length === 0) return null;
+    if (indexData.length === 0) {
+      return null;
+    }
     return new Fuse(indexData, {
-      keys: SEARCH_CONFIG.KEYS,
-      threshold: SEARCH_CONFIG.THRESHOLD,
-      includeScore: true,
+      keys: searchConfig.keys,
+      threshold: searchConfig.threshold,
+      includeScore: true
     });
   }, [indexData]);
 
@@ -52,8 +60,10 @@ export default function SearchBar() {
     const fetchIndex = async () => {
       setStatus('loading');
       try {
-        const response = await fetch(SEARCH_CONFIG.INDEX_PATH);
-        if (!response.ok) throw new Error('Fetch failed');
+        const response = await fetch(searchConfig.indexPath);
+        if (!response.ok) {
+          throw new Error('Fetch failed');
+        }
 
         const data: SearchIndexItem[] = await response.json();
         setIndexData(data);
@@ -93,12 +103,14 @@ export default function SearchBar() {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => { document.removeEventListener('mousedown', handleClickOutside); };
-  }, []);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [query]);
 
   // Effect: Run Search Logic
   useEffect(() => {
-    if (!query.trim() || !fuse) {
+    if (!(query.trim() && fuse)) {
       setResults([]);
       return;
     }
@@ -106,7 +118,7 @@ export default function SearchBar() {
     const searchResults = fuse.search(query);
     const flatResults = searchResults
       .map((r) => r.item)
-      .slice(0, SEARCH_CONFIG.LIMIT);
+      .slice(0, searchConfig.limit);
 
     setResults(flatResults);
   }, [query, fuse]);
@@ -119,7 +131,10 @@ export default function SearchBar() {
   };
 
   return (
-    <div className={`relative transition-all duration-300 ease-in-out ${isExpanded ? 'w-[calc(100vw-6rem)] sm:w-80 md:w-96' : 'w-8'}`} ref={searchContainerRef}>
+    <div
+      className={`relative transition-all duration-300 ease-in-out ${isExpanded ? 'w-[calc(100vw-6rem)] sm:w-80 md:w-96' : 'w-8'}`}
+      ref={searchContainerRef}
+    >
       {isExpanded ? (
         <div className="relative w-full">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -140,6 +155,7 @@ export default function SearchBar() {
         </div>
       ) : (
         <button
+          type="button"
           onClick={() => {
             setIsExpanded(true);
             setTimeout(() => inputRef.current?.focus(), 50);
@@ -174,11 +190,19 @@ function SearchResultsList({
   readonly query: string;
 }) {
   if (status === 'error') {
-    return <div className="p-4 text-sm text-red-400 text-center">Search index unavailable.</div>;
+    return (
+      <div className="p-4 text-sm text-red-400 text-center">
+        Search index unavailable.
+      </div>
+    );
   }
 
   if (results.length === 0) {
-    return <div className="p-4 text-sm text-gray-500 text-center">No matches for "{query}"</div>;
+    return (
+      <div className="p-4 text-sm text-gray-500 text-center">
+        No matches for "{query}"
+      </div>
+    );
   }
 
   return (
@@ -197,7 +221,9 @@ function SearchResultsList({
                 {item.category}
               </span>
             </div>
-            <p className="text-xs text-gray-400 line-clamp-1">{item.description}</p>
+            <p className="text-xs text-gray-400 line-clamp-1">
+              {item.description}
+            </p>
           </a>
         </li>
       ))}
@@ -207,8 +233,19 @@ function SearchResultsList({
 
 function SearchIcon() {
   return (
-    <svg className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    <svg
+      aria-hidden="true"
+      className="h-5 w-5 text-gray-500"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+      />
     </svg>
   );
 }
