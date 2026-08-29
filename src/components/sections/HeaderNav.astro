@@ -7,10 +7,12 @@ interface Props {
 const { currentPath = '/' } = Astro.props;
 
 const navLinks = [
-  { name: 'Capabilities', href: '#services' },
-  { name: 'Outcomes', href: '#case-studies' },
-  { name: 'Writing', href: '/posts/1' },
-  { name: 'About', href: '/about' }
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Services', href: '/#services' },
+  { name: 'Portfolio', href: '/portfolio' },
+  { name: 'Blogs', href: '/page/1' },
+  { name: 'Contact', href: '/#contact' }
 ];
 ---
 

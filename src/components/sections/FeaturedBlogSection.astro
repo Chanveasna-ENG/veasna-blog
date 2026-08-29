@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import { getLatestPosts } from '../../utils/blog';
+import { formatDateICT } from '../../utils/date';
+import Heading from '../ui/Heading.astro';
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SecondaryButton from '../ui/SecondaryButton.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+
+const medievalCornerSize = 48;
+const allBlogPosts = await getCollection('blog');
+const featuredPosts = getLatestPosts(allBlogPosts, 3);
+---
+
+<section id="blogs" class="w-full py-16 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <SubtitleTag variant="bordered" size="sm" className="mb-3">
+        Knowledge &amp; Field Notes
+      </SubtitleTag>
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        Technical Blueprints &amp; Automation Hacks
+      </Heading>
+      <Paragraph variant="lead" align="center">
+        Step-by-step technical guides, automation patterns, and engineering insights from active production systems.
+      </Paragraph>
+      <MedievalDivider variant="feather" className="mt-4" />
+    </div>
+
+    <!-- 3-Column Blog Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {featuredPosts.map((post) => {
+        const postDate = post.data.lastModifiedAt || post.data.createdAt;
+        return (
+          <article class="medieval-frame p-6 sm:p-7 flex flex-col justify-between relative bg-parchment/50 group hover:border-bronze transition-colors">
+            <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
+            <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
+            <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
+            <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
+
+            <div>
+              <!-- Category and Date Meta -->
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <SubtitleTag variant="badge" size="sm" color="bronze">
+                  {post.data.category || 'Guide'}
+                </SubtitleTag>
+                <time datetime={postDate.toISOString()} class="text-xs font-body text-inkMuted">
+                  {formatDateICT(postDate).split(',')[0]}
+                </time>
+              </div>
+
+              <!-- Article Title -->
+              <a href={`/posts/${post.id}`} class="block group-hover:text-bronze transition-colors">
+                <Heading as="h3" size="card" className="mb-3 leading-snug line-clamp-2">
+                  {post.data.title}
+                </Heading>
+              </a>
+
+              <!-- Description -->
+              <Paragraph variant="muted" className="text-xs line-clamp-3 mb-6">
+                {post.data.description}
+              </Paragraph>
+            </div>
+
+            <!-- Footer Link -->
+            <div class="pt-4 border-t border-ink/10 flex items-center justify-between">
+              <a
+                href={`/posts/${post.id}`}
+                class="font-heading font-semibold text-xs text-ink group-hover:text-bronze flex items-center gap-1.5 transition-colors uppercase tracking-wider"
+              >
+                Read Blueprint <span>&rarr;</span>
+              </a>
+              {post.data.tags && post.data.tags.length > 0 && (
+                <span class="text-[10px] font-body text-inkMuted bg-parchmentDark px-2 py-0.5 border border-ink/10">
+                  #{post.data.tags[0]}
+                </span>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <!-- Explore All Blogs Button -->
+    <div class="mt-12 text-center">
+      <SecondaryButton href="/page/1" className="px-8 py-3 text-sm">
+        Explore All Articles &amp; Technical Docs &rarr;
+      </SecondaryButton>
+    </div>
+
+  </div>
+</section>

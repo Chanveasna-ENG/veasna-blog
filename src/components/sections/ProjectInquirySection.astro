@@ -131,20 +131,17 @@ const medievalCornerSize = 48;
                 required
                 class="w-full bg-parchment border border-ink/40 px-4 py-3 text-ink font-body text-sm focus:border-bronze focus:outline-none focus:ring-1 focus:ring-bronze transition-all cursor-pointer"
               >
-                <option value="n8n Workflow Automation">
-                  n8n Workflow Automation
+                <option value="Workflow Automation (n8n / Make / Zapier)">
+                  Workflow Automation (n8n / Make / Zapier)
                 </option>
-                <option value="Autonomous Lead Intake & CRM Pipeline">
-                  Autonomous Lead Intake &amp; CRM Pipeline
+                <option value="Messaging & Social Bots (Telegram / Discord / WhatsApp)">
+                  Messaging &amp; Social Bots (Telegram / Discord / WhatsApp)
                 </option>
-                <option value="Custom Web Application & Architecture">
-                  Custom Web Application &amp; Architecture
+                <option value="AI Systems & Custom Web Apps (Astro / Next.js / E-Commerce)">
+                  AI Systems &amp; Custom Web Apps (Astro / Next.js / E-Commerce)
                 </option>
-                <option value="Webhook Queue & API Integration">
-                  Webhook Queue &amp; API Integration
-                </option>
-                <option value="Cloud & Infrastructure Modernization">
-                  Cloud &amp; Infrastructure Modernization
+                <option value="Infrastructure & Custom Cloud Architecture">
+                  Infrastructure &amp; Custom Cloud Architecture
                 </option>
                 <option value="General Architecture Consultation">
                   General Architecture Consultation
@@ -191,10 +188,43 @@ const medievalCornerSize = 48;
 </section>
 
 <script>
+  function applySubjectFromUrl(subjectSelect: HTMLSelectElement) {
+    try {
+      let subjectParam: string | null = null;
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('subject')) {
+        subjectParam = urlParams.get('subject');
+      } else if (window.location.hash.includes('?subject=')) {
+        const hashQuery = window.location.hash.split('?subject=')[1];
+        if (hashQuery) {
+          subjectParam = decodeURIComponent(hashQuery);
+        }
+      }
+
+      if (subjectParam) {
+        const matchingOption = Array.from(subjectSelect.options).find(
+          (opt) => opt.value.toLowerCase() === subjectParam?.toLowerCase() ||
+                   opt.value.toLowerCase().includes(subjectParam?.toLowerCase() || '')
+        );
+        if (matchingOption) {
+          subjectSelect.value = matchingOption.value;
+        }
+      }
+    } catch {
+      // Graceful fallback if URL parsing fails
+    }
+  }
+
   function setupProjectInquiryForm() {
     const form = document.getElementById('project-inquiry-form') as HTMLFormElement | null;
     const statusBox = document.getElementById('form-status');
+    const subjectSelect = document.getElementById('form-subject') as HTMLSelectElement | null;
     if (!form || !statusBox) return;
+
+    if (subjectSelect) {
+      applySubjectFromUrl(subjectSelect);
+      window.addEventListener('hashchange', () => applySubjectFromUrl(subjectSelect));
+    }
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();

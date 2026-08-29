@@ -1,0 +1,101 @@
+---
+import {
+  formatStartingPrice,
+  getInquiryUrl,
+  getPricingTiers
+} from '../../utils/pricing';
+import Heading from '../ui/Heading.astro';
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+
+const medievalCornerSize = 54;
+const tiers = getPricingTiers();
+---
+
+<section id="pricing" class="w-full py-16 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <SubtitleTag variant="bordered" size="sm" className="mb-3">
+        Transparent Baselines
+      </SubtitleTag>
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        Starting Investment Baselines
+      </Heading>
+      <Paragraph variant="lead" align="center">
+        Every business architecture is unique. These starting rates reflect baseline deliverables so you know what to expect before our discovery scoping call.
+      </Paragraph>
+      <MedievalDivider variant="feather" className="mt-4" />
+    </div>
+
+    <!-- Pricing Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+      {tiers.map((tier) => (
+        <div class="medieval-frame p-8 flex flex-col justify-between relative bg-parchment/60 group hover:border-bronze transition-all duration-300 engraved-shadow">
+          <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
+          <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
+          <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
+          <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
+
+          <div>
+            <!-- Tier Header -->
+            <div class="mb-4">
+              <Heading as="h3" size="card" className="mb-1 text-ink group-hover:text-bronze transition-colors">
+                {tier.title}
+              </Heading>
+              <Paragraph variant="muted" className="text-xs">
+                {tier.subtitle}
+              </Paragraph>
+            </div>
+
+            <!-- Price Display -->
+            <div class="py-4 my-2 border-y border-ink/15">
+              <div class="flex items-baseline gap-2">
+                <span class="text-xs uppercase font-heading font-semibold text-inkMuted tracking-wider">Starting from</span>
+                <span class="font-heading font-bold text-3xl sm:text-4xl text-ink">
+                  {formatStartingPrice(tier.startingPrice, tier.currency)}
+                </span>
+              </div>
+              <div class="mt-1 flex items-center gap-2 text-xs font-body text-bronze font-semibold">
+                <span>⏱ Typical delivery: {tier.turnaround}</span>
+              </div>
+            </div>
+
+            <!-- Deliverables Checklist -->
+            <div class="mt-4 mb-6">
+              <span class="block font-heading font-semibold text-xs uppercase tracking-wider text-ink mb-3">
+                Scope Includes:
+              </span>
+              <ul class="space-y-2.5">
+                {tier.deliverables.map((item) => (
+                  <li class="font-body text-xs text-ink flex items-start gap-2">
+                    <span class="text-bronze font-bold flex-shrink-0 mt-0.5">✦</span>
+                    <span class="leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <!-- Card Action & Recommendation Footer -->
+          <div class="pt-4 border-t border-ink/10 mt-4">
+            <Paragraph variant="caption" className="mb-4 text-xs italic text-ink/70">
+              Ideal for: {tier.recommendedFor}
+            </Paragraph>
+
+            <PrimaryButton
+              href={getInquiryUrl(tier.ctaSubject)}
+              size="md"
+              className="w-full text-center justify-center text-xs"
+            >
+              Scope This Build &rarr;
+            </PrimaryButton>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

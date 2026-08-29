@@ -3,42 +3,56 @@ import Heading from '../ui/Heading.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
 import MedievalDivider from '../ui/MedievalDivider.astro';
 import Paragraph from '../ui/Paragraph.astro';
+import SecondaryButton from '../ui/SecondaryButton.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
 
 const medievalCornerSize = 69;
 
 const services = [
   {
-    title: 'Web Application & Lead Portals',
-    icon: '/svg/sketch-laptop.svg',
-    description:
-      'High-converting static and full-stack web platforms engineered for maximum authority, lightning speed, and seamless lead capture.',
-    highlights: [
-      'Astro / Next.js Architecture',
-      'Conversion-Optimized Layouts',
-      'SEO & Core Web Vitals Peak'
-    ]
-  },
-  {
-    title: 'Business Process Automation',
+    id: 'workflow-automation',
+    title: 'Workflow & Business Automation',
     icon: '/svg/sketch-blueprint.svg',
+    tag: 'Autonomous Ops',
     description:
-      'Custom automated pipelines that eliminate manual operational bottlenecks, synchronize data, and run 24/7 autonomously.',
+      'Custom webhook pipelines and no-code/code automation engines that connect systems, synchronize data, and eliminate operational bottlenecks.',
     highlights: [
-      'Content & Mass Publishing',
-      'CRM & Lead Intake Sync',
-      'Custom API Integrations'
-    ]
+      'n8n, Make.com & Zapier Architecture',
+      'Autonomous CRM & Lead Intake Sync',
+      'Error Handling & Webhook Queue Buffers',
+      'Zero-Toil Multi-App Data Pipelines'
+    ],
+    ctaSubject: 'Workflow Automation (n8n / Make / Zapier)'
   },
   {
-    title: 'Infrastructure & Resilience',
+    id: 'messaging-bots',
+    title: 'Social & Messaging Bots',
     icon: '/svg/sketch-shield.svg',
+    tag: '24/7 Conversion',
     description:
-      'Hardened cloud infrastructure and micro-services built to guarantee 99.9% uptime and bulletproof security.',
+      'High-converting interactive bots engineered across major chat ecosystems to qualify prospects, handle inquiries, and trigger backend actions.',
     highlights: [
-      'Docker & Containerization',
-      'Automated CI/CD Pipelines',
-      'Zero-Downtime Deployment'
-    ]
+      'Telegram, Discord & WhatsApp Bots',
+      'Messenger & Instagram DM Automations',
+      'Persistent Database & State Machines',
+      'API & Payment Gateway Integrations'
+    ],
+    ctaSubject: 'Messaging & Social Bots (Telegram / Discord / WhatsApp)'
+  },
+  {
+    id: 'ai-web-apps',
+    title: 'AI Systems & Custom Web Apps',
+    icon: '/svg/sketch-laptop.svg',
+    tag: 'High Impact',
+    description:
+      'Bespoke, high-performance web applications and e-commerce platforms supercharged with custom LLM agents and RAG knowledge bases.',
+    highlights: [
+      'Astro & Next.js Conversion Architecture',
+      'Custom LLM Agents & Document RAG',
+      'High-Speed E-Commerce & Portals',
+      'Lighthouse 95+ SEO & Peak Core Vitals'
+    ],
+    ctaSubject: 'AI Systems & Custom Web Apps (Astro / Next.js / E-Commerce)'
   }
 ];
 ---
@@ -47,11 +61,14 @@ const services = [
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
     <div class="text-center max-w-2xl mx-auto mb-12">
-      <Heading as="h2" size="section" align="center" className="mb-4">
+      <SubtitleTag variant="bordered" size="sm" className="mb-3">
         Core Capabilities
+      </SubtitleTag>
+      <Heading as="h2" size="section" align="center" className="mb-4">
+        Specialized Engineering Services
       </Heading>
       <Paragraph variant="lead" align="center">
-        Bridging medieval craft attention with cutting-edge software engineering to solve complex business operations.
+        Bridging medieval precision with modern automation architecture to scale your digital operations and convert traffic into clients.
       </Paragraph>
       <MedievalDivider variant="feather" className="mt-4" />
     </div>
@@ -66,9 +83,14 @@ const services = [
           <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
 
           <div>
-            <!-- Sketch Icon Container -->
-            <div class="w-16 h-16 mb-6 p-3 bg-transparent border border-ink/40 flex items-center justify-center text-ink group-hover:text-bronze transition-colors">
-              <img src={service.icon} alt={service.title} class="w-full h-full object-contain" />
+            <div class="flex items-center justify-between mb-6">
+              <!-- Sketch Icon Container -->
+              <div class="w-14 h-14 p-2.5 bg-transparent border border-ink/40 flex items-center justify-center text-ink group-hover:text-bronze transition-colors">
+                <img src={service.icon} alt={service.title} class="w-full h-full object-contain" />
+              </div>
+              <SubtitleTag variant="badge" size="sm" color="bronze">
+                {service.tag}
+              </SubtitleTag>
             </div>
 
             <!-- Title -->
@@ -77,20 +99,32 @@ const services = [
             </Heading>
 
             <!-- Description -->
-            <Paragraph variant="muted" className="mb-6">
+            <Paragraph variant="muted" className="mb-6 text-sm">
               {service.description}
             </Paragraph>
           </div>
 
-          <!-- Feature Bullet List -->
-          <ul class="border-t border-ink/10 pt-4 space-y-2">
-            {service.highlights.map((item) => (
-              <li class="font-body text-xs text-ink flex items-center gap-2">
-                <span class="text-bronze font-bold">✓</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <!-- Feature Bullet List -->
+            <ul class="border-t border-ink/10 pt-4 space-y-2 mb-6">
+              {service.highlights.map((item) => (
+                <li class="font-body text-xs text-ink flex items-center gap-2">
+                  <span class="text-bronze font-bold">✓</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <!-- Scoping CTA Link -->
+            <div class="pt-2">
+              <SecondaryButton
+                href={`#contact?subject=${encodeURIComponent(service.ctaSubject)}`}
+                className="w-full text-center justify-center text-xs py-2"
+              >
+                Inquire Service &rarr;
+              </SecondaryButton>
+            </div>
+          </div>
         </div>
       ))}
     </div>
