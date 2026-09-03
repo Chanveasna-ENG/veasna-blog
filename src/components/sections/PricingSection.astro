@@ -46,7 +46,7 @@ const tiers = getPricingTiers();
               <Heading as="h3" size="card" className="mb-1 text-ink group-hover:text-bronze transition-colors">
                 {tier.title}
               </Heading>
-              <Paragraph variant="small">
+              <Paragraph variant="small" spacing="none">
                 {tier.subtitle}
               </Paragraph>
             </div>
@@ -82,11 +82,9 @@ const tiers = getPricingTiers();
 
           <!-- Card Action & Recommendation Footer -->
           <div class="pt-4 border-t border-ink/10 mt-4">
-            <div class="mb-4">
-              <Paragraph variant="caption">
-                Ideal for: {tier.recommendedFor}
-              </Paragraph>
-            </div>
+            <Paragraph variant="caption" spacing="sm">
+              Ideal for: {tier.recommendedFor}
+            </Paragraph>
 
             <PrimaryButton
               href={getInquiryUrl(tier.ctaSubject)}

@@ -3,6 +3,7 @@ export interface ParagraphProps {
   color?: 'ink' | 'inkMuted' | 'bronze' | 'parchment';
   align?: 'left' | 'center' | 'right';
   clamp?: 1 | 2 | 3 | 4 | 'none';
+  spacing?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 const variantClasses: Record<NonNullable<ParagraphProps['variant']>, string> = {
@@ -33,8 +34,21 @@ const clampClasses: Record<NonNullable<ParagraphProps['clamp']>, string> = {
   none: ''
 };
 
+const spacingClasses: Record<NonNullable<ParagraphProps['spacing']>, string> = {
+  none: '',
+  sm: 'mb-4',
+  md: 'mb-6',
+  lg: 'mb-8'
+};
+
 export function getParagraphClasses(props: ParagraphProps = {}): string {
-  const { variant = 'body', color, align = 'left', clamp = 'none' } = props;
+  const {
+    variant = 'body',
+    color,
+    align = 'left',
+    clamp = 'none',
+    spacing = 'md'
+  } = props;
 
   const defaultColor = variant === 'lead' ? 'ink' : 'inkMuted';
   const selectedColorKey = color || defaultColor;
@@ -43,13 +57,16 @@ export function getParagraphClasses(props: ParagraphProps = {}): string {
   const selectedColor = colorClasses[selectedColorKey] || colorClasses.inkMuted;
   const selectedAlign = alignClasses[align] || alignClasses.left;
   const selectedClamp = clampClasses[clamp] || '';
+  const selectedSpacing =
+    spacing in spacingClasses ? spacingClasses[spacing] : spacingClasses.md;
 
   return [
     'font-body',
     selectedVariant,
     selectedColor,
     selectedAlign,
-    selectedClamp
+    selectedClamp,
+    selectedSpacing
   ]
     .filter(Boolean)
     .join(' ');

@@ -10,11 +10,12 @@ const {
   color,
   align = 'left',
   clamp = 'none',
+  spacing = 'md',
   as = 'p'
 } = Astro.props;
 
 const Tag = as;
-const classes = getParagraphClasses({ variant, color, align, clamp });
+const classes = getParagraphClasses({ variant, color, align, clamp, spacing });
 ---
 
 <Tag class={classes}>
