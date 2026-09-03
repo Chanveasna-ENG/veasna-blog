@@ -35,7 +35,10 @@ const values = [
 ];
 ---
 
-<section id="philosophy" class="w-full py-16 px-4 sm:px-6 bg-parchmentDark/30 border-y border-ink/10">
+<section id="philosophy" class="w-full py-12 md:py-16 px-4 sm:px-6">
+  <!-- Top Section Boundary Divider -->
+  <MedievalDivider variant="diamond" />
+
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-12">
@@ -48,7 +51,7 @@ const values = [
       <Paragraph variant="lead" align="center">
         Automation is not just about saving minutes—it is about establishing an unyielding foundation where your business operations run autonomously with predictable precision.
       </Paragraph>
-      <MedievalDivider variant="feather" className="mt-4" />
+      <MedievalDivider variant="feather" />
     </div>
 
     <!-- 4-Pillar Narrative Grid -->
@@ -79,18 +82,5 @@ const values = [
         </div>
       ))}
     </div>
-
-    <!-- Manifesto Quote Callout Box -->
-    <div class="mt-12 medieval-frame p-8 sm:p-10 bg-parchment text-center max-w-4xl mx-auto border border-ink/30">
-      <p class="font-heading text-lg sm:text-xl md:text-2xl text-ink font-semibold italic leading-relaxed mb-4">
-        "True digital architecture does not demand constant babysitting. It hums silently in the background, reliably capturing leads, syncing data, and converting visitors into loyal clients."
-      </p>
-      <div class="flex items-center justify-center gap-3">
-        <span class="w-8 h-[1px] bg-bronze"></span>
-        <span class="font-heading font-bold uppercase tracking-widest text-xs text-bronze">Chanveasna ENG</span>
-        <span class="w-8 h-[1px] bg-bronze"></span>
-      </div>
-    </div>
-
   </div>
 </section>

@@ -5,12 +5,12 @@ interface Props {
   className?: string;
 }
 
-const { size = 'md', text = 'VERIFIED', className = '' } = Astro.props;
+const { size = 'md', text = '', className = '' } = Astro.props;
 
 const dimensions: Record<string, string> = {
-  sm: 'w-10 h-10 text-[9px]',
-  md: 'w-14 h-14 text-[10px]',
-  lg: 'w-20 h-20 text-xs'
+  sm: 'w-10 h-10',
+  md: 'w-14 h-14',
+  lg: 'w-20 h-20'
 };
 
 const dimensionClass = dimensions[size] || dimensions.md;
@@ -19,18 +19,9 @@ const dimensionClass = dimensions[size] || dimensions.md;
 <div
   class={`relative inline-flex items-center justify-center select-none ${dimensionClass} ${className}`}
 >
-  <!-- SVG Wax Seal Background from public/svg/ -->
   <img
     src="/wax-seal.png"
     alt="Wax Seal Badge"
     class="w-full h-full drop-shadow-md"
   />
-
-  {
-    text && size !== 'sm' && (
-      <span class="absolute bottom-[-18px] font-heading font-semibold text-crimson tracking-widest uppercase text-[10px] whitespace-nowrap">
-        {text}
-      </span>
-    )
-  }
 </div>

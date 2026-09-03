@@ -41,7 +41,7 @@ const defaultFAQItems: AccordionItem[] = [
 const { items = defaultFAQItems } = Astro.props;
 ---
 
-<section id="faq" class="w-full py-16 px-4 sm:px-6">
+<section id="faq" class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-4xl mx-auto">
     <!-- Centered Header Block -->
     <div class="text-center max-w-2xl mx-auto mb-12">
@@ -51,7 +51,7 @@ const { items = defaultFAQItems } = Astro.props;
       <Heading as="h2" size="section" align="center" className="mb-3">
         Frequently Addressed Inquiries
       </Heading>
-      <MedievalDivider variant="feather" spacing="sm" />
+      <MedievalDivider variant="feather" />
     </div>
 
     <!-- Reusable Accordion Component -->

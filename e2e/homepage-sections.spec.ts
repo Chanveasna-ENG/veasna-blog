@@ -3,6 +3,8 @@ import { expect, test } from '@playwright/test';
 const EXPLORE_ALL_REGEX = /Explore All Articles/i;
 const SCOPE_BUILD_REGEX = /Scope This Build/i;
 const CONTACT_SUBJECT_REGEX = /#contact\?subject=/;
+const PY_12_REGEX = /py-12/;
+const MD_PY_16_REGEX = /md:py-16/;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
@@ -98,5 +100,32 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
       'href',
       CONTACT_SUBJECT_REGEX
     );
+  });
+
+  test('all homepage sections enforce uniform py-12 md:py-16 padding standard', async ({
+    page
+  }) => {
+    await page.goto('/');
+    const sectionIds = [
+      'ecosystem',
+      'architect',
+      'services',
+      'portfolio',
+      'process',
+      'pricing',
+      'blogs',
+      'contact',
+      'faq'
+    ];
+
+    const heroSection = page.locator('section.overflow-hidden');
+    await expect(heroSection).toHaveClass(PY_12_REGEX);
+    await expect(heroSection).toHaveClass(MD_PY_16_REGEX);
+
+    for (const id of sectionIds) {
+      const sec = page.locator(`section#${id}`);
+      await expect(sec).toHaveClass(PY_12_REGEX);
+      await expect(sec).toHaveClass(MD_PY_16_REGEX);
+    }
   });
 });

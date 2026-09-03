@@ -25,11 +25,11 @@ const techLogos: TechLogo[] = [
 const marqueeItems = [...techLogos, ...techLogos];
 ---
 
-<section id="ecosystem" class="w-full py-6 px-4">
+<section id="ecosystem" class="w-full py-12 md:py-16 px-4">
   <!-- Top Medieval Divider -->
-  <MedievalDivider variant="diamond" spacing="md" />
+  <MedievalDivider variant="diamond" />
 
-  <div class="max-w-5xl mx-auto flex flex-col items-center text-center mb-8">
+  <div class="max-w-5xl mx-auto flex flex-col items-center text-center mt-6 md:mt-8 mb-6 md:mb-8">
     <SubtitleTag variant="bordered" size="sm" className="mb-3">
       Tools &amp; Frameworks
     </SubtitleTag>
@@ -39,7 +39,7 @@ const marqueeItems = [...techLogos, ...techLogos];
   </div>
 
   <!-- Infinite Scroll Marquee Container -->
-  <div class="w-full max-w-6xl mx-auto relative overflow-hidden py-4">
+  <div class="w-full max-w-6xl mx-auto relative overflow-hidden mt-0 mb-6 md:mb-8">
     <!-- Scrolling Track -->
     <div class="flex items-center w-max marquee-track">
       {
@@ -63,7 +63,7 @@ const marqueeItems = [...techLogos, ...techLogos];
   </div>
 
   <!-- Bottom Medieval Divider -->
-  <MedievalDivider variant="diamond" spacing="md" />
+  <MedievalDivider variant="diamond" />
 </section>
 
 <style>

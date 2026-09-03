@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        parchment: '#F7F4EC',
-        parchmentDark: '#EFECE1',
+        parchment: '#E5D9B8',
+        parchmentDark: '#DACDA4',
         ink: '#1A1A1A',
         inkMuted: '#4A4237',
         // Deep Oxidized Antique Bronze (#4A2E0B) for strong contrast and classic medieval warmth
@@ -17,7 +17,7 @@ export default {
         // Alias
         gold: '#4A2E0B',
         darkBg: '#1A1A1A',
-        offWhite: '#F7F4EC'
+        offWhite: '#E5D9B8'
       },
       fontFamily: {
         heading: ['"Cormorant Garamond"', 'Cinzel', 'serif'],

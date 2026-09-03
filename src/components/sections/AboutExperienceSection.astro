@@ -42,26 +42,9 @@ const competencyCategories = [
     ]
   }
 ];
-
-const milestones = [
-  {
-    period: '2024 — Present',
-    role: 'Lead Systems Architect & Automation Specialist',
-    company: 'Chanveasna ENG (Independent Practice)',
-    description:
-      'Designing and deploying autonomous business pipelines, high-converting Astro web applications, and multi-platform messaging bots for founders and scaling businesses worldwide.'
-  },
-  {
-    period: '2023 — 2024',
-    role: 'Automation & Full-Stack Engineer',
-    company: 'Enterprise Client Engagements',
-    description:
-      'Engineered programmatic data pipelines (including automated ingestion of 2,000+ pages), synchronized multi-app CRM workflows, and hardened self-hosted cloud infrastructure.'
-  }
-];
 ---
 
-<section id="experience" class="w-full py-16 px-4 sm:px-6">
+<section id="experience" class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
     <div class="text-center max-w-2xl mx-auto mb-12">
@@ -69,16 +52,16 @@ const milestones = [
         Technical Mastery
       </SubtitleTag>
       <Heading as="h2" size="section" align="center" className="mb-4">
-        Core Competencies &amp; Track Record
+        Core Competencies &amp; Capabilities
       </Heading>
       <Paragraph variant="lead" align="center">
         Battle-tested engineering skills and proven system deployments crafted to eliminate operational bottlenecks.
       </Paragraph>
-      <MedievalDivider variant="diamond" className="mt-4" />
+      <MedievalDivider variant="feather" />
     </div>
 
     <!-- 3-Column Competencies Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       {competencyCategories.map((cat) => (
         <div class="medieval-frame p-7 relative bg-parchment/50 flex flex-col justify-between">
           <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
@@ -107,34 +90,5 @@ const milestones = [
         </div>
       ))}
     </div>
-
-    <!-- Production Milestones Timeline -->
-    <div class="max-w-4xl mx-auto mb-14">
-      <Heading as="h3" size="card" align="center" className="mb-8 font-bold">
-        Production Engineering Journey
-      </Heading>
-
-      <div class="space-y-6">
-        {milestones.map((m) => (
-          <div class="medieval-frame p-6 sm:p-8 bg-parchment/40 relative">
-            <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
-              <Heading as="h4" size="sub" className="text-ink font-bold">
-                {m.role}
-              </Heading>
-              <span class="font-heading font-semibold text-xs text-bronze uppercase tracking-wider">
-                {m.period}
-              </span>
-            </div>
-            <span class="block text-xs font-body text-inkMuted mb-3 font-semibold">
-              {m.company}
-            </span>
-            <Paragraph variant="muted" className="text-sm leading-relaxed">
-              {m.description}
-            </Paragraph>
-          </div>
-        ))}
-      </div>
-    </div>
-
   </div>
 </section>
