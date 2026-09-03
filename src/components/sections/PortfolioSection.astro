@@ -29,7 +29,7 @@ const sortedProjects = projects.sort((a, b) => {
     <SubtitleTag variant="bordered" size="sm" className="mb-3">
       Proven Outcomes &amp; Architecture
     </SubtitleTag>
-    <Heading as="h2" size="section" align="center" className="mb-3">
+    <Heading as="h2" size="section" align="center" spacing="sm">
       Building Systems That Drive Results
     </Heading>
     <Paragraph variant="lead" align="center">
@@ -89,11 +89,7 @@ const sortedProjects = projects.sort((a, b) => {
               </div>
 
               <!-- Title -->
-              <Heading
-                as="h3"
-                size="card"
-                className="mb-3 group-hover:text-bronze transition-colors line-clamp-2"
-              >
+              <Heading as="h3" size="card" spacing="sm" clamp={2}>
                 {item.data.title}
               </Heading>
 

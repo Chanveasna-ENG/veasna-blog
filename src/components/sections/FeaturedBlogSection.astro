@@ -21,7 +21,7 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
       <SubtitleTag variant="bordered" size="sm" className="mb-3">
         Knowledge &amp; Field Notes
       </SubtitleTag>
-      <Heading as="h2" size="section" align="center" className="mb-4">
+      <Heading as="h2" size="section" align="center">
         Technical Blueprints &amp; Automation Hacks
       </Heading>
       <Paragraph variant="lead" align="center">
@@ -54,7 +54,7 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
 
               <!-- Article Title -->
               <a href={`/posts/${post.id}`} class="block group-hover:text-bronze transition-colors">
-                <Heading as="h3" size="card" className="mb-3 leading-snug line-clamp-2">
+                <Heading as="h3" size="card" spacing="sm" clamp={2}>
                   {post.data.title}
                 </Heading>
               </a>

@@ -34,8 +34,8 @@ const stats = [
             <span class="font-heading font-bold text-4xl sm:text-5xl text-bronze mb-1">
               {stat.value}
             </span>
-            <Heading as="span" size="sub" align="center" className="uppercase tracking-wider mb-1">
-              {stat.label}
+            <Heading as="span" size="sub" align="center" spacing="xs">
+              {stat.label.toUpperCase()}
             </Heading>
             <Paragraph variant="small" align="center" spacing="none">
               {stat.subtext}

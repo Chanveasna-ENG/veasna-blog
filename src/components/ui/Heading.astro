@@ -1,66 +1,22 @@
 ---
-interface Props {
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
-  size?: 'hero' | 'section' | 'card' | 'sub' | 'sm';
-  color?: 'ink' | 'bronze' | 'parchment' | 'gold';
-  align?: 'left' | 'center' | 'right';
-  className?: string;
-}
+import { type HeadingProps, getHeadingClasses } from './heading.utils';
+
+interface Props extends HeadingProps {}
 
 const {
   as = 'h2',
   size,
   color = 'ink',
   align = 'left',
-  className = ''
+  spacing = 'md',
+  clamp = 'none',
+  id
 } = Astro.props;
 
 const Tag = as;
-
-// Auto-derive size if not explicitly provided
-const defaultSizeMap: Record<
-  string,
-  'hero' | 'section' | 'card' | 'sub' | 'sm'
-> = {
-  h1: 'hero',
-  h2: 'section',
-  h3: 'card',
-  h4: 'sub',
-  h5: 'sm',
-  h6: 'sm',
-  span: 'card'
-};
-
-const resolvedSize = size || defaultSizeMap[as] || 'section';
-
-const sizeClasses: Record<string, string> = {
-  hero: 'text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-wide',
-  section: 'text-3xl sm:text-4xl md:text-5xl font-bold leading-tight',
-  card: 'text-xl sm:text-2xl font-bold',
-  sub: 'text-lg sm:text-xl font-semibold',
-  sm: 'text-base font-semibold'
-};
-
-const colorClasses: Record<string, string> = {
-  ink: 'text-ink',
-  bronze: 'text-bronze',
-  parchment: 'text-parchment',
-  gold: 'text-gold'
-};
-
-const alignClasses: Record<string, string> = {
-  left: 'text-left',
-  center: 'text-center',
-  right: 'text-right'
-};
-
-const selectedSizeClass = sizeClasses[resolvedSize] || sizeClasses.section;
-const selectedColorClass = colorClasses[color] || colorClasses.ink;
-const selectedAlignClass = alignClasses[align] || alignClasses.left;
+const classes = getHeadingClasses({ as, size, color, align, spacing, clamp });
 ---
 
-<Tag
-  class={`font-heading ${selectedSizeClass} ${selectedColorClass} ${selectedAlignClass} ${className}`}
->
+<Tag id={id} class={classes}>
   <slot />
 </Tag>

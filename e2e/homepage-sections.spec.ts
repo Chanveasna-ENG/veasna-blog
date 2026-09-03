@@ -7,6 +7,10 @@ const PY_12_REGEX = /py-12/;
 const MD_PY_16_REGEX = /md:py-16/;
 const LEAD_PARAGRAPH_REGEX =
   /font-body text-lg sm:text-xl leading-relaxed text-ink text-center mb-6/;
+const HERO_HEADING_REGEX =
+  /font-heading text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-wide text-ink text-center mb-6/;
+const SECTION_HEADING_REGEX =
+  /font-heading text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-ink text-center mb-4/;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
@@ -151,5 +155,19 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     );
     await expect(servicesLead).toBeVisible();
     await expect(servicesLead).toHaveClass(LEAD_PARAGRAPH_REGEX);
+  });
+
+  test('headings enforce token classes without custom class leakage', async ({
+    page
+  }) => {
+    await page.goto('/');
+
+    const heroHeading = page.locator('section.overflow-hidden h1');
+    await expect(heroHeading).toBeVisible();
+    await expect(heroHeading).toHaveClass(HERO_HEADING_REGEX);
+
+    const servicesHeading = page.locator('section#services h2');
+    await expect(servicesHeading).toBeVisible();
+    await expect(servicesHeading).toHaveClass(SECTION_HEADING_REGEX);
   });
 });

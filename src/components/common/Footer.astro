@@ -1,5 +1,6 @@
 ---
 // Implements the site signature and functional endpoint per TRD 4.2 H.
+import Paragraph from '../ui/Paragraph.astro';
 ---
 
 <footer class="bg-darkBg text-offWhite mt-auto w-full py-10 border-t border-gray-700">
@@ -13,9 +14,9 @@
         <a href="/" class="text-3xl font-alice text-gold mb-2 hover:text-yellow-500 transition-colors duration-200">
           Veasna.
         </a>
-        <p class=" text-gray-300">
+        <Paragraph variant="small" color="inkMuted" spacing="none">
           Thoughts, insights, and technical deep dives from Chanveasna ENG.
-        </p>
+        </Paragraph>
       </div>
 
       {/* The Map (Right) */}
@@ -35,9 +36,9 @@
 
     {/* The Copyright (Bottom Center) */}
     <div class="pt-8 flex justify-center text-center">
-      <p class="text-xs text-gray-400 tracking-wide">
+      <Paragraph variant="caption" color="inkMuted" align="center" spacing="none">
         &copy; 2026 ENG Chanveasna
-      </p>
+      </Paragraph>
     </div>
     
   </div>

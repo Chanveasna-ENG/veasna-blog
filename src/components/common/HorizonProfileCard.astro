@@ -1,4 +1,6 @@
 ---
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
 import ContactButton from './ContactButton.astro';
 
 interface Props {
@@ -35,12 +37,16 @@ const {
 
     {/* Right Side: Content */}
     <div class="flex flex-col text-center md:text-left">
-      <h2 class="text-3xl font-alice text-gold mb-1">{name}</h2>
-      <p class="text-sm text-gray-400 uppercase tracking-wider font-semibold mb-4">{role}</p>
+      <Heading as="h2" size="section" color="bronze" spacing="xs">{name}</Heading>
+      <Paragraph variant="caption" color="inkMuted" spacing="sm">
+        {role}
+      </Paragraph>
       
-      <p class="text-gray-300 mb-6 max-w-2xl">
-        {bio}
-      </p>
+      <div class="max-w-2xl mb-6">
+        <Paragraph variant="body" color="inkMuted" spacing="none">
+          {bio}
+        </Paragraph>
+      </div>
 
       {/* Action */}
       <div class="mt-auto">

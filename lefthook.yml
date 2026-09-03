@@ -6,6 +6,8 @@ pre-commit:
       run: pnpm biome check --staged {staged_files}
     astro-check:
       run: pnpm exec astro check
+    atomic-check:
+      run: pnpm check:atoms
 
 pre-push:
   parallel: false

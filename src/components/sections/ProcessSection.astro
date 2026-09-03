@@ -45,7 +45,7 @@ const steps = [
       <SubtitleTag variant="bordered" size="sm" className="mb-3">
         Proven Methodology
       </SubtitleTag>
-      <Heading as="h2" size="section" align="center" className="mb-4">
+      <Heading as="h2" size="section" align="center">
         System Delivery &amp; Execution Flow
       </Heading>
       <MedievalDivider variant="feather" />
@@ -99,11 +99,7 @@ const steps = [
               <span class="inline-block font-heading font-semibold text-xs text-bronze uppercase tracking-widest mb-1.5">
                 Stage {item.step}
               </span>
-              <Heading
-                as="h3"
-                size="card"
-                className="mb-3 group-hover:text-bronze transition-colors"
-              >
+              <Heading as="h3" size="card" spacing="sm">
                 {item.title}
               </Heading>
 

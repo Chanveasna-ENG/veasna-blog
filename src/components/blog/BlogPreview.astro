@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { formatDateICT } from '../../utils/date';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -11,20 +13,19 @@ const { post, isCompact = false } = Astro.props;
 
 // Enforce fallback logic for dates locally to maintain a pure template
 const targetDate = post.data.lastModifiedAt || post.data.createdAt;
-const TitleTag = isCompact ? 'h3' : 'h2';
 ---
 
 <article class="flex flex-col h-full p-6 bg-darkBg border border-gray-700 rounded-lg shadow-sm hover:border-gold transition-colors duration-200 group">
   
   {/* Title & Description (Clickable Area) */}
-  <a href={`/posts/${post.id}`} class="block flex-grow mb-4 focus:outline-none focus:ring-2 focus:ring-gold rounded-sm">
-    <TitleTag class={`font-alice text-gold group-hover:text-yellow-500 transition-colors duration-200 mb-2 ${isCompact ? 'text-l font-bold' : 'text-2xl'}`}>
+  <a href={`/posts/${post.id}`} class="block flex-grow mb-4 focus:outline-none focus:ring-2 focus:ring-gold rounded-sm group-hover:text-yellow-500 transition-colors duration-200">
+    <Heading as={isCompact ? 'h3' : 'h2'} size={isCompact ? 'sub' : 'card'} color="bronze" spacing="sm">
       {post.data.title}
-    </TitleTag>
+    </Heading>
     {!isCompact && (
-      <p class="text-gray-300 line-clamp-3">
+      <Paragraph variant="small" color="inkMuted" clamp={3} spacing="none">
         {post.data.description}
-      </p>
+      </Paragraph>
     )}
   </a>
 

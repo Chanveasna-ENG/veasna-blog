@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import Heading from '../ui/Heading.astro';
 import BlogPreview from './BlogPreview.astro';
 
 interface Props {
@@ -91,9 +92,9 @@ const similarPosts = allPosts
 {similarPosts.length > 0 && (
   <section class="mt-16 pt-8 border-t border-gray-800" aria-labelledby="similar-posts-heading">
     <div class="flex items-center mb-6">
-      <h2 id="similar-posts-heading" class="text-2xl font-alice text-gold">
+      <Heading as="h2" size="card" color="bronze" id="similar-posts-heading" spacing="none">
         You might also like
-      </h2>
+      </Heading>
     </div>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -35,7 +35,7 @@ const sortedProjects = allProjects.sort((a, b) => {
       <SubtitleTag variant="bordered" size="sm" className="mb-4">
         Engineering Archive
       </SubtitleTag>
-      <Heading as="h1" size="hero" align="center" className="mb-6">
+      <Heading as="h1" size="hero" align="center" spacing="lg">
         Systems Portfolio
       </Heading>
       <Paragraph variant="lead" align="center">
@@ -94,11 +94,7 @@ const sortedProjects = allProjects.sort((a, b) => {
               </div>
 
               <!-- Title -->
-              <Heading
-                as="h2"
-                size="card"
-                className="mb-4 group-hover:text-bronze transition-colors"
-              >
+              <Heading as="h2" size="card">
                 {project.data.title}
               </Heading>
 
@@ -129,7 +125,7 @@ const sortedProjects = allProjects.sort((a, b) => {
     {
       sortedProjects.length === 0 && (
         <div class="medieval-frame p-12 text-center max-w-xl mx-auto my-12">
-          <Heading as="h3" size="card" align="center" className="mb-3">
+          <Heading as="h3" size="card" align="center" spacing="sm">
             Projects In Staging
           </Heading>
           <Paragraph variant="small" align="center" spacing="none">
@@ -163,7 +159,7 @@ const sortedProjects = allProjects.sort((a, b) => {
         className="absolute bottom-1 right-1 text-ink"
       />
 
-      <Heading as="h2" size="section" align="center" className="mb-4">
+      <Heading as="h2" size="section" align="center">
         Need a Custom Solution Engineered?
       </Heading>
       <div class="max-w-xl mx-auto mb-8">

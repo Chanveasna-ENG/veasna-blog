@@ -5,6 +5,7 @@ import type { GetStaticPathsOptions, Page } from 'astro';
 
 import BlogList from '../../components/blog/BlogList.astro';
 import ProfileCard from '../../components/common/ProfileCard.astro';
+import Heading from '../../components/ui/Heading.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
@@ -34,8 +35,8 @@ const { page } = Astro.props as { page: Page<CollectionEntry<'blog'>> };
     {/* Left Column (70%) */}
     <div class="flex flex-col space-y-10">
       
-      <div>
-        <h2 class="text-3xl md:text-4xl font-alice text-gold mt-2">Hello there.</h2>
+      <div class="mt-2">
+        <Heading as="h2" size="section" color="bronze" spacing="none">Hello there.</Heading>
       </div>
 
       {/* Post Iteration (Receives the paginated data chunk) */}

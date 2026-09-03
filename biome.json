@@ -96,6 +96,19 @@
       "linter": {
         "enabled": false
       }
+    },
+    {
+      "include": ["scripts/**"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noNodejsModules": "off"
+          },
+          "suspicious": {
+            "noConsoleLog": "off"
+          }
+        }
+      }
     }
   ]
 }

@@ -1,4 +1,6 @@
 ---
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
 import ContactButton from './ContactButton.astro';
 
 // Define the expected props for the Profile Card.
@@ -34,13 +36,15 @@ const {
   </div>
 
   {/* Name & Role */}
-  <h3 class="text-2xl font-alice text-gold mb-1">{name}</h3>
-  <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-4">{role}</p>
+  <Heading as="h3" size="card" color="bronze" spacing="xs">{name}</Heading>
+  <Paragraph variant="caption" color="inkMuted" spacing="sm">
+    {role}
+  </Paragraph>
 
   {/* Introduction Bio */}
-  <p class="text-gray-300 mb-6">
+  <Paragraph variant="body" color="inkMuted" spacing="md">
     {bio}
-  </p>
+  </Paragraph>
 
   {/* Action: Contact Button Instance */}
   <div class="mt-auto w-full">
