@@ -1,49 +1,22 @@
 ---
-interface Props {
-  variant?: 'lead' | 'body' | 'muted' | 'caption';
-  color?: 'ink' | 'inkMuted' | 'bronze' | 'parchment';
-  align?: 'left' | 'center' | 'right';
-  as?: 'p' | 'div' | 'span';
-  className?: string;
+import { type ParagraphProps, getParagraphClasses } from './paragraph.utils';
+
+interface Props extends ParagraphProps {
+  as?: 'p' | 'span';
 }
 
 const {
   variant = 'body',
-  color = 'inkMuted',
+  color,
   align = 'left',
-  as = 'p',
-  className = ''
+  clamp = 'none',
+  as = 'p'
 } = Astro.props;
 
 const Tag = as;
-
-const variantClasses: Record<string, string> = {
-  lead: 'text-lg sm:text-xl leading-relaxed',
-  body: 'text-base sm:text-lg leading-relaxed',
-  muted: 'text-sm leading-relaxed',
-  caption: 'text-xs italic'
-};
-
-const colorClasses: Record<string, string> = {
-  inkMuted: 'text-inkMuted',
-  ink: 'text-ink',
-  bronze: 'text-bronze',
-  parchment: 'text-parchment'
-};
-
-const alignClasses: Record<string, string> = {
-  left: 'text-left',
-  center: 'text-center',
-  right: 'text-right'
-};
-
-const selectedVariantClass = variantClasses[variant] || variantClasses.body;
-const selectedColorClass = colorClasses[color] || colorClasses.inkMuted;
-const selectedAlignClass = alignClasses[align] || alignClasses.left;
+const classes = getParagraphClasses({ variant, color, align, clamp });
 ---
 
-<Tag
-  class={`font-body ${selectedVariantClass} ${selectedColorClass} ${selectedAlignClass} ${className}`}
->
+<Tag class={classes}>
   <slot />
 </Tag>

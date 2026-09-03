@@ -60,9 +60,11 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
               </a>
 
               <!-- Description -->
-              <Paragraph variant="muted" className="text-xs line-clamp-3 mb-6">
-                {post.data.description}
-              </Paragraph>
+              <div class="mb-6">
+                <Paragraph variant="small" clamp={3}>
+                  {post.data.description}
+                </Paragraph>
+              </div>
             </div>
 
             <!-- Footer Link -->

@@ -32,10 +32,12 @@ const sortedProjects = projects.sort((a, b) => {
     <Heading as="h2" size="section" align="center" className="mb-3">
       Building Systems That Drive Results
     </Heading>
-    <Paragraph variant="lead" align="center" className="mb-6 max-w-2xl mx-auto">
-      Explore production web platforms, custom microservices, and autonomous
-      integration workflows engineered for scalability and measurable business ROI.
-    </Paragraph>
+    <div class="mb-6 max-w-2xl mx-auto">
+      <Paragraph variant="lead" align="center">
+        Explore production web platforms, custom microservices, and autonomous
+        integration workflows engineered for scalability and measurable business ROI.
+      </Paragraph>
+    </div>
     <MedievalDivider variant="feather" />
   </div>
 
@@ -98,9 +100,11 @@ const sortedProjects = projects.sort((a, b) => {
               </Heading>
 
               <!-- Description / Problem Solved -->
-              <Paragraph variant="muted" className="mb-6 line-clamp-3">
-                {item.data.description}
-              </Paragraph>
+              <div class="mb-6">
+                <Paragraph variant="small" clamp={3}>
+                  {item.data.description}
+                </Paragraph>
+              </div>
             </div>
 
             <!-- Footer Action Row -->

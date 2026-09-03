@@ -103,9 +103,11 @@ const sortedProjects = allProjects.sort((a, b) => {
               </Heading>
 
               <!-- Description -->
-              <Paragraph variant="muted" className="mb-6 leading-relaxed">
-                {project.data.description}
-              </Paragraph>
+              <div class="mb-6">
+                <Paragraph variant="small">
+                  {project.data.description}
+                </Paragraph>
+              </div>
             </div>
 
             <!-- Action Link / Card Footer -->
@@ -132,7 +134,7 @@ const sortedProjects = allProjects.sort((a, b) => {
           <Heading as="h3" size="card" align="center" className="mb-3">
             Projects In Staging
           </Heading>
-          <Paragraph variant="muted" align="center">
+          <Paragraph variant="small" align="center">
             New architectural case studies are currently undergoing
             documentation and will be released shortly.
           </Paragraph>
@@ -166,10 +168,12 @@ const sortedProjects = allProjects.sort((a, b) => {
       <Heading as="h2" size="section" align="center" className="mb-4">
         Need a Custom Solution Engineered?
       </Heading>
-      <Paragraph variant="lead" align="center" className="max-w-xl mx-auto mb-8">
-        Whether you require an autonomous webhook pipeline, a high-converting web
-        portal, or hardened cloud infrastructure.
-      </Paragraph>
+      <div class="max-w-xl mx-auto mb-8">
+        <Paragraph variant="lead" align="center">
+          Whether you require an autonomous webhook pipeline, a high-converting web
+          portal, or hardened cloud infrastructure.
+        </Paragraph>
+      </div>
       <PrimaryButton href="mailto:contact@chanveasna.eng" size="md">
         Discuss Your Architecture
       </PrimaryButton>

@@ -5,6 +5,8 @@ const SCOPE_BUILD_REGEX = /Scope This Build/i;
 const CONTACT_SUBJECT_REGEX = /#contact\?subject=/;
 const PY_12_REGEX = /py-12/;
 const MD_PY_16_REGEX = /md:py-16/;
+const LEAD_PARAGRAPH_REGEX =
+  /font-body text-lg sm:text-xl leading-relaxed text-ink text-center/;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
@@ -127,5 +129,21 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
       await expect(sec).toHaveClass(PY_12_REGEX);
       await expect(sec).toHaveClass(MD_PY_16_REGEX);
     }
+  });
+
+  test('hero and section paragraphs enforce token classes without custom class leakage', async ({
+    page
+  }) => {
+    await page.goto('/');
+
+    const heroLeadContainer = page.locator('div.max-w-2xl.mx-auto.mb-8 > p');
+    await expect(heroLeadContainer).toBeVisible();
+    await expect(heroLeadContainer).toHaveClass(LEAD_PARAGRAPH_REGEX);
+
+    const portfolioLead = page.locator(
+      'section#portfolio div.max-w-2xl.mx-auto.mb-6 > p'
+    );
+    await expect(portfolioLead).toBeVisible();
+    await expect(portfolioLead).toHaveClass(LEAD_PARAGRAPH_REGEX);
   });
 });

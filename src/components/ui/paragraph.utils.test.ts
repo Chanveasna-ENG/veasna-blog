@@ -1,0 +1,58 @@
+import { describe, expect, it } from 'vitest';
+import { getParagraphClasses } from './paragraph.utils';
+
+describe('getParagraphClasses', () => {
+  it('returns default body classes for empty props', () => {
+    const classes = getParagraphClasses({});
+    expect(classes).toBe(
+      'font-body text-base sm:text-lg leading-relaxed text-inkMuted text-left'
+    );
+  });
+
+  it('defaults to text-ink for lead variant when color is omitted', () => {
+    const classes = getParagraphClasses({ variant: 'lead' });
+    expect(classes).toBe(
+      'font-body text-lg sm:text-xl leading-relaxed text-ink text-left'
+    );
+  });
+
+  it('defaults to text-inkMuted for small variant when color is omitted', () => {
+    const classes = getParagraphClasses({ variant: 'small' });
+    expect(classes).toBe(
+      'font-body text-sm leading-relaxed text-inkMuted text-left'
+    );
+  });
+
+  it('defaults to text-inkMuted for caption variant when color is omitted', () => {
+    const classes = getParagraphClasses({ variant: 'caption' });
+    expect(classes).toBe('font-body text-xs italic text-inkMuted text-left');
+  });
+
+  it('overrides default color when explicit color is specified', () => {
+    const classes = getParagraphClasses({ variant: 'lead', color: 'bronze' });
+    expect(classes).toBe(
+      'font-body text-lg sm:text-xl leading-relaxed text-bronze text-left'
+    );
+  });
+
+  it('applies text alignment classes correctly', () => {
+    const center = getParagraphClasses({ align: 'center' });
+    expect(center).toContain('text-center');
+
+    const right = getParagraphClasses({ align: 'right' });
+    expect(right).toContain('text-right');
+  });
+
+  it('applies clamp class when numeric clamp is provided', () => {
+    const clamped = getParagraphClasses({ clamp: 3 });
+    expect(clamped).toContain('line-clamp-3');
+  });
+
+  it('does not include clamp class when clamp is none or undefined', () => {
+    const noneClamped = getParagraphClasses({ clamp: 'none' });
+    expect(noneClamped).not.toContain('line-clamp');
+
+    const undefinedClamped = getParagraphClasses({});
+    expect(undefinedClamped).not.toContain('line-clamp');
+  });
+});
