@@ -1,5 +1,5 @@
 ---
-import Heading from '../ui/Heading.astro';
+import SectionHeader from '../common/SectionHeader.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import PrimaryButton from '../ui/PrimaryButton.astro';
@@ -36,16 +36,14 @@ const medievalCornerSize = 150;
         <WaxSeal size="lg" text="CONFIDENTIAL" />
       </div>
 
-      <Heading as="h2" size="section" align="center">
-        Ready to Transform Your Operations?
-      </Heading>
-
-      <div class="max-w-xl mx-auto mb-8">
-        <Paragraph variant="lead" align="center">
-          Let's discuss your custom web platform or automation workflow. I will
-          map out the architectural strategy for your enterprise.
-        </Paragraph>
-      </div>
+      <SectionHeader
+        size="big"
+        as="h2"
+        headingSize="section"
+        title="Ready to Transform Your Operations?"
+        description="Let's discuss your custom web platform or automation workflow. I will map out the architectural strategy for your enterprise."
+        divider={false}
+      />
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <PrimaryButton href="mailto:contact@chanveasna.eng" size="lg">

@@ -5,35 +5,66 @@ import Paragraph from '../ui/Paragraph.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
 import {
   type SectionHeaderProps,
-  resolveDividerConfig,
-  resolveHeadingSpacing
+  resolveHeaderConfig
 } from './section-header.utils';
 
 interface Props extends SectionHeaderProps {}
 
-const { subtitle, title, description, as = 'h2', divider = true } = Astro.props;
+const { subtitle, title, description, clampTitle, clampDescription } =
+  Astro.props;
 
 const hasSlot = Astro.slots.has('default');
 const hasDescription = Boolean(description || hasSlot);
-const { show: showDivider, variant: dividerVariant } =
-  resolveDividerConfig(divider);
-const headingSpacing = resolveHeadingSpacing(hasDescription, showDivider);
+const config = resolveHeaderConfig(Astro.props, hasDescription);
+const isBig = Astro.props.size === 'big';
 ---
 
-<div class="max-w-5xl mx-auto flex flex-col items-center text-center mt-6 md:mt-8 mb-6 md:mb-8">
-  <SubtitleTag variant="bordered" size="sm">
-    {subtitle}
-  </SubtitleTag>
+<div class={config.containerClass}>
+  {Boolean(subtitle) && (
+    <SubtitleTag
+      variant={config.subtitleVariant}
+      size={config.subtitleSize}
+      spacing={config.subtitleSpacing}
+    >
+      {subtitle}
+    </SubtitleTag>
+  )}
 
-  <Heading as={as} size="section" align="center" spacing={headingSpacing}>
+  <Heading
+    as={config.as}
+    size={config.headingSize}
+    align={config.align}
+    spacing={config.headingSpacing}
+    clamp={clampTitle}
+  >
     {title}
   </Heading>
 
   {hasDescription && (
-    <Paragraph variant="lead" align="center">
-      {description ? description : <slot />}
-    </Paragraph>
+    description ? (
+      isBig ? (
+        <div class="max-w-2xl mx-auto">
+          <Paragraph
+            variant={config.paragraphVariant}
+            align={config.align}
+            clamp={clampDescription}
+          >
+            {description}
+          </Paragraph>
+        </div>
+      ) : (
+        <Paragraph
+          variant={config.paragraphVariant}
+          align={config.align}
+          clamp={clampDescription}
+        >
+          {description}
+        </Paragraph>
+      )
+    ) : (
+      <slot />
+    )
   )}
 
-  {showDivider && <MedievalDivider variant={dividerVariant} />}
+  {config.showDivider && <MedievalDivider variant={config.dividerVariant} />}
 </div>

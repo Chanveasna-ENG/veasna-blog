@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
+import SectionHeader from '../components/common/SectionHeader.astro';
 import Heading from '../components/ui/Heading.astro';
 import MedievalCorner from '../components/ui/MedievalCorner.astro';
-import MedievalDivider from '../components/ui/MedievalDivider.astro';
 import Paragraph from '../components/ui/Paragraph.astro';
 import PrimaryButton from '../components/ui/PrimaryButton.astro';
 import SecondaryButton from '../components/ui/SecondaryButton.astro';
@@ -31,20 +31,14 @@ const sortedProjects = allProjects.sort((a, b) => {
 >
   <div class="w-full max-w-6xl mx-auto py-12 px-4 sm:px-6">
     <!-- Page Header -->
-    <header class="text-center max-w-3xl mx-auto mb-14">
-      <SubtitleTag variant="bordered" size="sm" spacing="md">
-        Engineering Archive
-      </SubtitleTag>
-      <Heading as="h1" size="hero" align="center" spacing="lg">
-        Systems Portfolio
-      </Heading>
-      <Paragraph variant="lead" align="center">
-        A documented catalog of high-impact web architectures, business
-        automation pipelines, and infrastructure solutions built to eliminate
-        operational friction.
-      </Paragraph>
-      <MedievalDivider variant="diamond" />
-    </header>
+    <SectionHeader
+      as="h1"
+      headingSize="hero"
+      divider="diamond"
+      subtitle="Engineering Archive"
+      title="Systems Portfolio"
+      description="A documented catalog of high-impact web architectures, business automation pipelines, and infrastructure solutions built to eliminate operational friction."
+    />
 
     <!-- Projects Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">

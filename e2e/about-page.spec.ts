@@ -13,6 +13,9 @@ test.describe('About Page Revamped Architecture', () => {
     const heading = page.getByRole('heading', { name: "Hi, I'm Veasna." });
     await expect(heading).toBeVisible();
 
+    const subtitle = page.locator('span:has-text("Digital Systems Architect")');
+    await expect(subtitle).toBeVisible();
+
     const profileImg = page.locator('img[alt*="Chanveasna Eng"]');
     await expect(profileImg).toBeVisible();
 

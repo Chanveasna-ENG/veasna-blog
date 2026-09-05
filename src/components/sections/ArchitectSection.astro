@@ -1,11 +1,10 @@
 ---
+import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
-import MedievalDivider from '../ui/MedievalDivider.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
 import SocialLink from '../ui/SocialLink.astro';
-import SubtitleTag from '../ui/SubtitleTag.astro';
 
 const medievalCornerSize = 69;
 
@@ -47,35 +46,30 @@ const socialLinks = [
       >
         <!-- Left Column: Narrative, Philosophy & Social Channels (7 cols) -->
         <div class="lg:col-span-7 flex flex-col items-start text-left">
-          <!-- Subtitle Tag -->
-          <SubtitleTag variant="bordered" size="sm" spacing="md">
-            Digital Architect &amp; Workflow Specialist
-          </SubtitleTag>
-
-          <!-- Section Title -->
-          <Heading as="h2" size="section" spacing="lg">
-            Meet Veasna — Your Architect
-          </Heading>
-
-          <!-- Generic Subtext / Bio (Easily Editable) -->
-          <div class="space-y-4">
-            <Paragraph variant="body">
-              I architect high-performance digital systems and custom automated
-              engines designed to solve real business bottlenecks. By merging
-              the deliberate precision of classical craftsmanship with modern
-              engineering discipline, I eliminate repetitive toil and construct
-              resilient web infrastructure.
-            </Paragraph>
-            <Paragraph variant="body">
-              Whether engineering scalable lead portals or orchestrating complex
-              multi-system workflow automations, every solution is built with
-              longevity, security, and measurable commercial outcome at its
-              core.
-            </Paragraph>
-          </div>
-
-          <!-- Divider -->
-          <MedievalDivider variant="diamond"/>
+          <SectionHeader
+            size="small"
+            as="h2"
+            headingSize="section"
+            subtitle="Digital Architect & Workflow Specialist"
+            title="Meet Veasna — Your Architect"
+            divider="diamond"
+          >
+            <div class="space-y-4">
+              <Paragraph variant="body">
+                I architect high-performance digital systems and custom automated
+                engines designed to solve real business bottlenecks. By merging
+                the deliberate precision of classical craftsmanship with modern
+                engineering discipline, I eliminate repetitive toil and construct
+                resilient web infrastructure.
+              </Paragraph>
+              <Paragraph variant="body">
+                Whether engineering scalable lead portals or orchestrating complex
+                multi-system workflow automations, every solution is built with
+                longevity, security, and measurable commercial outcome at its
+                core.
+              </Paragraph>
+            </div>
+          </SectionHeader>
 
           <!-- Social Links & Direct Contact Channels -->
           <div class="flex flex-col sm:flex-row sm:items-center gap-4">

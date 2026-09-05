@@ -1,10 +1,9 @@
 ---
-import Heading from '../ui/Heading.astro';
+import SectionHeader from '../common/SectionHeader.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import PrimaryButton from '../ui/PrimaryButton.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
-import SubtitleTag from '../ui/SubtitleTag.astro';
 import WaxSeal from '../ui/WaxSeal.astro';
 
 const medievalCornerSize = 69;
@@ -70,25 +69,22 @@ const socials = [
 
       <!-- Right Column: Narrative Bio & Strategy Call CTA -->
       <div class="lg:col-span-7 flex flex-col items-start justify-center">
-        <SubtitleTag variant="bordered" size="sm" spacing="md">
-          Architect Profile
-        </SubtitleTag>
-
-        <Heading as="h1" size="hero">
-          Hi, I'm Veasna.
-        </Heading>
-
-        <Heading as="h2" size="sub" color="bronze" spacing="lg">
-          Digital Systems Architect &amp; Automation Specialist
-        </Heading>
-
-        <Paragraph variant="lead">
-          I build high-converting web applications, resilient automation pipelines, and autonomous messaging bots that eliminate repetitive manual labor and help businesses operate with ruthless efficiency.
-        </Paragraph>
-
-        <Paragraph variant="body" spacing="lg">
-          Rather than gluing together fragile tools, I approach every project with engineering discipline: designing deterministic workflows (n8n, Make, Zapier), intelligent chat integrations (Telegram, Discord, WhatsApp), and high-speed web architectures (Astro, Next.js) built for high uptime and long-term scalability.
-        </Paragraph>
+        <SectionHeader
+          size="small"
+          as="h1"
+          headingSize="hero"
+          subtitle="Digital Systems Architect & Automation Specialist"
+          title="Hi, I'm Veasna."
+        >
+          <div class="space-y-4">
+            <Paragraph variant="lead">
+              I build high-converting web applications, resilient automation pipelines, and autonomous messaging bots that eliminate repetitive manual labor and help businesses operate with ruthless efficiency.
+            </Paragraph>
+            <Paragraph variant="body" spacing="lg">
+              Rather than gluing together fragile tools, I approach every project with engineering discipline: designing deterministic workflows (n8n, Make, Zapier), intelligent chat integrations (Telegram, Discord, WhatsApp), and high-speed web architectures (Astro, Next.js) built for high uptime and long-term scalability.
+            </Paragraph>
+          </div>
+        </SectionHeader>
 
         <!-- CTA Buttons & Social Links Row -->
         <div class="flex flex-col sm:flex-row sm:items-center gap-6 pt-2">

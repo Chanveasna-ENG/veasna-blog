@@ -144,7 +144,9 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
   }) => {
     await page.goto('/');
 
-    const heroLeadContainer = page.locator('div.max-w-2xl.mx-auto.mb-8 > p');
+    const heroLeadContainer = page.locator(
+      'section.overflow-hidden div.max-w-2xl.mx-auto > p'
+    );
     await expect(heroLeadContainer).toBeVisible();
     await expect(heroLeadContainer).toHaveClass(LEAD_PARAGRAPH_REGEX);
 
@@ -193,11 +195,12 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(servicesSubtitle).toHaveClass(SERVICES_SUBTITLE_TAG_REGEX);
   });
 
-  test('composite SectionHeader renders subtitle, heading, paragraph, and divider in unified layout', async ({
+  test('composite SectionHeader renders subtitle, heading, paragraph, and divider across variants', async ({
     page
   }) => {
     await page.goto('/');
 
+    // 1. Normal variant (services)
     const servicesHeader = page.locator(
       'section#services div.max-w-5xl.mx-auto.flex.flex-col.items-center'
     );
@@ -218,5 +221,44 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
       .locator('div.w-full.flex.items-center')
       .first();
     await expect(divider).toBeVisible();
+
+    // 2. Big variant (hero)
+    const heroHeader = page.locator(
+      'section.overflow-hidden div.max-w-4xl.mx-auto.flex.flex-col.items-center'
+    );
+    await expect(heroHeader).toBeVisible();
+    await expect(heroHeader.locator('h1')).toHaveText(
+      'Forging Scalable Web Systems & Autonomous Workflows'
+    );
+
+    // 3. Small variant (architect section & cards)
+    const architectHeader = page.locator(
+      'section#architect div.w-full.flex.flex-col.items-start'
+    );
+    await expect(architectHeader).toBeVisible();
+    await expect(architectHeader.locator('h2')).toHaveText(
+      'Meet Veasna — Your Architect'
+    );
+
+    const processCardHeaders = page.locator(
+      'section#process div.w-full.flex.flex-col.items-start'
+    );
+    await expect(processCardHeaders.first()).toBeVisible();
+
+    // 4. Contact section
+    const contactHeader = page.locator(
+      'section#contact div.w-full.flex.flex-col.items-start'
+    );
+    await expect(contactHeader).toBeVisible();
+    await expect(contactHeader.locator('h2')).toHaveText('Start Your Project');
+
+    // 5. CTA section (no subtitle)
+    const ctaHeader = page.locator(
+      'section#cta div.max-w-4xl.mx-auto.flex.flex-col.items-center'
+    );
+    await expect(ctaHeader).toBeVisible();
+    await expect(ctaHeader.locator('h2')).toHaveText(
+      'Ready to Transform Your Operations?'
+    );
   });
 });

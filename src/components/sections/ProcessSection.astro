@@ -1,8 +1,6 @@
 ---
 import SectionHeader from '../common/SectionHeader.astro';
-import Heading from '../ui/Heading.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
-import Paragraph from '../ui/Paragraph.astro';
 
 const medievalCornerSize = 48;
 
@@ -89,18 +87,13 @@ const steps = [
                 />
               </div>
 
-              <!-- Step Number Tag & Title -->
-              <span class="inline-block font-heading font-semibold text-xs text-bronze uppercase tracking-widest mb-1.5">
-                Stage {item.step}
-              </span>
-              <Heading as="h3" size="card" spacing="sm">
-                {item.title}
-              </Heading>
-
-              <!-- Description -->
-              <Paragraph variant="small">
-                {item.description}
-              </Paragraph>
+              <SectionHeader
+                size="small"
+                subtitleVariant="ghost"
+                subtitle={`Stage ${item.step}`}
+                title={item.title}
+                description={item.description}
+              />
             </div>
 
             <!-- Visual Preview Mockup Box -->

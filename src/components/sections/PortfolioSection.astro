@@ -1,11 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import SectionHeader from '../common/SectionHeader.astro';
-import Heading from '../ui/Heading.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
-import Paragraph from '../ui/Paragraph.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
-import SubtitleTag from '../ui/SubtitleTag.astro';
 
 const medievalCornerSize = 48;
 
@@ -73,22 +70,15 @@ const sortedProjects = projects.sort((a, b) => {
                 <div class="absolute inset-0 border border-bronze/20 pointer-events-none" />
               </div>
 
-              <!-- Category / Tech Tag -->
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                <SubtitleTag variant="ghost" size="sm" spacing="none">
-                  {item.data.tags[0] || 'System Architecture'}
-                </SubtitleTag>
-              </div>
-
-              <!-- Title -->
-              <Heading as="h3" size="card" spacing="sm" clamp={2}>
-                {item.data.title}
-              </Heading>
-
-              <!-- Description / Problem Solved -->
-              <Paragraph variant="small" clamp={3}>
-                {item.data.description}
-              </Paragraph>
+              <SectionHeader
+                size="small"
+                subtitleVariant="ghost"
+                subtitle={item.data.tags[0] || 'System Architecture'}
+                title={item.data.title}
+                description={item.data.description}
+                clampTitle={2}
+                clampDescription={3}
+              />
             </div>
 
             <!-- Footer Action Row -->
