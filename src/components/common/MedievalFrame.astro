@@ -1,0 +1,36 @@
+---
+import MedievalCorner from '../ui/MedievalCorner.astro';
+import {
+  type MedievalFrameProps,
+  resolveMedievalFrameConfig
+} from './medieval-frame.utils';
+
+interface Props extends MedievalFrameProps {}
+
+const config = resolveMedievalFrameConfig(Astro.props);
+const Tag = config.tag;
+---
+
+<Tag class={config.containerClass}>
+  <MedievalCorner
+    position="top-left"
+    size={config.cornerSize}
+    className="absolute top-1 left-1 text-ink"
+  />
+  <MedievalCorner
+    position="top-right"
+    size={config.cornerSize}
+    className="absolute top-1 right-1 text-ink"
+  />
+  <MedievalCorner
+    position="bottom-left"
+    size={config.cornerSize}
+    className="absolute bottom-1 left-1 text-ink"
+  />
+  <MedievalCorner
+    position="bottom-right"
+    size={config.cornerSize}
+    className="absolute bottom-1 right-1 text-ink"
+  />
+  <slot />
+</Tag>

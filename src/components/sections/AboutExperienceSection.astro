@@ -1,9 +1,7 @@
 ---
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
-
-const medievalCornerSize = 48;
 
 const competencyCategories = [
   {
@@ -54,12 +52,7 @@ const competencyCategories = [
     <!-- 3-Column Competencies Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       {competencyCategories.map((cat) => (
-        <div class="medieval-frame p-7 relative bg-parchment/50 flex flex-col justify-between">
-          <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
-          <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
-          <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
-          <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
-
+        <MedievalFrame size="small">
           <div>
             <div class="w-12 h-12 p-2 mb-5 border border-ink/40 flex items-center justify-center text-ink">
               <img src={cat.icon} alt={cat.title} class="w-full h-full object-contain" />
@@ -78,7 +71,7 @@ const competencyCategories = [
               ))}
             </ul>
           </div>
-        </div>
+        </MedievalFrame>
       ))}
     </div>
   </div>

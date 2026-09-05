@@ -1,12 +1,10 @@
 ---
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
 import MedievalDivider from '../ui/MedievalDivider.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
-
-const medievalCornerSize = 48;
 
 const values = [
   {
@@ -51,12 +49,7 @@ const values = [
     <!-- 4-Pillar Narrative Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       {values.map((val) => (
-        <div class="medieval-frame p-8 relative bg-parchment/70 group hover:border-bronze transition-colors">
-          <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
-          <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
-          <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
-          <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
-
+        <MedievalFrame size="small" interactive={true}>
           <div class="flex items-baseline justify-between mb-4">
             <span class="font-heading font-bold text-2xl text-bronze">
               {val.num}
@@ -73,7 +66,7 @@ const values = [
           <Paragraph variant="small">
             {val.description}
           </Paragraph>
-        </div>
+        </MedievalFrame>
       ))}
     </div>
   </div>

@@ -1,12 +1,10 @@
 ---
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import PrimaryButton from '../ui/PrimaryButton.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
 import WaxSeal from '../ui/WaxSeal.astro';
-
-const medievalCornerSize = 69;
 
 const socials = [
   {
@@ -35,12 +33,7 @@ const socials = [
       <!-- Left Column: Medieval Framed Portrait with Wax Seal -->
       <div class="lg:col-span-5 flex justify-center">
         <div class="relative w-full max-w-sm">
-          <div class="medieval-frame p-6 sm:p-7 relative bg-parchment/60 engraved-shadow">
-            <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
-            <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
-            <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
-            <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
-
+          <MedievalFrame size="medium" interactive={true}>
             <!-- Photo Container -->
             <div class="w-full aspect-[4/5] overflow-hidden border border-ink/40 relative group">
               <img
@@ -58,7 +51,7 @@ const socials = [
                 </span>
               </div>
             </div>
-          </div>
+          </MedievalFrame>
 
           <!-- Decorative Wax Seal Stamp overlapping the frame -->
           <div class="absolute -bottom-4 -right-4 sm:-bottom-5 sm:-right-5 z-20">

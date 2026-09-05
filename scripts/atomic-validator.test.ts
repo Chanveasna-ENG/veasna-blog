@@ -228,4 +228,33 @@ import SectionHeader from './SectionHeader.astro';
     );
     expect(violations).toHaveLength(0);
   });
+
+  it('flags <MedievalFrame> with class or className prop', () => {
+    const code = `---
+import MedievalFrame from './MedievalFrame.astro';
+---
+<MedievalFrame className="custom-shadow">
+  Content
+</MedievalFrame>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-medievalframe-classname');
+  });
+
+  it('passes on clean template using MedievalFrame', () => {
+    const code = `---
+import MedievalFrame from './MedievalFrame.astro';
+---
+<MedievalFrame size="small" interactive={true}>
+  Content
+</MedievalFrame>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(0);
+  });
 });

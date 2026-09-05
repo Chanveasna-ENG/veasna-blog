@@ -1,15 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
+import MedievalFrame from '../components/common/MedievalFrame.astro';
 import SectionHeader from '../components/common/SectionHeader.astro';
 import Heading from '../components/ui/Heading.astro';
-import MedievalCorner from '../components/ui/MedievalCorner.astro';
 import Paragraph from '../components/ui/Paragraph.astro';
 import PrimaryButton from '../components/ui/PrimaryButton.astro';
 import SecondaryButton from '../components/ui/SecondaryButton.astro';
 import SubtitleTag from '../components/ui/SubtitleTag.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const medievalCornerSize = 48;
 
 // 1. Fetch all published projects
 const allProjects = await getCollection(
@@ -44,28 +42,7 @@ const sortedProjects = allProjects.sort((a, b) => {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
       {
         sortedProjects.map((project) => (
-          <article class="medieval-frame p-8 relative flex flex-col justify-between group hover:border-bronze transition-colors">
-            <MedievalCorner
-              position="top-left"
-              size={medievalCornerSize}
-              className="absolute top-1 left-1 text-ink"
-            />
-            <MedievalCorner
-              position="top-right"
-              size={medievalCornerSize}
-              className="absolute top-1 right-1 text-ink"
-            />
-            <MedievalCorner
-              position="bottom-left"
-              size={medievalCornerSize}
-              className="absolute bottom-1 left-1 text-ink"
-            />
-            <MedievalCorner
-              position="bottom-right"
-              size={medievalCornerSize}
-              className="absolute bottom-1 right-1 text-ink"
-            />
-
+          <MedievalFrame size="small" as="article" interactive={true}>
             <div>
               <!-- Visual Preview Frame -->
               <div class="w-full aspect-[16/10] overflow-hidden border border-ink/30 relative mb-6 bg-parchmentDark/40">
@@ -110,7 +87,7 @@ const sortedProjects = allProjects.sort((a, b) => {
                 Read Architecture &rarr;
               </SecondaryButton>
             </div>
-          </article>
+          </MedievalFrame>
         ))
       }
     </div>
@@ -118,53 +95,38 @@ const sortedProjects = allProjects.sort((a, b) => {
     <!-- Empty State Fallback -->
     {
       sortedProjects.length === 0 && (
-        <div class="medieval-frame p-12 text-center max-w-xl mx-auto my-12">
-          <Heading as="h3" size="card" align="center" spacing="sm">
-            Projects In Staging
-          </Heading>
-          <Paragraph variant="small" align="center" spacing="none">
-            New architectural case studies are currently undergoing
-            documentation and will be released shortly.
-          </Paragraph>
+        <div class="max-w-xl mx-auto my-12 text-center">
+          <MedievalFrame size="small">
+            <Heading as="h3" size="card" align="center" spacing="sm">
+              Projects In Staging
+            </Heading>
+            <Paragraph variant="small" align="center" spacing="none">
+              New architectural case studies are currently undergoing
+              documentation and will be released shortly.
+            </Paragraph>
+          </MedievalFrame>
         </div>
       )
     }
 
     <!-- Bottom Contact CTA Banner -->
-    <div class="mt-20 medieval-frame p-10 text-center relative engraved-shadow">
-      <MedievalCorner
-        position="top-left"
-        size={medievalCornerSize}
-        className="absolute top-1 left-1 text-ink"
-      />
-      <MedievalCorner
-        position="top-right"
-        size={medievalCornerSize}
-        className="absolute top-1 right-1 text-ink"
-      />
-      <MedievalCorner
-        position="bottom-left"
-        size={medievalCornerSize}
-        className="absolute bottom-1 left-1 text-ink"
-      />
-      <MedievalCorner
-        position="bottom-right"
-        size={medievalCornerSize}
-        className="absolute bottom-1 right-1 text-ink"
-      />
-
-      <Heading as="h2" size="section" align="center">
-        Need a Custom Solution Engineered?
-      </Heading>
-      <div class="max-w-xl mx-auto mb-8">
-        <Paragraph variant="lead" align="center">
-          Whether you require an autonomous webhook pipeline, a high-converting web
-          portal, or hardened cloud infrastructure.
-        </Paragraph>
-      </div>
-      <PrimaryButton href="mailto:contact@chanveasna.eng" size="md">
-        Discuss Your Architecture
-      </PrimaryButton>
+    <div class="mt-20 text-center">
+      <MedievalFrame size="medium" interactive={true}>
+        <Heading as="h2" size="section" align="center">
+          Need a Custom Solution Engineered?
+        </Heading>
+        <div class="max-w-xl mx-auto mb-8">
+          <Paragraph variant="lead" align="center">
+            Whether you require an autonomous webhook pipeline, a high-converting web
+            portal, or hardened cloud infrastructure.
+          </Paragraph>
+        </div>
+        <div class="flex justify-center">
+          <PrimaryButton href="mailto:contact@chanveasna.eng" size="md">
+            Discuss Your Architecture
+          </PrimaryButton>
+        </div>
+      </MedievalFrame>
     </div>
   </div>
 </BaseLayout>

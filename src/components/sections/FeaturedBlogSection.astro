@@ -2,14 +2,13 @@
 import { getCollection } from 'astro:content';
 import { getLatestPosts } from '../../utils/blog';
 import { formatDateICT } from '../../utils/date';
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
 
-const medievalCornerSize = 48;
 const allBlogPosts = await getCollection('blog');
 const featuredPosts = getLatestPosts(allBlogPosts, 3);
 ---
@@ -28,12 +27,7 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
       {featuredPosts.map((post) => {
         const postDate = post.data.lastModifiedAt || post.data.createdAt;
         return (
-          <article class="medieval-frame p-6 sm:p-7 flex flex-col justify-between relative bg-parchment/50 group hover:border-bronze transition-colors">
-            <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
-            <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
-            <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
-            <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
-
+          <MedievalFrame size="small" as="article" interactive={true}>
             <div>
               <!-- Category and Date Meta -->
               <div class="flex items-center justify-between gap-2 mb-4">
@@ -72,7 +66,7 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
                 </span>
               )}
             </div>
-          </article>
+          </MedievalFrame>
         );
       })}
     </div>

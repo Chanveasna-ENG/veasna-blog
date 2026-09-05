@@ -15,6 +15,8 @@ const HERO_SUBTITLE_TAG_REGEX =
   /inline-block font-heading font-semibold uppercase tracking-widest text-bronze border-bronze border bg-transparent text-xs md:text-sm px-4 py-1 mb-6/;
 const SERVICES_SUBTITLE_TAG_REGEX =
   /inline-block font-heading font-semibold uppercase tracking-widest text-bronze border-bronze border bg-transparent text-xs px-3.5 py-1 mb-3/;
+const ENGRAVED_SHADOW_REGEX = /engraved-shadow/;
+const HOVER_BORDER_BRONZE_REGEX = /hover:border-bronze/;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
@@ -260,5 +262,35 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(ctaHeader.locator('h2')).toHaveText(
       'Ready to Transform Your Operations?'
     );
+  });
+
+  test('composite MedievalFrame renders outer border, 4 corners, and interactive shadow', async ({
+    page
+  }) => {
+    await page.goto('/');
+
+    // 1. Hero frame renders 4 corners
+    const heroFrame = page.locator(
+      'section.overflow-hidden div.medieval-frame'
+    );
+    await expect(heroFrame).toBeVisible();
+    const heroCorners = heroFrame.locator('img[alt*="Medieval Corner"]');
+    await expect(heroCorners).toHaveCount(4);
+
+    // 2. CTA frame renders engraved shadow and 4 corners
+    const ctaFrame = page.locator('section#cta div.medieval-frame');
+    await expect(ctaFrame).toBeVisible();
+    await expect(ctaFrame).toHaveClass(ENGRAVED_SHADOW_REGEX);
+    const ctaCorners = ctaFrame.locator('img[alt*="Medieval Corner"]');
+    await expect(ctaCorners).toHaveCount(4);
+
+    // 3. Services cards render with 4 corners and hover class
+    const serviceCards = page.locator('section#services div.medieval-frame');
+    await expect(serviceCards.first()).toBeVisible();
+    await expect(serviceCards.first()).toHaveClass(HOVER_BORDER_BRONZE_REGEX);
+    const serviceCardCorners = serviceCards
+      .first()
+      .locator('img[alt*="Medieval Corner"]');
+    await expect(serviceCardCorners).toHaveCount(4);
   });
 });

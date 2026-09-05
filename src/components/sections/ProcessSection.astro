@@ -1,8 +1,6 @@
 ---
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
-
-const medievalCornerSize = 48;
 
 const steps = [
   {
@@ -47,28 +45,7 @@ const steps = [
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       {
         steps.map((item) => (
-          <div class="medieval-frame p-8 relative flex flex-col justify-between group hover:border-bronze transition-colors overflow-hidden">
-            <MedievalCorner
-              position="top-left"
-              size={medievalCornerSize}
-              className="absolute top-1 left-1 text-ink"
-            />
-            <MedievalCorner
-              position="top-right"
-              size={medievalCornerSize}
-              className="absolute top-1 right-1 text-ink"
-            />
-            <MedievalCorner
-              position="bottom-left"
-              size={medievalCornerSize}
-              className="absolute bottom-1 left-1 text-ink"
-            />
-            <MedievalCorner
-              position="bottom-right"
-              size={medievalCornerSize}
-              className="absolute bottom-1 right-1 text-ink"
-            />
-
+          <MedievalFrame size="small" interactive={true}>
             <!-- Giant Watermark Step Number -->
             <div
               class="absolute -top-3 -right-2 font-heading font-bold text-6xl md:text-7xl text-bronze/10 select-none pointer-events-none"
@@ -106,7 +83,7 @@ const steps = [
               />
               <div class="absolute inset-0 border border-bronze/20 pointer-events-none" />
             </div>
-          </div>
+          </MedievalFrame>
         ))
       }
     </div>

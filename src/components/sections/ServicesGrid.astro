@@ -1,12 +1,10 @@
 ---
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
-
-const medievalCornerSize = 69;
 
 const services = [
   {
@@ -69,12 +67,7 @@ const services = [
     <!-- 3-Column Services Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       {services.map((service) => (
-        <div class="medieval-frame p-8 flex flex-col justify-between relative group hover:border-bronze transition-colors">
-          <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
-          <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
-          <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
-          <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
-
+        <MedievalFrame size="medium" interactive={true}>
           <div>
             <div class="flex items-center justify-between mb-6">
               <!-- Sketch Icon Container -->
@@ -118,7 +111,7 @@ const services = [
               </SecondaryButton>
             </div>
           </div>
-        </div>
+        </MedievalFrame>
       ))}
     </div>
 

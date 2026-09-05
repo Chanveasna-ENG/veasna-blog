@@ -1,37 +1,14 @@
 ---
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
 import PrimaryButton from '../ui/PrimaryButton.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
-
-const medievalCornerSize = 150;
 ---
 
 <section class="w-full py-12 md:py-16 px-4 sm:px-6 relative overflow-hidden">
   <div class="max-w-4xl mx-auto text-center relative z-10">
     <!-- Outer Medieval Line Frame Container -->
-    <div class="medieval-frame p-8 sm:p-12 md:p-16 relative">
-      <MedievalCorner
-        position="top-left"
-        size={medievalCornerSize}
-        className="absolute top-1 left-1 text-ink"
-      />
-      <MedievalCorner
-        position="top-right"
-        size={medievalCornerSize}
-        className="absolute top-1 right-1 text-ink"
-      />
-      <MedievalCorner
-        position="bottom-left"
-        size={medievalCornerSize}
-        className="absolute bottom-1 left-1 text-ink"
-      />
-      <MedievalCorner
-        position="bottom-right"
-        size={medievalCornerSize}
-        className="absolute bottom-1 right-1 text-ink"
-      />
-
+    <MedievalFrame size="big" background="transparent">
       <SectionHeader
         size="big"
         subtitle="Digital Realm Builder & Workflow Architect"
@@ -50,6 +27,6 @@ const medievalCornerSize = 150;
           Explore Outcomes
         </SecondaryButton>
       </div>
-    </div>
+    </MedievalFrame>
   </div>
 </section>

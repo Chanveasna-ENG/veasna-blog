@@ -4,13 +4,12 @@ import {
   getInquiryUrl,
   getPricingTiers
 } from '../../utils/pricing';
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import PrimaryButton from '../ui/PrimaryButton.astro';
 
-const medievalCornerSize = 54;
 const tiers = getPricingTiers();
 ---
 
@@ -26,12 +25,7 @@ const tiers = getPricingTiers();
     <!-- Pricing Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
       {tiers.map((tier) => (
-        <div class="medieval-frame p-8 flex flex-col justify-between relative bg-parchment/60 group hover:border-bronze transition-all duration-300 engraved-shadow">
-          <MedievalCorner position="top-left" size={medievalCornerSize} className="absolute top-1 left-1 text-ink" />
-          <MedievalCorner position="top-right" size={medievalCornerSize} className="absolute top-1 right-1 text-ink" />
-          <MedievalCorner position="bottom-left" size={medievalCornerSize} className="absolute bottom-1 left-1 text-ink" />
-          <MedievalCorner position="bottom-right" size={medievalCornerSize} className="absolute bottom-1 right-1 text-ink" />
-
+        <MedievalFrame size="medium" interactive={true}>
           <div>
             <!-- Tier Header -->
             <div class="mb-4">
@@ -86,7 +80,7 @@ const tiers = getPricingTiers();
               Scope This Build &rarr;
             </PrimaryButton>
           </div>
-        </div>
+        </MedievalFrame>
       ))}
     </div>
   </div>

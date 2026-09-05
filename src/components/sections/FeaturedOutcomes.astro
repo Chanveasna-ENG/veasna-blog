@@ -1,11 +1,9 @@
 ---
+import MedievalFrame from '../common/MedievalFrame.astro';
 import Heading from '../ui/Heading.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
 import MedievalDivider from '../ui/MedievalDivider.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
-
-const medievalCornerSize = 69;
 
 const caseStudies = [
   {
@@ -47,18 +45,7 @@ const caseStudies = [
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       {
         caseStudies.map((study) => (
-          <div class="medieval-frame p-8 relative flex flex-col justify-between">
-            <MedievalCorner
-              position="top-left"
-              size={medievalCornerSize}
-              className="absolute top-1 left-1 text-ink"
-            />
-            <MedievalCorner
-              position="top-right"
-              size={medievalCornerSize}
-              className="absolute top-1 right-1 text-ink"
-            />
-
+          <MedievalFrame size="medium" interactive={true}>
             <div>
               <SubtitleTag variant="ghost" size="sm" spacing="xs">
                 {study.category}
@@ -86,7 +73,7 @@ const caseStudies = [
             <div class="p-4 bg-transparent border-l-4 border-bronze text-ink font-heading text-base font-bold">
               <span class="text-bronze mr-1">Impact:</span> {study.impact}
             </div>
-          </div>
+          </MedievalFrame>
         ))
       }
     </div>

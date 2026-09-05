@@ -4,6 +4,7 @@ const PARAGRAPH_TAG_REGEX = /<Paragraph\b([^>]*)>/gs;
 const HEADING_TAG_REGEX = /<Heading\b([^>]*)>/gs;
 const SUBTITLE_TAG_REGEX = /<SubtitleTag\b([^>]*)>/gs;
 const SECTION_HEADER_TAG_REGEX = /<SectionHeader\b([^>]*)>/gs;
+const MEDIEVAL_FRAME_TAG_REGEX = /<MedievalFrame\b([^>]*)>/gs;
 const CLASS_PROP_REGEX = /\b(className|class)\s*=/i;
 
 /**
@@ -159,6 +160,32 @@ function checkSectionHeaderClassProps(content) {
 }
 
 /**
+ * Checks content for forbidden className or class props on MedievalFrame components.
+ * @param {string} content
+ * @returns {Array<{ rule: string, line: number, message: string }>}
+ */
+function checkMedievalFrameClassProps(content) {
+  const propViolations = [];
+  const matches = content.matchAll(MEDIEVAL_FRAME_TAG_REGEX);
+
+  for (const match of matches) {
+    const attrs = match[1];
+    if (CLASS_PROP_REGEX.test(attrs)) {
+      const upToMatch = content.slice(0, match.index);
+      const lineNumber = upToMatch.split('\n').length;
+      propViolations.push({
+        rule: 'no-medievalframe-classname',
+        line: lineNumber,
+        message:
+          'Forbidden className or class prop on <MedievalFrame>. Layout and borders are encapsulated.'
+      });
+    }
+  }
+
+  return propViolations;
+}
+
+/**
  * Validates an Astro template string against atomic typography and styling rules.
  * @param {string} content - Full file content of the .astro file
  * @param {string} filePath - Path to the file being validated
@@ -195,6 +222,7 @@ export function validateAstroTemplate(content, filePath = '') {
   violations.push(...checkHeadingClassProps(content));
   violations.push(...checkSubtitleTagClassProps(content));
   violations.push(...checkSectionHeaderClassProps(content));
+  violations.push(...checkMedievalFrameClassProps(content));
 
   return violations;
 }

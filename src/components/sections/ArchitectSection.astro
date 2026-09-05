@@ -1,12 +1,10 @@
 ---
+import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
-import MedievalCorner from '../ui/MedievalCorner.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
 import SocialLink from '../ui/SocialLink.astro';
-
-const medievalCornerSize = 69;
 
 const socialLinks = [
   { platform: 'linkedin' as const, href: 'https://linkedin.com' },
@@ -19,27 +17,7 @@ const socialLinks = [
 <section id="architect" class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-6xl mx-auto">
     <!-- Outer Medieval Frame -->
-    <div class="medieval-frame p-8 sm:p-12 md:p-14 relative">
-      <MedievalCorner
-        position="top-left"
-        size={medievalCornerSize}
-        className="absolute top-1 left-1 text-ink"
-      />
-      <MedievalCorner
-        position="top-right"
-        size={medievalCornerSize}
-        className="absolute top-1 right-1 text-ink"
-      />
-      <MedievalCorner
-        position="bottom-left"
-        size={medievalCornerSize}
-        className="absolute bottom-1 left-1 text-ink"
-      />
-      <MedievalCorner
-        position="bottom-right"
-        size={medievalCornerSize}
-        className="absolute bottom-1 right-1 text-ink"
-      />
+    <MedievalFrame size="medium" background="transparent">
 
       <div
         class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
@@ -129,6 +107,6 @@ const socialLinks = [
           </div>
         </div>
       </div>
-    </div>
+    </MedievalFrame>
   </div>
 </section>

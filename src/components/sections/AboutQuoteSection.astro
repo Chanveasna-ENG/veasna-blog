@@ -1,5 +1,5 @@
 ---
-import MedievalCorner from '../ui/MedievalCorner.astro';
+import MedievalFrame from '../common/MedievalFrame.astro';
 import Paragraph from '../ui/Paragraph.astro';
 
 interface Props {
@@ -11,35 +11,11 @@ const {
   quote = 'True digital architecture does not demand constant babysitting. It hums silently in the background, reliably capturing leads, syncing data, and converting visitors into loyal clients.',
   author = 'Chanveasna ENG'
 } = Astro.props;
-
-const medievalCornerSize = 48;
 ---
 
 <section class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-4xl mx-auto">
-    <div
-      class="medieval-frame p-8 sm:p-12 relative bg-parchment/70 text-center engraved-shadow"
-    >
-      <MedievalCorner
-        position="top-left"
-        size={medievalCornerSize}
-        className="absolute top-1 left-1 text-ink"
-      />
-      <MedievalCorner
-        position="top-right"
-        size={medievalCornerSize}
-        className="absolute top-1 right-1 text-ink"
-      />
-      <MedievalCorner
-        position="bottom-left"
-        size={medievalCornerSize}
-        className="absolute bottom-1 left-1 text-ink"
-      />
-      <MedievalCorner
-        position="bottom-right"
-        size={medievalCornerSize}
-        className="absolute bottom-1 right-1 text-ink"
-      />
+    <MedievalFrame size="small" interactive={true}>
 
       <blockquote class="m-0 p-0">
         <Paragraph
@@ -59,6 +35,6 @@ const medievalCornerSize = 48;
           <span class="w-10 sm:w-14 h-[1px] bg-bronze/60"></span>
         </footer>
       </blockquote>
-    </div>
+    </MedievalFrame>
   </div>
 </section>
