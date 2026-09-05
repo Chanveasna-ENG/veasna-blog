@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 const ABOUT_TITLE_REGEX = /About Chanveasna ENG/i;
 const BOOK_CALL_REGEX = /Book Strategy Call/i;
+const VIEW_WORK_REGEX = /View Work/i;
 const PY_12_REGEX = /py-12/;
 const MD_PY_16_REGEX = /md:py-16/;
 
@@ -21,6 +22,18 @@ test.describe('About Page Revamped Architecture', () => {
 
     const bookCallBtn = page.getByRole('link', { name: BOOK_CALL_REGEX });
     await expect(bookCallBtn).toBeVisible();
+
+    const viewWorkBtn = page.getByRole('link', { name: VIEW_WORK_REGEX });
+    await expect(viewWorkBtn).toBeVisible();
+
+    const connectFollowLabel = page.locator(
+      'span:has-text("Connect & Follow:")'
+    );
+    await expect(connectFollowLabel).not.toBeVisible();
+
+    const heroSection = page.locator('section.relative').first();
+    const socialLinks = heroSection.locator('a[title]');
+    await expect(socialLinks).toHaveCount(4);
   });
 
   test('philosophy section displays core values manifesto', async ({

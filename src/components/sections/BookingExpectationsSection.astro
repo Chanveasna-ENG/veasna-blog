@@ -1,0 +1,62 @@
+---
+import MedievalFrame from '../common/MedievalFrame.astro';
+import SectionHeader from '../common/SectionHeader.astro';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+
+const expectations = [
+  {
+    step: '01',
+    title: 'Personalized Strategy',
+    description:
+      'We inspect your existing operational bottlenecks, repetitive manual toil, and fragmented tool stack to pinpoint high-leverage automation opportunities.'
+  },
+  {
+    step: '02',
+    title: 'Architectural Feasibility',
+    description:
+      'We outline deterministic workflow blueprints (n8n, Make), intelligent messaging bot integrations, and high-speed web architectures built for durability.'
+  },
+  {
+    step: '03',
+    title: 'Clear Next Steps',
+    description:
+      'You leave with transparent technical recommendations, realistic milestones, and pricing baselines — zero aggressive sales pitches.'
+  }
+];
+---
+
+<section id="expectations" class="w-full py-12 md:py-16 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+    <SectionHeader
+      size="normal"
+      as="h2"
+      headingSize="section"
+      paragraphVariant="lead"
+      subtitle="Consultation Roadmap"
+      title="What To Expect On The Call"
+      description="A focused 30-minute working session with an engineer to evaluate your technical parameters and operational roadmap."
+      divider="feather"
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 sm:mt-12">
+      {
+        expectations.map((item) => (
+          <MedievalFrame size="small" interactive={true}>
+            <div class="p-6 flex flex-col items-start text-left h-full">
+              <span class="font-heading font-bold text-xs uppercase tracking-widest text-bronze border border-bronze px-2.5 py-0.5 mb-4">
+                Step {item.step}
+              </span>
+              <Heading as="h3" size="card" spacing="sm">
+                {item.title}
+              </Heading>
+              <Paragraph variant="body" spacing="none">
+                {item.description}
+              </Paragraph>
+            </div>
+          </MedievalFrame>
+        ))
+      }
+    </div>
+  </div>
+</section>

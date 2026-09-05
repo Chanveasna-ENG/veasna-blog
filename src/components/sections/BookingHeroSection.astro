@@ -1,0 +1,36 @@
+---
+import MedievalFrame from '../common/MedievalFrame.astro';
+import SectionHeader from '../common/SectionHeader.astro';
+---
+
+<section class="w-full py-12 md:py-16 px-4 sm:px-6 relative">
+  <div class="max-w-5xl mx-auto flex flex-col items-center">
+    <!-- Header Section -->
+    <SectionHeader
+      size="normal"
+      as="h1"
+      headingSize="hero"
+      paragraphVariant="lead"
+      subtitle="Direct Calendar Scheduling"
+      title="Book Your Strategy Call"
+      description="Select a convenient time slot below for a 30-minute working discovery consultation on your automation architecture, lead engine, or web platform."
+      divider="feather"
+    />
+
+    <!-- Embedded Google Calendar Appointment Scheduling Container -->
+    <div class="w-full max-w-5xl mt-6 sm:mt-8">
+      <MedievalFrame size="small" background="parchment">
+        <div class="w-full overflow-hidden rounded-sm">
+          <iframe
+            src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ29gRfCKxg9Ev502rPc_9Ax4EC4zX7Rs2VJD84PfbpqDjFtfwAHwC35oEAAdFTjY_9xnKGyRZlH?gv=true"
+            style="border: 0; mix-blend-mode: multiply; filter: hue-rotate(185deg) contrast(105%) sepia(25%);"
+            width="100%"
+            height="760"
+            title="Google Calendar Appointment Scheduling"
+            class="w-full h-[760px] border-0"
+          ></iframe>
+        </div>
+      </MedievalFrame>
+    </div>
+  </div>
+</section>

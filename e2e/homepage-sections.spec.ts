@@ -17,6 +17,9 @@ const SERVICES_SUBTITLE_TAG_REGEX =
   /inline-block font-heading font-semibold uppercase tracking-widest text-bronze border-bronze border bg-transparent text-xs px-3.5 py-1 mb-3/;
 const ENGRAVED_SHADOW_REGEX = /engraved-shadow/;
 const HOVER_BORDER_BRONZE_REGEX = /hover:border-bronze/;
+const MT_6_REGEX = /mt-6/;
+const SM_MT_8_REGEX = /sm:mt-8/;
+const BOOK_FREE_CALL_REGEX = /Book a Free Call/i;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
@@ -292,5 +295,43 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
       .first()
       .locator('img[alt*="Medieval Corner"]');
     await expect(serviceCardCorners).toHaveCount(4);
+  });
+
+  test('architect section renders 4 core social channels with vertical spacing', async ({
+    page
+  }) => {
+    await page.goto('/#architect');
+    const architectSection = page.locator('section#architect');
+    await expect(architectSection).toBeVisible();
+
+    const socialContainer = architectSection.locator(
+      'div.flex.items-center.gap-2\\.5'
+    );
+    await expect(socialContainer).toBeVisible();
+    await expect(socialContainer).toHaveClass(MT_6_REGEX);
+    await expect(socialContainer).toHaveClass(SM_MT_8_REGEX);
+
+    const socialLinks = socialContainer.locator('a[title]');
+    await expect(socialLinks).toHaveCount(4);
+
+    const connectFollow = architectSection.locator('text="Connect & Follow:"');
+    await expect(connectFollow).not.toBeVisible();
+  });
+
+  test('project inquiry section renders all 8 social links and book call button to /book-a-call', async ({
+    page
+  }) => {
+    await page.goto('/#contact');
+    const contactSection = page.locator('section#contact');
+    await expect(contactSection).toBeVisible();
+
+    const socialLinks = contactSection.locator('a[title]');
+    await expect(socialLinks).toHaveCount(8);
+
+    const bookCallBtn = contactSection.getByRole('link', {
+      name: BOOK_FREE_CALL_REGEX
+    });
+    await expect(bookCallBtn).toBeVisible();
+    await expect(bookCallBtn).toHaveAttribute('href', '/book-a-call');
   });
 });

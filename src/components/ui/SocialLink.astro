@@ -1,6 +1,13 @@
 ---
+import {
+  type SocialPlatform,
+  getSocialIconPath,
+  getSocialLabel,
+  getSocialTarget
+} from '../../data/socials';
+
 interface Props {
-  platform: 'linkedin' | 'upwork' | 'instagram' | 'email' | 'github';
+  platform: SocialPlatform;
   href: string;
   label?: string;
   className?: string;
@@ -8,22 +15,15 @@ interface Props {
 
 const { platform, href, label, className = '' } = Astro.props;
 
-const defaultLabels: Record<string, string> = {
-  linkedin: 'LinkedIn',
-  upwork: 'Upwork',
-  instagram: 'Instagram',
-  email: 'Email',
-  github: 'GitHub'
-};
-
-const displayLabel = label || defaultLabels[platform] || platform;
-const iconSrc = `/svg/icon-${platform}.svg`;
+const displayLabel = getSocialLabel(platform, label);
+const iconSrc = getSocialIconPath(platform);
+const { target, rel } = getSocialTarget(platform);
 ---
 
 <a
   href={href}
-  target={platform === 'email' ? '_self' : '_blank'}
-  rel={platform === 'email' ? undefined : 'noopener noreferrer'}
+  target={target}
+  rel={rel}
   aria-label={displayLabel}
   title={displayLabel}
   class={`inline-flex items-center justify-center w-11 h-11 border border-ink text-ink bg-parchment/60 hover:bg-parchmentDark hover:border-bronze transition-all duration-200 shadow-sm hover:shadow-md group ${className}`}

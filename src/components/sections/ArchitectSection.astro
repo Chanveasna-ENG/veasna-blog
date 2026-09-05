@@ -1,17 +1,11 @@
 ---
+import { primarySocialLinks } from '../../data/socials';
 import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
 import SocialLink from '../ui/SocialLink.astro';
-
-const socialLinks = [
-  { platform: 'linkedin' as const, href: 'https://linkedin.com' },
-  { platform: 'upwork' as const, href: 'https://upwork.com' },
-  { platform: 'instagram' as const, href: 'https://instagram.com' },
-  { platform: 'email' as const, href: 'mailto:contact@chanveasna.eng' }
-];
 ---
 
 <section id="architect" class="w-full py-12 md:py-16 px-4 sm:px-6">
@@ -49,20 +43,13 @@ const socialLinks = [
             </div>
           </SectionHeader>
 
-          <!-- Social Links & Direct Contact Channels -->
-          <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-            <span
-              class="font-heading font-semibold text-xs uppercase tracking-widest text-bronze"
-            >
-              Connect &amp; Follow:
-            </span>
-            <div class="flex items-center gap-2.5">
-              {
-                socialLinks.map((item) => (
-                  <SocialLink platform={item.platform} href={item.href} />
-                ))
-              }
-            </div>
+          <!-- Social Links (4 core platforms) -->
+          <div class="flex items-center gap-2.5 mt-6 sm:mt-8">
+            {
+              primarySocialLinks.map((item) => (
+                <SocialLink platform={item.platform} href={item.href} />
+              ))
+            }
           </div>
         </div>
 

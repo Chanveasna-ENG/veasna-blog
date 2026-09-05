@@ -13,6 +13,10 @@ export default defineConfig({
 
   integrations: [react(), mdx(), sitemap()],
 
+  redirects: {
+    '/contact': '/book-a-call'
+  },
+
   vite: {
     plugins: [tailwindcss()]
   }

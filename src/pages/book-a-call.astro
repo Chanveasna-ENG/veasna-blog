@@ -1,0 +1,19 @@
+---
+import BookingExpectationsSection from '../components/sections/BookingExpectationsSection.astro';
+import BookingHeroSection from '../components/sections/BookingHeroSection.astro';
+import CallToActionSection from '../components/sections/CallToActionSection.astro';
+import FAQSection from '../components/sections/FAQSection.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Book A Strategy Call | Chanveasna ENG"
+  description="Schedule a 30-minute discovery consultation on your automation architecture, lead engine, or web platform with Chanveasna ENG."
+>
+  <div class="w-full">
+    <BookingHeroSection />
+    <BookingExpectationsSection />
+    <FAQSection />
+    <CallToActionSection />
+  </div>
+</BaseLayout>
