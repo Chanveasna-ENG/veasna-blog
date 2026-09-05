@@ -11,6 +11,10 @@ const HERO_HEADING_REGEX =
   /font-heading text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-wide text-ink text-center mb-6/;
 const SECTION_HEADING_REGEX =
   /font-heading text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-ink text-center mb-4/;
+const HERO_SUBTITLE_TAG_REGEX =
+  /inline-block font-heading font-semibold uppercase tracking-widest text-bronze border-bronze border bg-transparent text-xs md:text-sm px-4 py-1 mb-6/;
+const SERVICES_SUBTITLE_TAG_REGEX =
+  /inline-block font-heading font-semibold uppercase tracking-widest text-bronze border-bronze border bg-transparent text-xs px-3.5 py-1 mb-3/;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
@@ -169,5 +173,23 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     const servicesHeading = page.locator('section#services h2');
     await expect(servicesHeading).toBeVisible();
     await expect(servicesHeading).toHaveClass(SECTION_HEADING_REGEX);
+  });
+
+  test('subtitle tags enforce token classes without custom class leakage', async ({
+    page
+  }) => {
+    await page.goto('/');
+
+    const heroSubtitle = page.locator(
+      'section.overflow-hidden span:has-text("Digital Realm Builder")'
+    );
+    await expect(heroSubtitle).toBeVisible();
+    await expect(heroSubtitle).toHaveClass(HERO_SUBTITLE_TAG_REGEX);
+
+    const servicesSubtitle = page.locator(
+      'section#services span:has-text("Core Capabilities")'
+    );
+    await expect(servicesSubtitle).toBeVisible();
+    await expect(servicesSubtitle).toHaveClass(SERVICES_SUBTITLE_TAG_REGEX);
   });
 });

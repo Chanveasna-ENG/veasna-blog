@@ -32,7 +32,7 @@ const sortedProjects = allProjects.sort((a, b) => {
   <div class="w-full max-w-6xl mx-auto py-12 px-4 sm:px-6">
     <!-- Page Header -->
     <header class="text-center max-w-3xl mx-auto mb-14">
-      <SubtitleTag variant="bordered" size="sm" className="mb-4">
+      <SubtitleTag variant="bordered" size="sm" spacing="md">
         Engineering Archive
       </SubtitleTag>
       <Heading as="h1" size="hero" align="center" spacing="lg">
@@ -87,7 +87,7 @@ const sortedProjects = allProjects.sort((a, b) => {
               <!-- Tags Row -->
               <div class="flex flex-wrap items-center gap-2 mb-3">
                 {project.data.tags.map((tag) => (
-                  <SubtitleTag variant="ghost" size="sm">
+                  <SubtitleTag variant="ghost" size="sm" spacing="none">
                     #{tag}
                   </SubtitleTag>
                 ))}

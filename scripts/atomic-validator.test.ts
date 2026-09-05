@@ -127,4 +127,53 @@ const Tag = as;
     );
     expect(violations).toHaveLength(0);
   });
+
+  it('flags <SubtitleTag> with className prop', () => {
+    const code = `---
+import SubtitleTag from './SubtitleTag.astro';
+---
+<SubtitleTag className="mb-3">Eyebrow</SubtitleTag>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-subtitletag-classname');
+    expect(violations[0].line).toBe(4);
+  });
+
+  it('flags <SubtitleTag> with multiline class or className prop', () => {
+    const code = `---
+import SubtitleTag from './SubtitleTag.astro';
+---
+<div>
+  <SubtitleTag
+    variant="bordered"
+    className="mb-4"
+  >
+    Eyebrow
+  </SubtitleTag>
+</div>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-subtitletag-classname');
+    expect(violations[0].line).toBe(5);
+  });
+
+  it('passes on clean template using SubtitleTag with spacing prop', () => {
+    const code = `---
+import SubtitleTag from './SubtitleTag.astro';
+---
+<section>
+  <SubtitleTag variant="bordered" spacing="sm">Eyebrow</SubtitleTag>
+</section>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(0);
+  });
 });

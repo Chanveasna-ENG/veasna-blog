@@ -1,49 +1,17 @@
 ---
-interface Props {
-  variant?: 'bordered' | 'badge' | 'ghost';
-  color?: 'bronze' | 'ink' | 'gold';
-  size?: 'sm' | 'md';
-  as?: 'div' | 'span' | 'p';
-  className?: string;
-}
+import {
+  type SubtitleTagProps,
+  getSubtitleTagClasses
+} from './subtitle-tag.utils';
 
-const {
-  variant = 'bordered',
-  color = 'bronze',
-  size = 'sm',
-  as = 'span',
-  className = ''
-} = Astro.props;
+interface Props extends SubtitleTagProps {}
+
+const { as = 'span', ...props } = Astro.props;
 
 const Tag = as;
-
-const colorClasses: Record<string, string> = {
-  bronze: 'text-bronze border-bronze',
-  ink: 'text-ink border-ink',
-  gold: 'text-gold border-gold'
-};
-
-const variantClasses: Record<string, string> = {
-  bordered: 'border bg-transparent',
-  badge: 'border bg-parchmentDark/60',
-  ghost: 'border-0 bg-transparent'
-};
-
-const sizeClasses: Record<string, string> = {
-  sm: variant === 'ghost' ? 'text-xs px-0 py-0' : 'text-xs px-3.5 py-1',
-  md:
-    variant === 'ghost'
-      ? 'text-xs md:text-sm px-0 py-0'
-      : 'text-xs md:text-sm px-4 py-1'
-};
-
-const selectedColor = colorClasses[color] || colorClasses.bronze;
-const selectedVariant = variantClasses[variant] || variantClasses.bordered;
-const selectedSize = sizeClasses[size] || sizeClasses.sm;
+const classes = getSubtitleTagClasses(props);
 ---
 
-<Tag
-  class={`inline-block font-heading font-semibold uppercase tracking-widest ${selectedColor} ${selectedVariant} ${selectedSize} ${className}`}
->
+<Tag class={classes}>
   <slot />
 </Tag>

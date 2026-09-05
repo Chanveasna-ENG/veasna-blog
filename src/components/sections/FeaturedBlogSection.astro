@@ -18,7 +18,7 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
     <div class="text-center max-w-2xl mx-auto mb-12">
-      <SubtitleTag variant="bordered" size="sm" className="mb-3">
+      <SubtitleTag variant="bordered" size="sm">
         Knowledge &amp; Field Notes
       </SubtitleTag>
       <Heading as="h2" size="section" align="center">
@@ -44,7 +44,7 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
             <div>
               <!-- Category and Date Meta -->
               <div class="flex items-center justify-between gap-2 mb-4">
-                <SubtitleTag variant="badge" size="sm" color="bronze">
+                <SubtitleTag variant="badge" size="sm" color="bronze" spacing="none">
                   {post.data.category || 'Guide'}
                 </SubtitleTag>
                 <time datetime={postDate.toISOString()} class="text-xs font-body text-inkMuted">

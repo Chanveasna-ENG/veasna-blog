@@ -26,7 +26,7 @@ const sortedProjects = projects.sort((a, b) => {
 <section id="portfolio" class="w-full py-12 md:py-16 px-4 sm:px-6">
 
   <div class="max-w-3xl mx-auto text-center mb-10">
-    <SubtitleTag variant="bordered" size="sm" className="mb-3">
+    <SubtitleTag variant="bordered" size="sm">
       Proven Outcomes &amp; Architecture
     </SubtitleTag>
     <Heading as="h2" size="section" align="center" spacing="sm">
@@ -83,7 +83,7 @@ const sortedProjects = projects.sort((a, b) => {
 
               <!-- Category / Tech Tag -->
               <div class="flex flex-wrap items-center gap-2 mb-2">
-                <SubtitleTag variant="ghost" size="sm">
+                <SubtitleTag variant="ghost" size="sm" spacing="none">
                   {item.data.tags[0] || 'System Architecture'}
                 </SubtitleTag>
               </div>

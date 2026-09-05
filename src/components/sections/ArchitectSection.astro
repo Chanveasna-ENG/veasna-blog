@@ -46,9 +46,9 @@ const socialLinks = [
         class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center"
       >
         <!-- Left Column: Narrative, Philosophy & Social Channels (7 cols) -->
-        <div class="lg:col-span-7 flex flex-col text-left">
+        <div class="lg:col-span-7 flex flex-col items-start text-left">
           <!-- Subtitle Tag -->
-          <SubtitleTag variant="bordered" size="sm" className="self-start mb-4">
+          <SubtitleTag variant="bordered" size="sm" spacing="md">
             Digital Architect &amp; Workflow Specialist
           </SubtitleTag>
 
@@ -75,7 +75,7 @@ const socialLinks = [
           </div>
 
           <!-- Divider -->
-          <MedievalDivider variant="feather" className="!justify-start" />
+          <MedievalDivider variant="diamond"/>
 
           <!-- Social Links & Direct Contact Channels -->
           <div class="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -128,7 +128,6 @@ const socialLinks = [
 
             <!-- Action Button Under Headshot -->
             <div class="w-full justify-center">
-              <MedievalDivider variant="feather" />
               <SecondaryButton href="#contact" className="w-full text-center">
                 Initiate Discussion
               </SecondaryButton>
