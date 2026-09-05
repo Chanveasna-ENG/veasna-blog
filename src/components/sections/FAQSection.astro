@@ -1,8 +1,6 @@
 ---
+import SectionHeader from '../common/SectionHeader.astro';
 import Accordion, { type AccordionItem } from '../ui/Accordion.astro';
-import Heading from '../ui/Heading.astro';
-import MedievalDivider from '../ui/MedievalDivider.astro';
-import SubtitleTag from '../ui/SubtitleTag.astro';
 
 interface Props {
   items?: AccordionItem[];
@@ -44,15 +42,10 @@ const { items = defaultFAQItems } = Astro.props;
 <section id="faq" class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-4xl mx-auto">
     <!-- Centered Header Block -->
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <SubtitleTag variant="bordered" size="sm">
-        FAQS
-      </SubtitleTag>
-      <Heading as="h2" size="section" align="center" spacing="sm">
-        Frequently Addressed Inquiries
-      </Heading>
-      <MedievalDivider variant="feather" />
-    </div>
+    <SectionHeader
+      subtitle="FAQS"
+      title="Frequently Addressed Inquiries"
+    />
 
     <!-- Reusable Accordion Component -->
     <Accordion items={items} />

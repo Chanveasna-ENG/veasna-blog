@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 import { getLatestPosts } from '../../utils/blog';
 import { formatDateICT } from '../../utils/date';
+import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
-import MedievalDivider from '../ui/MedievalDivider.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
@@ -17,18 +17,11 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
 <section id="blogs" class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <SubtitleTag variant="bordered" size="sm">
-        Knowledge &amp; Field Notes
-      </SubtitleTag>
-      <Heading as="h2" size="section" align="center">
-        Technical Blueprints &amp; Automation Hacks
-      </Heading>
-      <Paragraph variant="lead" align="center">
-        Step-by-step technical guides, automation patterns, and engineering insights from active production systems.
-      </Paragraph>
-      <MedievalDivider variant="feather" />
-    </div>
+    <SectionHeader
+      subtitle="Knowledge & Field Notes"
+      title="Technical Blueprints & Automation Hacks"
+      description="Step-by-step technical guides, automation patterns, and engineering insights from active production systems."
+    />
 
     <!-- 3-Column Blog Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">

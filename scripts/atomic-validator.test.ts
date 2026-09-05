@@ -176,4 +176,56 @@ import SubtitleTag from './SubtitleTag.astro';
     );
     expect(violations).toHaveLength(0);
   });
+
+  it('flags <SectionHeader> with className prop', () => {
+    const code = `---
+import SectionHeader from './SectionHeader.astro';
+---
+<SectionHeader subtitle="Sub" title="Title" className="mb-4" />`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-sectionheader-classname');
+    expect(violations[0].line).toBe(4);
+  });
+
+  it('flags <SectionHeader> with multiline class or className prop', () => {
+    const code = `---
+import SectionHeader from './SectionHeader.astro';
+---
+<div>
+  <SectionHeader
+    subtitle="Sub"
+    title="Title"
+    className="custom-header"
+  />
+</div>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-sectionheader-classname');
+    expect(violations[0].line).toBe(5);
+  });
+
+  it('passes on clean template using SectionHeader', () => {
+    const code = `---
+import SectionHeader from './SectionHeader.astro';
+---
+<section>
+  <SectionHeader
+    subtitle="Sub"
+    title="Title"
+    description="Description text"
+  />
+</section>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(0);
+  });
 });

@@ -1,4 +1,5 @@
 ---
+import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
 import MedievalDivider from '../ui/MedievalDivider.astro';
@@ -41,18 +42,11 @@ const values = [
 
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center max-w-3xl mx-auto mb-12">
-      <SubtitleTag variant="bordered" size="sm">
-        Core Philosophy
-      </SubtitleTag>
-      <Heading as="h2" size="section" align="center">
-        Engineering Values That Drive Every Build
-      </Heading>
-      <Paragraph variant="lead" align="center">
-        Automation is not just about saving minutes—it is about establishing an unyielding foundation where your business operations run autonomously with predictable precision.
-      </Paragraph>
-      <MedievalDivider variant="feather" />
-    </div>
+    <SectionHeader
+      subtitle="Core Philosophy"
+      title="Engineering Values That Drive Every Build"
+      description="Automation is not just about saving minutes—it is about establishing an unyielding foundation where your business operations run autonomously with predictable precision."
+    />
 
     <!-- 4-Pillar Narrative Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

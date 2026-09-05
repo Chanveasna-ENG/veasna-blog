@@ -1,7 +1,6 @@
 ---
-import Heading from '../ui/Heading.astro';
+import SectionHeader from '../common/SectionHeader.astro';
 import MedievalDivider from '../ui/MedievalDivider.astro';
-import SubtitleTag from '../ui/SubtitleTag.astro';
 
 interface TechLogo {
   name: string;
@@ -29,14 +28,11 @@ const marqueeItems = [...techLogos, ...techLogos];
   <!-- Top Medieval Divider -->
   <MedievalDivider variant="diamond" />
 
-  <div class="max-w-5xl mx-auto flex flex-col items-center text-center mt-6 md:mt-8 mb-6 md:mb-8">
-    <SubtitleTag variant="bordered" size="sm">
-      Tools &amp; Frameworks
-    </SubtitleTag>
-    <Heading as="h2" size="section" align="center" spacing="none">
-      Integrated Platforms &amp; Ecosystem
-    </Heading>
-  </div>
+  <SectionHeader
+    subtitle="Tools & Frameworks"
+    title="Integrated Platforms & Ecosystem"
+    divider={false}
+  />
 
   <!-- Infinite Scroll Marquee Container -->
   <div class="w-full max-w-6xl mx-auto relative overflow-hidden mt-0 mb-6 md:mb-8">

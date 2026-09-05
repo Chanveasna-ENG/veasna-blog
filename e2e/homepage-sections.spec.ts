@@ -10,7 +10,7 @@ const LEAD_PARAGRAPH_REGEX =
 const HERO_HEADING_REGEX =
   /font-heading text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-wide text-ink text-center mb-6/;
 const SECTION_HEADING_REGEX =
-  /font-heading text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-ink text-center mb-4/;
+  /font-heading text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-ink text-center mb-[34]/;
 const HERO_SUBTITLE_TAG_REGEX =
   /inline-block font-heading font-semibold uppercase tracking-widest text-bronze border-bronze border bg-transparent text-xs md:text-sm px-4 py-1 mb-6/;
 const SERVICES_SUBTITLE_TAG_REGEX =
@@ -149,13 +149,13 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(heroLeadContainer).toHaveClass(LEAD_PARAGRAPH_REGEX);
 
     const portfolioLead = page.locator(
-      'section#portfolio div.max-w-3xl.mx-auto.text-center.mb-10 > p'
+      'section#portfolio div.max-w-5xl.mx-auto > p'
     );
     await expect(portfolioLead).toBeVisible();
     await expect(portfolioLead).toHaveClass(LEAD_PARAGRAPH_REGEX);
 
     const servicesLead = page.locator(
-      'section#services div.text-center.max-w-2xl.mx-auto.mb-12 > p'
+      'section#services div.max-w-5xl.mx-auto > p'
     );
     await expect(servicesLead).toBeVisible();
     await expect(servicesLead).toHaveClass(LEAD_PARAGRAPH_REGEX);
@@ -191,5 +191,32 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     );
     await expect(servicesSubtitle).toBeVisible();
     await expect(servicesSubtitle).toHaveClass(SERVICES_SUBTITLE_TAG_REGEX);
+  });
+
+  test('composite SectionHeader renders subtitle, heading, paragraph, and divider in unified layout', async ({
+    page
+  }) => {
+    await page.goto('/');
+
+    const servicesHeader = page.locator(
+      'section#services div.max-w-5xl.mx-auto.flex.flex-col.items-center'
+    );
+    await expect(servicesHeader).toBeVisible();
+
+    const subtitle = servicesHeader.locator('span').first();
+    await expect(subtitle).toHaveText('Core Capabilities');
+
+    const heading = servicesHeader.locator('h2');
+    await expect(heading).toHaveText('Specialized Engineering Services');
+
+    const paragraph = servicesHeader.locator('p');
+    await expect(paragraph).toContainText(
+      'Bridging medieval precision with modern automation architecture'
+    );
+
+    const divider = servicesHeader
+      .locator('div.w-full.flex.items-center')
+      .first();
+    await expect(divider).toBeVisible();
   });
 });

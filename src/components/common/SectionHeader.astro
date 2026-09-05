@@ -1,0 +1,39 @@
+---
+import Heading from '../ui/Heading.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+import {
+  type SectionHeaderProps,
+  resolveDividerConfig,
+  resolveHeadingSpacing
+} from './section-header.utils';
+
+interface Props extends SectionHeaderProps {}
+
+const { subtitle, title, description, as = 'h2', divider = true } = Astro.props;
+
+const hasSlot = Astro.slots.has('default');
+const hasDescription = Boolean(description || hasSlot);
+const { show: showDivider, variant: dividerVariant } =
+  resolveDividerConfig(divider);
+const headingSpacing = resolveHeadingSpacing(hasDescription, showDivider);
+---
+
+<div class="max-w-5xl mx-auto flex flex-col items-center text-center mt-6 md:mt-8 mb-6 md:mb-8">
+  <SubtitleTag variant="bordered" size="sm">
+    {subtitle}
+  </SubtitleTag>
+
+  <Heading as={as} size="section" align="center" spacing={headingSpacing}>
+    {title}
+  </Heading>
+
+  {hasDescription && (
+    <Paragraph variant="lead" align="center">
+      {description ? description : <slot />}
+    </Paragraph>
+  )}
+
+  {showDivider && <MedievalDivider variant={dividerVariant} />}
+</div>

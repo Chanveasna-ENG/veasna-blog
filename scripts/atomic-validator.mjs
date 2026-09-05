@@ -3,6 +3,7 @@ const RAW_HEADING_REGEX = /<(\/)?h([1-6])(\s|>|$)/i;
 const PARAGRAPH_TAG_REGEX = /<Paragraph\b([^>]*)>/gs;
 const HEADING_TAG_REGEX = /<Heading\b([^>]*)>/gs;
 const SUBTITLE_TAG_REGEX = /<SubtitleTag\b([^>]*)>/gs;
+const SECTION_HEADER_TAG_REGEX = /<SectionHeader\b([^>]*)>/gs;
 const CLASS_PROP_REGEX = /\b(className|class)\s*=/i;
 
 /**
@@ -132,6 +133,32 @@ function checkSubtitleTagClassProps(content) {
 }
 
 /**
+ * Checks content for forbidden className or class props on SectionHeader components.
+ * @param {string} content
+ * @returns {Array<{ rule: string, line: number, message: string }>}
+ */
+function checkSectionHeaderClassProps(content) {
+  const propViolations = [];
+  const matches = content.matchAll(SECTION_HEADER_TAG_REGEX);
+
+  for (const match of matches) {
+    const attrs = match[1];
+    if (CLASS_PROP_REGEX.test(attrs)) {
+      const upToMatch = content.slice(0, match.index);
+      const lineNumber = upToMatch.split('\n').length;
+      propViolations.push({
+        rule: 'no-sectionheader-classname',
+        line: lineNumber,
+        message:
+          'Forbidden className or class prop on <SectionHeader>. Layout is encapsulated.'
+      });
+    }
+  }
+
+  return propViolations;
+}
+
+/**
  * Validates an Astro template string against atomic typography and styling rules.
  * @param {string} content - Full file content of the .astro file
  * @param {string} filePath - Path to the file being validated
@@ -167,6 +194,7 @@ export function validateAstroTemplate(content, filePath = '') {
   violations.push(...checkParagraphClassProps(content));
   violations.push(...checkHeadingClassProps(content));
   violations.push(...checkSubtitleTagClassProps(content));
+  violations.push(...checkSectionHeaderClassProps(content));
 
   return violations;
 }

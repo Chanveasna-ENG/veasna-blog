@@ -1,9 +1,7 @@
 ---
+import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
-import MedievalDivider from '../ui/MedievalDivider.astro';
-import Paragraph from '../ui/Paragraph.astro';
-import SubtitleTag from '../ui/SubtitleTag.astro';
 
 const medievalCornerSize = 48;
 
@@ -47,18 +45,11 @@ const competencyCategories = [
 <section id="experience" class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <SubtitleTag variant="bordered" size="sm">
-        Technical Mastery
-      </SubtitleTag>
-      <Heading as="h2" size="section" align="center">
-        Core Competencies &amp; Capabilities
-      </Heading>
-      <Paragraph variant="lead" align="center">
-        Battle-tested engineering skills and proven system deployments crafted to eliminate operational bottlenecks.
-      </Paragraph>
-      <MedievalDivider variant="feather" />
-    </div>
+    <SectionHeader
+      subtitle="Technical Mastery"
+      title="Core Competencies & Capabilities"
+      description="Battle-tested engineering skills and proven system deployments crafted to eliminate operational bottlenecks."
+    />
 
     <!-- 3-Column Competencies Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">

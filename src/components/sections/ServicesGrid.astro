@@ -1,7 +1,7 @@
 ---
+import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
 import MedievalCorner from '../ui/MedievalCorner.astro';
-import MedievalDivider from '../ui/MedievalDivider.astro';
 import Paragraph from '../ui/Paragraph.astro';
 import SecondaryButton from '../ui/SecondaryButton.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
@@ -60,18 +60,11 @@ const services = [
 <section id="services" class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <SubtitleTag variant="bordered" size="sm">
-        Core Capabilities
-      </SubtitleTag>
-      <Heading as="h2" size="section" align="center">
-        Specialized Engineering Services
-      </Heading>
-      <Paragraph variant="lead" align="center">
-        Bridging medieval precision with modern automation architecture to scale your digital operations and convert traffic into clients.
-      </Paragraph>
-      <MedievalDivider variant="feather" />
-    </div>
+    <SectionHeader
+      subtitle="Core Capabilities"
+      title="Specialized Engineering Services"
+      description="Bridging medieval precision with modern automation architecture to scale your digital operations and convert traffic into clients."
+    />
 
     <!-- 3-Column Services Grid -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
