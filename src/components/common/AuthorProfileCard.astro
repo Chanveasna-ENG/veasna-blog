@@ -1,0 +1,76 @@
+---
+import { primarySocialLinks } from '../../data/socials';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SecondaryButton from '../ui/SecondaryButton.astro';
+import SocialLink from '../ui/SocialLink.astro';
+import MedievalFrame from './MedievalFrame.astro';
+
+interface Props {
+  name?: string;
+  role?: string;
+  bio?: string;
+  imageUrl?: string;
+}
+
+const {
+  name = 'Chanveasna Eng',
+  role = 'Digital Systems Architect & Automation Specialist',
+  bio = 'Engineering resilient automation pipelines, high-converting digital platforms, and autonomous AI architectures. Available for select client consulting and workflow implementation.',
+  imageUrl = '/wax-seal.png'
+} = Astro.props;
+---
+
+<div class="w-full">
+  <MedievalFrame size="small" background="parchment">
+    <div class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-6 md:gap-8 items-center p-2 sm:p-4">
+      <!-- Left: Wax Seal / Avatar -->
+      <div class="flex justify-center sm:justify-start">
+        <div class="w-24 h-24 sm:w-28 sm:h-28 overflow-hidden rounded-full border-2 border-bronze/60 shadow-md flex-shrink-0 bg-parchmentDark/40 flex items-center justify-center p-2">
+          <img
+            src={imageUrl}
+            alt={`${name} Avatar`}
+            class="w-full h-full object-contain"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <!-- Right: Identity, Bio, Socials & Consultation CTA -->
+      <div class="flex flex-col text-center sm:text-left">
+        <div class="mb-1">
+          <Heading as="h2" size="card" color="bronze" spacing="xs">
+            {name}
+          </Heading>
+          <Paragraph variant="caption" color="inkMuted" spacing="none">
+            {role}
+          </Paragraph>
+        </div>
+
+        <div class="my-3 max-w-xl">
+          <Paragraph variant="body" color="ink" spacing="none">
+            {bio}
+          </Paragraph>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
+          <!-- Primary Social Links -->
+          <div class="flex items-center gap-2">
+            {
+              primarySocialLinks.map((social) => (
+                <SocialLink platform={social.platform} href={social.href} size="sm" />
+              ))
+            }
+          </div>
+
+          <!-- Direct CTA -->
+          <div class="sm:ml-auto">
+            <SecondaryButton href="/book-a-call" size="sm">
+              Book Consultation &rarr;
+            </SecondaryButton>
+          </div>
+        </div>
+      </div>
+    </div>
+  </MedievalFrame>
+</div>

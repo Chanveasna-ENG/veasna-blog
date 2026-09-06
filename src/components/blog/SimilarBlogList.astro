@@ -1,8 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import MedievalFrame from '../common/MedievalFrame.astro';
 import Heading from '../ui/Heading.astro';
-import BlogPreview from './BlogPreview.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import { resolveBlogCardConfig } from './blog-card.utils';
+import { getTopSimilarPosts } from './similar-posts.utils';
 
 interface Props {
   currentPost: CollectionEntry<'blog'>;
@@ -10,97 +13,88 @@ interface Props {
 
 const { currentPost } = Astro.props;
 
-// Fetch all non-draft posts to compare against
+// Fetch all non-draft posts to calculate recommendations
 const allPosts = await getCollection('blog', (post) => !post.data.draft);
 
-// --- Build-Time Recommendation Engine (Vector Space Model) ---
+const mappedPosts = allPosts.map((p) => ({
+  ...p,
+  title: p.data.title,
+  description: p.data.description,
+  category: p.data.category,
+  tags: p.data.tags,
+  createdAt: p.data.createdAt,
+  lastModifiedAt: p.data.lastModifiedAt
+}));
 
-/**
- * Normalizes and splits text into meaningful tokens.
- * Filters out extremely short words to act as a rudimentary stop-word remover.
- */
-const tokenize = (text: string): string[] => {
-  if (!text) return [];
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s]/g, '') // Remove punctuation
-    .split(/\s+/)
-    .filter((word) => word.length > 3);
+const currentMapped = {
+  ...currentPost,
+  title: currentPost.data.title,
+  description: currentPost.data.description,
+  category: currentPost.data.category,
+  tags: currentPost.data.tags,
+  createdAt: currentPost.data.createdAt,
+  lastModifiedAt: currentPost.data.lastModifiedAt
 };
 
-/**
- * Calculates a similarity score between two posts based on weighted overlapping terms.
- */
-const calculateSimilarity = (
-  postA: CollectionEntry<'blog'>,
-  postB: CollectionEntry<'blog'>
-): number => {
-  // Additive smoothing: Start with a base score of 1 so it's never 0
-  let score = 1;
-
-  // 1. Tag Similarity (Highest Weight: 5)
-  // Tags are explicitly defined by the author and indicate strong categorical relationships.
-  const tagsA = postA.data.tags.map((t) => t.toLowerCase());
-  const tagsB = postB.data.tags.map((t) => t.toLowerCase());
-  const commonTags = tagsA.filter((t) => tagsB.includes(t));
-  score += commonTags.length * 5;
-
-  // 2. Category Match (Weight: 3)
-  // Posts in the same category are inherently related.
-  if (postA.data.category === postB.data.category) {
-    score += 3;
-  }
-
-  // 3. Title Token Similarity (Weight: 2)
-  const titleTokensA = tokenize(postA.data.title);
-  const titleTokensB = tokenize(postB.data.title);
-  const commonTitleTokens = titleTokensA.filter((t) =>
-    titleTokensB.includes(t)
-  );
-  score += commonTitleTokens.length * 2;
-
-  // 4. Description Token Similarity (Weight: 1)
-  const descTokensA = tokenize(postA.data.description);
-  const descTokensB = tokenize(postB.data.description);
-  const commonDescTokens = descTokensA.filter((t) => descTokensB.includes(t));
-  score += commonDescTokens.length * 1;
-
-  return score;
-};
-
-// Execute the pipeline: Filter self -> Score -> Sort -> Slice Top 3
-const similarPosts = allPosts
-  .filter((post) => post.id !== currentPost.id)
-  .map((post) => ({
-    post,
-    score: calculateSimilarity(currentPost, post)
-  }))
-  .sort((a, b) => {
-    if (b.score !== a.score) {
-      return b.score - a.score;
-    }
-    // Secondary sort: if scores are equal, sort by newest
-    const dateA = a.post.data.lastModifiedAt || a.post.data.createdAt;
-    const dateB = b.post.data.lastModifiedAt || b.post.data.createdAt;
-    return dateB.getTime() - dateA.getTime();
-  })
-  .slice(0, 3)
-  .map((item) => item.post);
+const similarPosts = getTopSimilarPosts(currentMapped, mappedPosts, 3);
 ---
 
-{/* Only render the section if we found matching posts */}
 {similarPosts.length > 0 && (
-  <section class="mt-16 pt-8 border-t border-gray-800" aria-labelledby="similar-posts-heading">
-    <div class="flex items-center mb-6">
+  <section class="mt-12 pt-8 border-t border-ink/20" aria-labelledby="similar-posts-heading">
+    <div class="flex items-center justify-between mb-6">
       <Heading as="h2" size="card" color="bronze" id="similar-posts-heading" spacing="none">
-        You might also like
+        Related Analyses
       </Heading>
+      <a
+        href="/page/1"
+        class="text-xs font-heading font-semibold uppercase tracking-widest text-inkMuted hover:text-bronze transition-colors"
+      >
+        View Archive &rarr;
+      </a>
     </div>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {similarPosts.map((post) => (
-        <BlogPreview post={post} isCompact={true} />
-      ))}
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {similarPosts.map((post) => {
+        const config = resolveBlogCardConfig({
+          id: post.id,
+          title: post.data.title,
+          description: post.data.description,
+          category: post.data.category,
+          tags: post.data.tags,
+          coverImageSrc: post.data.coverImage?.src,
+          coverAlt: post.data.coverAlt,
+          createdAt: post.data.createdAt,
+          lastModifiedAt: post.data.lastModifiedAt
+        });
+
+        return (
+          <MedievalFrame size="small" as="article" interactive={true}>
+            <a href={config.href} class="flex flex-col h-full group focus:outline-none p-1">
+              <div class="w-full aspect-[16/10] overflow-hidden border border-ink/30 relative bg-parchmentDark/40 flex items-center justify-center mb-3">
+                <img
+                  src={config.imageSrc}
+                  alt={post.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+              <div class="flex flex-col flex-grow">
+                <div class="text-[11px] font-mono text-bronze uppercase tracking-widest mb-1.5">
+                  {config.categoryLabel} &bull; {config.dateText}
+                </div>
+                <Heading as="h3" size="sm" color="ink" clamp={2} spacing="xs">
+                  {post.data.title}
+                </Heading>
+                <div class="mt-auto">
+                  <Paragraph variant="caption" color="inkMuted" clamp={2} spacing="none">
+                    {post.data.description}
+                  </Paragraph>
+                </div>
+              </div>
+            </a>
+          </MedievalFrame>
+        );
+      })}
     </div>
   </section>
 )}

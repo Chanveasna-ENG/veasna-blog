@@ -1,43 +1,126 @@
 ---
 import type { MarkdownHeading } from 'astro';
 import Heading from '../ui/Heading.astro';
+import { filterTocHeadings, resolveHeadingIndentClass } from './blog-toc.utils';
 
-// Expects the headings array natively provided by Astro's render() function
 interface Props {
   headings: MarkdownHeading[];
+  variant?: 'mobile' | 'desktop' | 'all';
 }
 
-const { headings } = Astro.props;
-
-// Purely filter to show only H2 and H3 headings.
-// H1 is the post title (already visible), and H4+ makes the TOC too noisy.
-const toc = headings.filter(
-  (heading) => heading.depth > 1 && heading.depth <= 3
-);
+const { headings, variant = 'all' } = Astro.props;
+const toc = filterTocHeadings(headings);
+const showMobile = variant === 'all' || variant === 'mobile';
+const showDesktop = variant === 'all' || variant === 'desktop';
 ---
 
-{/* Only render the TOC if there are actual headings to display */}
 {toc.length > 0 && (
-  <nav 
-    class="w-full lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] flex flex-col bg-darkBg/50 border border-gray-700 lg:border-none p-6 lg:p-0 rounded-lg lg:rounded-none mb-8 lg:mb-0"
-    aria-label="Table of Contents"
-  >
-    <div class="border-b border-gray-700 pb-2 mb-4 flex-shrink-0">
-      <Heading as="h2" size="sm" color="parchment" spacing="none">
-        TABLE OF CONTENTS
-      </Heading>
-    </div>
-    <ul class="flex flex-col space-y-2.5 lg:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent pr-2 pb-2">
-      {toc.map((heading) => (
-        <li class={heading.depth === 3 ? 'ml-4' : 'ml-0'}>
-          <a 
-            href={`#${heading.slug}`}
-            class="text-sm text-gray-300 hover:text-gold transition-colors duration-200 block leading-snug"
-          >
-            {heading.text}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </nav>
+  <div class="w-full">
+    {/* Mobile Collapsible TOC */}
+    {showMobile && (
+      <details class="block lg:hidden mb-8 p-4 bg-parchmentDark/40 border border-ink/20 rounded-sm group">
+      <summary class="cursor-pointer font-heading font-semibold text-sm uppercase tracking-wider text-ink flex items-center justify-between select-none list-none [&::-webkit-details-marker]:hidden">
+        <span class="flex items-center gap-2">
+          <span class="text-bronze font-bold">&sect;</span>
+          Table of Contents ({toc.length})
+        </span>
+        <span class="text-xs font-mono text-inkMuted group-open:rotate-180 transition-transform">
+          &#9660;
+        </span>
+      </summary>
+      <ul class="flex flex-col space-y-2 mt-4 pt-3 border-t border-ink/10">
+        {toc.map((heading) => {
+          const indentClass = resolveHeadingIndentClass(heading.depth);
+          return (
+            <li class={indentClass}>
+              <a
+                href={`#${heading.slug}`}
+                class="toc-link block text-ink/70 hover:text-bronze transition-colors py-0.5"
+                data-slug={heading.slug}
+              >
+                {heading.text}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </details>
+    )}
+
+    {/* Desktop Sticky Sidebar TOC */}
+    {showDesktop && (
+      <nav
+        class="hidden lg:block w-full lg:sticky lg:top-24 max-h-[calc(100vh-8rem)] flex flex-col p-5 bg-parchmentDark/30 border border-ink/20 rounded-sm"
+        aria-label="Table of Contents"
+      >
+        <div class="border-b border-ink/20 pb-3 mb-4 flex-shrink-0">
+          <Heading as="h2" size="card" color="bronze" spacing="none">
+            Table of Contents
+          </Heading>
+        </div>
+        <ul class="flex flex-col space-y-2.5 overflow-y-auto pr-2 pb-2">
+          {toc.map((heading) => {
+            const indentClass = resolveHeadingIndentClass(heading.depth);
+            return (
+              <li class={indentClass}>
+                <a
+                  href={`#${heading.slug}`}
+                  class="toc-link block text-ink/70 hover:text-bronze transition-all py-0.5 leading-snug"
+                  data-slug={heading.slug}
+                >
+                  {heading.text}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    )}
+  </div>
 )}
+
+<script>
+  function setupTocScrollSpy() {
+    const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+    if (tocLinks.length === 0) return;
+
+    const headingElements = Array.from(
+      document.querySelectorAll<HTMLElement>('article.blog-article-body h2[id], article.blog-article-body h3[id]')
+    );
+    if (headingElements.length === 0) return;
+
+    function highlightActiveHeading() {
+      const scrollPos = window.scrollY + 140;
+      let currentActiveId: string | null = null;
+
+      for (let i = headingElements.length - 1; i >= 0; i--) {
+        const heading = headingElements[i];
+        if (heading.offsetTop <= scrollPos) {
+          currentActiveId = heading.id;
+          break;
+        }
+      }
+
+      if (!currentActiveId && headingElements.length > 0) {
+        currentActiveId = headingElements[0].id;
+      }
+
+      tocLinks.forEach((link) => {
+        const slug = link.getAttribute('data-slug');
+        if (slug === currentActiveId) {
+          link.classList.add('text-bronze', 'font-bold', 'border-l-2', 'border-bronze', 'pl-2', '-ml-2');
+          link.classList.remove('text-ink/70');
+        } else {
+          link.classList.remove('text-bronze', 'font-bold', 'border-l-2', 'border-bronze', 'pl-2', '-ml-2');
+          link.classList.add('text-ink/70');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', highlightActiveHeading, { passive: true });
+    highlightActiveHeading();
+  }
+
+  setupTocScrollSpy();
+  document.addEventListener('astro:after-swap', setupTocScrollSpy);
+</script>

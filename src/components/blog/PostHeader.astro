@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { formatDateICT } from '../../utils/date';
 import Heading from '../ui/Heading.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -13,80 +14,90 @@ const { post } = Astro.props;
 const targetDate = post.data.lastModifiedAt || post.data.createdAt;
 ---
 
-<header class="mb-10 flex flex-col items-start border-b border-gray-800 pb-8">
+<header class="mb-10 flex flex-col items-start border-b border-ink/20 pb-8">
+  {/* Back to Archive Breadcrumb */}
+  <a
+    href="/page/1"
+    class="inline-flex items-center gap-2 text-xs font-heading font-semibold uppercase tracking-widest text-inkMuted hover:text-bronze transition-colors mb-6 group"
+  >
+    <span class="transition-transform group-hover:-translate-x-1">&larr;</span>
+    Back to Articles
+  </a>
+
   {/* Category & Version Badges */}
   <div class="flex items-center gap-3 mb-4">
-    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-800 text-gold border border-gray-700 uppercase tracking-wider">
-      {post.data.category}
-    </span>
-    <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-800 text-gray-400 border border-gray-700">
+    <SubtitleTag variant="badge">
+      {post.data.category || 'Architecture'}
+    </SubtitleTag>
+    <span class="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-mono font-medium border border-ink/20 text-inkMuted bg-parchmentDark/30">
       v{post.data.version}
     </span>
   </div>
-  
+
   {/* Post Title */}
   <Heading as="h1" size="hero" color="bronze" spacing="lg">
     {post.data.title}
   </Heading>
-  
+
   {/* Author & Date Meta */}
-  <div class="flex flex-wrap items-center text-gray-400 gap-x-4 gap-y-2">
+  <div class="flex flex-wrap items-center text-inkMuted text-sm font-body gap-x-4 gap-y-2">
     <time datetime={targetDate.toISOString()}>
-      Last Modified: <span class="text-offWhite font-medium">{formatDateICT(targetDate)}</span>
+      Last Modified: <span class="text-ink font-medium">{formatDateICT(targetDate)}</span>
     </time>
-    <span class="hidden sm:inline text-gray-600">|</span>
+    <span class="hidden sm:inline text-ink/30" aria-hidden="true">|</span>
     <span>
-      By <span class="text-offWhite font-medium">{post.data.author}</span>
+      By <span class="text-ink font-medium">{post.data.author}</span>
     </span>
   </div>
 
   {/* Tags Array */}
-  <div class="flex flex-wrap gap-2 mt-6">
-    {post.data.tags.map((tag) => (
-       <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700 hover:border-gold transition-colors duration-200">
-        #{tag}
-      </span>
-    ))}
-  </div>
+  {post.data.tags && post.data.tags.length > 0 && (
+    <div class="flex flex-wrap gap-2 mt-6">
+      {post.data.tags.map((tag) => (
+        <span class="inline-flex items-center px-2.5 py-1 rounded-sm text-xs font-body border border-ink/20 text-ink/80 bg-parchment hover:border-bronze hover:text-bronze transition-colors">
+          #{tag}
+        </span>
+      ))}
+    </div>
+  )}
 
   {/* Type-Specific Metadata */}
   {(post.data.repoUrl || post.data.demoUrl || post.data.eventResult || post.data.eventLocation || post.data.eventDate) && (
-    <div class="mt-8 flex flex-col gap-3 p-5 bg-darkBg border border-gray-800 rounded-lg w-full">
+    <div class="mt-8 flex flex-col gap-3 p-5 bg-parchmentDark/40 border border-ink/20 rounded-sm w-full font-body text-sm">
       {post.data.repoUrl && (
         <div class="flex items-start gap-3">
-          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Repository:</span>
-          <a href={post.data.repoUrl} target="_blank" rel="noopener noreferrer" class="text-gold hover:underline break-all">
+          <span class="text-ink font-medium min-w-[110px] mt-0.5">Repository:</span>
+          <a href={post.data.repoUrl} target="_blank" rel="noopener noreferrer" class="text-bronze hover:underline break-all">
             {post.data.repoUrl}
           </a>
         </div>
       )}
       {post.data.demoUrl && (
         <div class="flex items-start gap-3">
-          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Live Demo:</span>
-          <a href={post.data.demoUrl} target="_blank" rel="noopener noreferrer" class="text-gold hover:underline break-all">
+          <span class="text-ink font-medium min-w-[110px] mt-0.5">Live Demo:</span>
+          <a href={post.data.demoUrl} target="_blank" rel="noopener noreferrer" class="text-bronze hover:underline break-all">
             {post.data.demoUrl}
           </a>
         </div>
       )}
       {post.data.eventResult && (
         <div class="flex items-start gap-3">
-          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Event Result:</span>
-          <span class="text-offWhite font-medium">{post.data.eventResult}</span>
+          <span class="text-ink font-medium min-w-[110px] mt-0.5">Event Result:</span>
+          <span class="text-ink font-medium">{post.data.eventResult}</span>
         </div>
       )}
       {post.data.eventLocation && (
         <div class="flex items-start gap-3">
-          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Location:</span>
-          <span class="text-gray-300">{post.data.eventLocation}</span>
+          <span class="text-ink font-medium min-w-[110px] mt-0.5">Location:</span>
+          <span class="text-ink/80">{post.data.eventLocation}</span>
         </div>
       )}
       {post.data.eventDate && (
         <div class="flex items-start gap-3">
-          <span class="text-gray-400 font-medium min-w-[100px] mt-0.5">Event Date:</span>
-          <span class="text-gray-300">{formatDateICT(post.data.eventDate)}</span>
+          <span class="text-ink font-medium min-w-[110px] mt-0.5">Event Date:</span>
+          <span class="text-ink/80">{formatDateICT(post.data.eventDate)}</span>
         </div>
       )}
     </div>
   )}
-  
 </header>

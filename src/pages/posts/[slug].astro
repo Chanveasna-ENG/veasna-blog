@@ -4,9 +4,10 @@ import type { CollectionEntry } from 'astro:content';
 
 import BlogContent from '../../components/blog/BlogContent.astro';
 import PostHeader from '../../components/blog/PostHeader.astro';
+import ReadingProgress from '../../components/blog/ReadingProgress.astro';
 import SimilarBlogList from '../../components/blog/SimilarBlogList.astro';
 import TableOfContent from '../../components/blog/TableOfContent.astro';
-import HorizonProfileCard from '../../components/common/HorizonProfileCard.astro';
+import AuthorProfileCard from '../../components/common/AuthorProfileCard.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 // 1. Generate static routes for every post at build time
@@ -30,23 +31,25 @@ const { Content, headings } = await render(post);
 ---
 
 <BaseLayout 
-  title={`${post.data.title} | Veasna.`} 
+  title={`${post.data.title} | Chanveasna ENG`} 
   description={post.data.description}
   image={post.data.coverImage?.src}
 >
-  
-  {/* Main Body Grid Layout (70% / 30% visual split) */}
-  <div class="w-full grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 mt-8 mb-16">
+  {/* Sticky Top Reading Progress Bar */}
+  <ReadingProgress />
+
+  {/* Main Body Grid Layout */}
+  <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 mt-6 sm:mt-8 mb-16">
     
-    {/* Left Column (70%) */}
-    <div class="flex flex-col min-w-0">
+    {/* Left Column (8 of 12 columns on desktop) */}
+    <div class="lg:col-span-8 flex flex-col min-w-0">
       
       {/* Extracted Post Header Component */}
       <PostHeader post={post} />
 
       {/* Mobile Table of Contents (Hidden on Desktop) */}
-      <div class="block lg:hidden mb-10">
-        <TableOfContent headings={headings} />
+      <div class="block lg:hidden mb-6">
+        <TableOfContent headings={headings} variant="mobile" />
       </div>
 
       {/* Markdown Body Renderer */}
@@ -55,8 +58,8 @@ const { Content, headings } = await render(post);
       </BlogContent>
 
       {/* Content Footer Elements */}
-      <div class="mt-16 pt-12 border-t border-gray-800 flex flex-col space-y-12">
-        <HorizonProfileCard />
+      <div class="mt-14 pt-10 border-t border-ink/20 flex flex-col space-y-12">
+        <AuthorProfileCard />
         
         {/* Generates build-time recommendations */}
         <SimilarBlogList currentPost={post} />
@@ -64,10 +67,9 @@ const { Content, headings } = await render(post);
 
     </div>
 
-    {/* Right Column (30%) - Desktop Sticky Sidebar */}
-    {/* The sticky behavior and max-height logic is encapsulated within TableOfContent itself */}
-    <aside class="hidden lg:block relative w-full">
-      <TableOfContent headings={headings} />
+    {/* Right Column (4 of 12 columns on desktop) - Desktop Sticky Sidebar */}
+    <aside class="hidden lg:block lg:col-span-4 relative w-full">
+      <TableOfContent headings={headings} variant="desktop" />
     </aside>
 
   </div>
