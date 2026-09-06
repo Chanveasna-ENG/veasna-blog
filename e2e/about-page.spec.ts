@@ -5,6 +5,8 @@ const BOOK_CALL_REGEX = /Book Strategy Call/i;
 const VIEW_WORK_REGEX = /View Work/i;
 const PY_12_REGEX = /py-12/;
 const MD_PY_16_REGEX = /md:py-16/;
+const W_9_REGEX = /w-9/;
+const H_9_REGEX = /h-9/;
 
 test.describe('About Page Revamped Architecture', () => {
   test('about page loads with hero, portrait, and bio', async ({ page }) => {
@@ -20,10 +22,14 @@ test.describe('About Page Revamped Architecture', () => {
     const profileImg = page.locator('img[alt*="Chanveasna Eng"]');
     await expect(profileImg).toBeVisible();
 
-    const bookCallBtn = page.getByRole('link', { name: BOOK_CALL_REGEX });
+    const heroSection = page.locator('section.relative').first();
+    const actionRow = heroSection.locator('div.pt-4.flex');
+    await expect(actionRow).toBeVisible();
+
+    const bookCallBtn = actionRow.getByRole('link', { name: BOOK_CALL_REGEX });
     await expect(bookCallBtn).toBeVisible();
 
-    const viewWorkBtn = page.getByRole('link', { name: VIEW_WORK_REGEX });
+    const viewWorkBtn = actionRow.getByRole('link', { name: VIEW_WORK_REGEX });
     await expect(viewWorkBtn).toBeVisible();
 
     const connectFollowLabel = page.locator(
@@ -31,9 +37,13 @@ test.describe('About Page Revamped Architecture', () => {
     );
     await expect(connectFollowLabel).not.toBeVisible();
 
-    const heroSection = page.locator('section.relative').first();
-    const socialLinks = heroSection.locator('a[title]');
+    const socialGroup = actionRow.locator('div.flex-nowrap');
+    await expect(socialGroup).toBeVisible();
+
+    const socialLinks = socialGroup.locator('a[title]');
     await expect(socialLinks).toHaveCount(4);
+    await expect(socialLinks.first()).toHaveClass(W_9_REGEX);
+    await expect(socialLinks.first()).toHaveClass(H_9_REGEX);
   });
 
   test('philosophy section displays core values manifesto', async ({

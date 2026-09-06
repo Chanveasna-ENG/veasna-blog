@@ -62,23 +62,21 @@ import WaxSeal from '../ui/WaxSeal.astro';
           </div>
         </SectionHeader>
 
-        <!-- Tier 1: Primary Action Buttons -->
-        <div class="pt-4 flex items-center gap-3 flex-wrap">
+        <!-- Actions & Social Links Row -->
+        <div class="pt-4 flex items-center gap-3 sm:gap-4 flex-wrap">
           <PrimaryButton href="#contact" size="md">
             Book Strategy Call
           </PrimaryButton>
           <SecondaryButton href="#portfolio" className="text-xs py-2.5 px-4">
             View Work &rarr;
           </SecondaryButton>
-        </div>
-
-        <!-- Tier 2: Social Links (4 core platforms) -->
-        <div class="mt-6 flex items-center gap-2.5">
-          {
-            primarySocialLinks.map((item) => (
-              <SocialLink platform={item.platform} href={item.href} />
-            ))
-          }
+          <div class="flex items-center gap-2 flex-nowrap">
+            {
+              primarySocialLinks.map((item) => (
+                <SocialLink platform={item.platform} href={item.href} size="sm" />
+              ))
+            }
+          </div>
         </div>
 
       </div>

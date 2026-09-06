@@ -5,6 +5,7 @@ import {
   allSocialLinks,
   getSocialIconPath,
   getSocialLabel,
+  getSocialLinkDimensions,
   getSocialTarget,
   primarySocialLinks,
   socialLinks
@@ -77,5 +78,19 @@ describe('social data and utilities', () => {
 
   it('socialLinks aliases allSocialLinks', () => {
     expect(socialLinks).toBe(allSocialLinks);
+  });
+
+  it('getSocialLinkDimensions returns md dimensions by default', () => {
+    const dims = getSocialLinkDimensions();
+    expect(dims.boxClass).toBe('w-11 h-11');
+    expect(dims.iconClass).toBe('w-5 h-5');
+    expect(dims.iconDimension).toBe(20);
+  });
+
+  it('getSocialLinkDimensions returns sm dimensions when requested', () => {
+    const dims = getSocialLinkDimensions('sm');
+    expect(dims.boxClass).toBe('w-9 h-9');
+    expect(dims.iconClass).toBe('w-4 h-4');
+    expect(dims.iconDimension).toBe(16);
   });
 });

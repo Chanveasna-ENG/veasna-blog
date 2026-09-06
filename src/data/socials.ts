@@ -68,3 +68,24 @@ export function getSocialTarget(platform: SocialPlatform): {
     rel: 'noopener noreferrer'
   };
 }
+
+export type SocialLinkSize = 'sm' | 'md';
+
+export function getSocialLinkDimensions(size: SocialLinkSize = 'md'): {
+  boxClass: string;
+  iconClass: string;
+  iconDimension: number;
+} {
+  if (size === 'sm') {
+    return {
+      boxClass: 'w-9 h-9',
+      iconClass: 'w-4 h-4',
+      iconDimension: 16
+    };
+  }
+  return {
+    boxClass: 'w-11 h-11',
+    iconClass: 'w-5 h-5',
+    iconDimension: 20
+  };
+}

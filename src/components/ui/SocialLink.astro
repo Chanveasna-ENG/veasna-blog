@@ -1,8 +1,10 @@
 ---
 import {
+  type SocialLinkSize,
   type SocialPlatform,
   getSocialIconPath,
   getSocialLabel,
+  getSocialLinkDimensions,
   getSocialTarget
 } from '../../data/socials';
 
@@ -10,14 +12,16 @@ interface Props {
   platform: SocialPlatform;
   href: string;
   label?: string;
+  size?: SocialLinkSize;
   className?: string;
 }
 
-const { platform, href, label, className = '' } = Astro.props;
+const { platform, href, label, size = 'md', className = '' } = Astro.props;
 
 const displayLabel = getSocialLabel(platform, label);
 const iconSrc = getSocialIconPath(platform);
 const { target, rel } = getSocialTarget(platform);
+const { boxClass, iconClass, iconDimension } = getSocialLinkDimensions(size);
 ---
 
 <a
@@ -26,14 +30,14 @@ const { target, rel } = getSocialTarget(platform);
   rel={rel}
   aria-label={displayLabel}
   title={displayLabel}
-  class={`inline-flex items-center justify-center w-11 h-11 border border-ink text-ink bg-parchment/60 hover:bg-parchmentDark hover:border-bronze transition-all duration-200 shadow-sm hover:shadow-md group ${className}`}
+  class={`inline-flex items-center justify-center ${boxClass} border border-ink text-ink bg-parchment/60 hover:bg-parchmentDark hover:border-bronze transition-all duration-200 shadow-sm hover:shadow-md group ${className}`}
 >
   <img
     src={iconSrc}
     alt={displayLabel}
-    width="20"
-    height="20"
-    class="w-5 h-5 object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform"
+    width={iconDimension}
+    height={iconDimension}
+    class={`${iconClass} object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform`}
     loading="lazy"
   />
 </a>
