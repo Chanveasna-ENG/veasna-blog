@@ -55,24 +55,26 @@ test.describe('About Page Revamped Architecture', () => {
 
     await expect(
       philosophySection.getByRole('heading', {
-        name: 'Autonomous Leverage (Zero Toil)'
+        name: 'Automate Repetitive Work'
       })
     ).toBeVisible();
     await expect(
       philosophySection.getByRole('heading', {
-        name: 'Deterministic Reliability & Failovers'
+        name: 'Build for Reliability'
       })
     ).toBeVisible();
+    await expect(
+      philosophySection.getByRole('heading', {
+        name: 'Direct Access & Full Ownership'
+      })
+    ).toBeVisible();
+
+    // Verify removed pillar is not present
     await expect(
       philosophySection.getByRole('heading', {
         name: 'Quality Consistency & Clean Architecture'
       })
-    ).toBeVisible();
-    await expect(
-      philosophySection.getByRole('heading', {
-        name: 'Direct Partnership & Complete Ownership'
-      })
-    ).toBeVisible();
+    ).not.toBeVisible();
   });
 
   test('manifesto quote section renders standalone callout quote', async ({
@@ -82,7 +84,7 @@ test.describe('About Page Revamped Architecture', () => {
     const quoteEl = page.locator('blockquote');
     await expect(quoteEl).toBeVisible();
     await expect(quoteEl).toContainText(
-      'True digital architecture does not demand constant babysitting'
+      "A well-built system doesn't need daily babysitting"
     );
     await expect(quoteEl).toContainText('Chanveasna ENG');
   });
@@ -106,7 +108,7 @@ test.describe('About Page Revamped Architecture', () => {
     ).toBeVisible();
     await expect(
       experienceSection.getByRole('heading', {
-        name: 'Web Platforms & AI Engineering'
+        name: 'Web Platforms & Custom Tools'
       })
     ).toBeVisible();
   });

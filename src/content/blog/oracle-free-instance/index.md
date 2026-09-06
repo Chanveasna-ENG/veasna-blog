@@ -41,86 +41,81 @@ category: "blog"
 
 ## Introduction
 
-Today, I will show you how to get a free instance in Oracle Cloud Always Free Tier. It will be a lot of screenshot. So, you can follow along. The most important thing that I want to show you is not these screenshot, but a script to run when facing `Out of Capacity` Problem. 
+In this guide, I will walk you through provisioning an Always Free VPS instance on Oracle Cloud Infrastructure (OCI). While the setup involves navigating multiple dashboard screens, the core hurdle most developers encounter is the common `Out of Capacity` error during creation.
 
-Many people face this specific problem because Oracle only give a small pool of instances for all the Free Account. Since Oracle Free Instance is very popular some region is out of capacity when you try to create a new instance. 
+Because Oracle allocates a finite pool of Always Free compute per region, high-demand data centers frequently exhaust their unreserved capacity. Below, you will find both the end-to-end dashboard setup and an automated Terraform polling script to secure an instance the moment compute becomes available.
 
-However, I got a workaround for that. Stay tune till the end! 
+You can jump directly to the automation script using the table of contents.
 
-You can also skip and go straight there with the table of content!
+## Get Started With Creating Account
 
-## Get Start With Creating Account
-
-Visit this link: [www.oracle.com/cloud/](https://www.oracle.com/cloud/), we will start from here. 
+Visit [www.oracle.com/cloud/](https://www.oracle.com/cloud/) to begin.
 
 1. Click `Try OCI for free`.
 
 ![Oracle Cloud](images/image57.png)
 
-This page below, you can scroll down and see what Oracle Cloud Services are available to your free account, or you can create account now.
+Review the Always Free services available, then proceed to account registration.
 
 2. Click `Start for free`.
 
 ![Free Tier](images/image23.png)
 
-3. This page below, you fill your basic info.
+3. Enter your account information and country location.
 
 ![Basic Info Form](images/image25.png)
 
-4. Please create password according to its rules. 
+4. Create a secure password following OCI complexity rules.
 
 ![Password and Rules](images/image16.png)
 
-5. Put any name you like as your username. 
+5. Choose a unique cloud account name.
 
-**Important** `You can only create the Free Instance in your Home Region.` You cannot change it later. So, if you want to create the instance in Singapore, You will pick Singapore as your home region. You should do research about it too, sometimes, the instance is not available in your home region, so you should pick somewhere close to your real Home Region/Country. 
+**Important:** You can only provision Always Free instances in your assigned Home Region. This selection cannot be changed later. Choose a region close to your primary location with known Always Free capacity.
 
 ![Picking Home Region Screen](images/image8.png)
 
-6. It will send you Email. Just click `Verify Email`.
+6. Check your inbox and click `Verify Email`.
 
 ![Confirm Email](images/image15.png)
 
-7. Fill all the mandatory fields.
+7. Complete the required address and contact fields.
 
 ![Address and Location](images/image41.png)
 
-8. Add your payment method. 
+8. Add a payment method for identity verification.
 
-**Note** You cannot use pre-paid card. You must use debit/credit card. They won't charge you anything at this stage. They only want to verify if you are a real person. 
+**Note:** Oracle requires a valid debit or credit card (prepaid cards are not accepted) for identity verification. No charges are billed for Always Free tier usage.
 
 ![Add Payment Method to Verify](images/image48.png)
 
-9. Fill your information and Credit Card information.
+9. Enter your billing details to finalize card verification.
 
 ![Add Payment Method Page](images/image49.png)
 
-10. Create Your Account!
+10. Accept the terms of service and click `Complete Sign-Up`.
 
-![Agree the Term and Craete Account](images/image50.png)
+![Agree to Terms and Create Account](images/image50.png)
 
-11. You can wait a little while. It will email you.
+11. Oracle will provision your tenancy and send a confirmation email once ready.
 
 ![Wait Page](images/image34.png)
 
-12. You can wait a little while. It will email you.
-
 ![Wait Page 2](images/image20.png)
 
-13. Completed!!! You can log in now. 
+12. Once your tenancy is active, log into the OCI Console.
 
 ![Email Account Creation Completed](images/image19.png)
 
-14. This Page you will be force to create 2-Factor-Authentication which is good to secure your account and cloud. 
+13. Configure Two-Factor Authentication (2FA) to secure your account.
 
 ![2-factor-auth](images/image43.png)
 
-15. ***Tip*** *If you are using other authentication app, like Microsoft Authentication or Google Authentication or Bitwarden ... 
-Then, you can click the `Use Offline` or `Another Authentication App`. You don't have to use Oracle Authentication App.*
+14. **Tip:** You can use any TOTP app (Google Authenticator, Bitwarden, 1Password) by selecting "Another Authentication App" instead of the proprietary Oracle Mobile Authenticator.
 
 ![2-factor-auth-setup](images/image6.png)
 
-16. We are in.
+15. You will now be redirected to the OCI Console dashboard.
 
 ![We are in](images/image31.png)
 
@@ -128,51 +123,51 @@ Then, you can click the `Use Offline` or `Another Authentication App`. You don't
 
 ### Start Creating VM
 
-17. Dashboard's View: Click `Create a VM instance` under Build & Compute
+16. In the dashboard, click `Create a VM instance` under Build & Compute.
 
 ![Dashboard's View](images/image11.png)
 
-18. Name your instance and choose availability domain.
+17. Name your instance and select your availability domain.
 
 ![Name Instance](images/image17.png)
 
-19. Here, you can change the Operating System Image. Click `Change image`.
+18. Under the Image section, click `Change image`.
 
 ![OS Image](images/image55.png)
 
-20. For me, I pick `ubuntu`.
+19. Select your preferred Linux distribution (e.g., Ubuntu).
 
 ![OS Image Selection](images/image39.png)
 
-21. Scroll Down a bit, you can select Ubuntu Version. For me, I pick `24.04 Minimal` because it is the latest LTS version and Minimal so I can save some resources. 
+20. Select your version (e.g., `24.04 Minimal` for a lean installation).
 
 ![OS Version Selection](images/image32.png)
 
-22. After selecting your image, you can view the shape of your instance (spec). Click `Change Shape`.
+21. Click `Change Shape` to configure instance hardware.
 
 ![Server Spec](images/image37.png)
 
-23. Okay...
+22. Under Shape series, select Virtual Machine.
 
 ![VM and Special Instance?](images/image26.png)
 
-24. Scroll Down a little bit, it will show you the `Always Free Eligible`. NICE (Side note: 1 OCPU = 1 Cores)
+23. In the shape table, select a shape tagged **Always Free Eligible** (1 OCPU corresponds to 1 CPU core on AMD/Intel shapes).
 
 ![Free Tier Available](images/image53.png)
 
-25. Sadly, the ampere instance is not available for me for now. It is because I use `Minimal` image. If you want to get the Ampere Instace, you can use other OS Image the Non-Minimal Image. 
+24. Note: Ampere ARM shapes may require a standard (non-minimal) OS image depending on regional availability.
 
 ![No Ampere Instance :(](images/image4.png)
 
-26. After Selecting Shape, we can confirm it. 
+25. Confirm your shape selection.
 
 ![Instance Shape](images/image36.png)
 
-27. As for this security, if we turn it on, it will be more secure against boot level malware, but it will be hard to change boot drive and some other configuration settings ... So, I leave it off. 
+26. Shielded Instance options provide firmware-level verification. For standard development workloads, you can leave default settings.
 
 ![Security](images/image14.png)
 
-28. Somehow, It doesn't automatically create VCN for me. :( I will show you the full picture here, and How to create a VCN.
+27. If your tenancy does not automatically assign a Virtual Cloud Network (VCN), create one using the VCN Wizard.
 
 ![Create New VCN?!](images/image27.png)
 
@@ -180,127 +175,102 @@ Then, you can click the `Use Offline` or `Another Authentication App`. You don't
 
 ![Public Subnet](images/image45.png)
 
-29. WE need IPv4 Address!
+28. Ensure public IPv4 address assignment is enabled so your instance can connect to the internet.
 
 ![No IPv4?](images/image1.png)
 
 ### Creating VCN
 
-
-30. First You need to open `another browser tab` with Oracle Cloud. Then, click the `Hamburger Icon > Networking > Overview`
+29. In a separate browser tab, navigate to `Networking > Virtual Cloud Networks`.
 
 ![Network Oracle Services Listing Page](images/image21.png)
 
-31. Click `Create VCN Wizard`. This is the easiest way to create VCN. If we were to do it another way, We would need to create VCN, Subnet, Gateway, Route Table, NAT ...
+30. Click `Create VCN Wizard`—the fastest way to generate subnets, gateways, and route tables automatically.
 
 ![Networking Overview](images/image42.png)
 
-32. Fill in the name.
+31. Enter a VCN name and leave default CIDR blocks.
 
 ![Naming VCN](images/image33.png)
 
-33. Fill anything you need to fill and leave things at default.
+![VCN Configuration CIDR...](images/image30.png)
 
-![VCN Configuratoin CIDR...](images/image30.png)
-
-34. Make sure private subnet and public subnet are on different subnet block. You can follow me if it is not filled by default.
+32. Verify that public and private subnets use distinct CIDR blocks.
 
 ![Public and Private Subnet CIDR](images/image2.png)
 
-35. After we fill everything, click `Next` and `Create`.
+33. Review configuration and click `Create`.
 
 ![Summary Page before Creation](images/image54.png)
 
-36. You can see, it creates everything for us. You can click `View VCN`. 
+34. Once provisioning completes, close the VCN wizard tab.
 
 ![VCN Creating](images/image29.png)
-
-37. VCN Page. You can close this browser tab now.
 
 ![VCN Listing Page](images/image12.png)
 
 ### Back to Instance Creation Page
 
-38. The newly created VCN may not appear, so you need to just change it to different options to make it refresh. Then go back to `Select existing virtual cloud network`. You will see that `my-primary-vcn` appear. 
+35. Return to the instance creation tab and select your newly created VCN (`my-primary-vcn`).
 
 ![Configure VCN](images/image35.png)
 
-39. Finally, we have IPv4 on Public Subnet and IPv4 Assignment. You don't have to do anything, it will fill it self.
+36. Verify that a public IPv4 address is assigned to the instance.
 
 ![IPv4 on Public Subnet](images/image9.png)
 
 ![IPv4 Assignment](images/image28.png)
 
-40. This is the SSH setup. If you already have a SSH server with Public and Private Key elsewhere, you can use it here, by `Paste public key` or `Upload public key file (.pub)`. Oracle will use `PEM` format, make sure you have public key in this format. 
-
-If you don't have key or want to keep things separated, you can choose `Generate a key pair for me`. Make sure you download it because this is the only time you will see it. `Not using SSH Keys is NOT Recommened`.
+37. Configure your SSH keys. You can paste an existing public key (`.pub`) or choose `Generate a key pair for me`. Be sure to download the private key immediately.
 
 ![SSH Key setup.](images/image46.png)
 
-41. Boot Volume, Leave everything at default. Then `Next`
+38. Review boot volume defaults and click `Next`.
 
-![Boot Volume](images/image22.png).
+![Boot Volume](images/image22.png)
 
-42. You will see this summary page and you can click `Create`
+39. On the final review page, click `Create`.
 
 ![Summary Page for Instance](images/image51.png)
 
-43. OHHHH NOO, It is out of capacity. 
+40. If regional capacity is constrained, OCI will return an "Out of capacity" error.
 
 ![API request error, OUT OF CAPACITY](images/image10.png)
 
-<!-- ![](images/image18.png)
-
-![](images/image56.png)
-
-![](images/image40.png)
-
-Fuck 110$ just to verify my card, fortunately, I am put limit on my card that mf -->
-
 ## Workaround for the Out of Capacity Problem (Linux)
 
-If you see the 'Out of Capacity' error, don't panic. This doesn't mean you can't have a server; it just means you have to be the first in line when someone else deletes theirs. We are going to build a 'line-bot' using Terraform
+If you hit the "Out of capacity" error, you do not need to manually check the dashboard every day. We can automate resource provisioning using Terraform and a simple loop script that retries until capacity opens up.
 
-44. At the summary page, click `Save as stack`. This will save the everything we did earlier in Stack and this page will appear. Then you will need to `Download Terraform configuration`. This will download a zip file that contain Terraform config. From this step, we will working mostly on our computer. 
+41. On the review page, click **Save as stack** to export your configuration. In the stack details view, click **Download Terraform configuration** to save the `.zip` archive to your machine.
 
 ![Stack Job Page](images/image52.png)
 
-45. I will use my homeserver to run the script. So, I will show you from my server. Then run this command. 
-
-***Note*** *You need to replace <Your Downloaded Terraform Config.zip> with your actual file name.* 
+42. Extract the downloaded configuration on your machine or server:
 
 ```bash
-mkdir ~/oracle-instance-grapper
-
-cd oracle-instance-grapper
-
-unzip ~/Downloads/\<Your Downloaded Terraform Config.zip\>
-
-ls
-
-sudo apt install tmux # Tmux is use for run background process.
+mkdir ~/oracle-instance-grabber
+cd oracle-instance-grabber
+unzip ~/Downloads/<Your_Terraform_Config>.zip
+sudo apt install tmux  # Used for running background processes
 ```
 
 ![List files and Install Tmux](images/image38.png)
 
-46. Visit: [Install Terraform from Hashicorp](https://developer.hashicorp.com/terraform/install) Then choose your OS. Mine is Linux.
+43. Install Terraform following the official [HashiCorp Installation Guide](https://developer.hashicorp.com/terraform/install):
 
 ![Hashicorp Developer Website](image.png)
-
-47. Choose your distro according to your host machine. Copy the script and run it on your terminal.
 
 ![Installation Script](image-1.png)
 
 ![Install from Terminal](images/image44.png)
 
-48. We will need to create bash script to automate creation process. 
+44. Create an automated retry script:
 
-<!-- ![](images/image13.png) -->
 ```bash
 nano grab_oracle.sh
 ```
 
-Then, paste this scipt. 
+Paste the following script:
 
 ```bash
 #!/bin/bash
@@ -325,7 +295,7 @@ done
 
 ![grab_oracle.sh](images/image3.png)
 
-49. Now, we need to update the `main.tf` with our oracle cloud credential. How to find it?
+45. Update `main.tf` with your OCI API credentials:
 
 ![main.tf provider](image-2.png)
 
@@ -339,89 +309,70 @@ provider "oci" {
 }
 ```
 
-### Finding Credentail to run Terraform
+### Finding Credentials to Run Terraform
 
-50. Click `Tenancy: Username` then click copy OCID start with `ocid1.tenancy.oc1..`
+46. Find your Tenancy OCID under **Profile > Tenancy**:
 
 ![Account info in Oracle](image-3.png)
 
 ![Account Tenancy Detail](image-4.png)
 
-51. We can find User OCID by click on `User Setting`
+47. Find your User OCID under **Profile > User Settings**:
 
 ![Account info in Oracle](image-3.png)
 
 ![User Setting](image-5.png)
 
-52. We need to create the `Tokens and Keys` to get the fingerprint
+48. Under **API Keys**, click **Add API Key**:
 
 ![Detail Tabs](image-6.png)
 
-53. `Add API Key`
-
 ![Add API Key Page](image-7.png)
 
-54. This is similar to SSH situation. Just `Download private key` and it will create you the API key. Then click `Add` at the bottom right corner.
+49. Download your generated private key, click **Add**, and copy the configuration snippet.
 
 ![Creating Tokens and Key](image-8.png)
 
-55. It will show you the key and everything.
-
 ### Running the Script
 
-56. After get the infomation, you can save the `main.tf`. Then you will need to know where is the private key you have download it. 
-
-```bash
-ls ~/Downloads | grep key
-```
-
-57. You can move it to other location such as `.oci`
+50. Move your private key to your `.oci` directory and restrict file permissions:
 
 ```bash
 mkdir -p ~/.oci
-
-mv ~/Downloads/<your file name.key> ~/.oci/key.pem
-
-sudo chmod 400 ~/.oci/key.pem # Most SSH clients and Terraform will throw an error or refuse to run if the private key file permissions are too "open" (readable by others).
+mv ~/Downloads/<your-key-file>.pem ~/.oci/key.pem
+chmod 400 ~/.oci/key.pem
 ```
 
-58. Now, we have everything we need. Let's check the script and start terraform init.
+51. Initialize Terraform in your project directory:
 
 ```bash
-ls
-
 terraform init
 ```
+
 ![Listing file and start tmux session](images/image5.png)
 
-59. Inside, Tmux session, you can start this last command.
+52. Launch the script inside a persistent `tmux` session:
 
 ```bash
-tmux new -s oracle-grapper
-
-sudo chmod +x grab_oracle.sh
-
+tmux new -s oracle-grabber
+chmod +x grab_oracle.sh
 ./grab_oracle.sh
 ```
 
 ![Start Running!!!](images/image7.png)
 
-60. Yes, it will fail most of the time. The Idea of the script is that, it will try to create instance for you indefinitelly. It will retry every `60 seconds`. As soon as, the capacity available you will grab that instance. I put 60s to avoid getting block by oracle, if you send too many request it may flag you as DoS or DDoS attack. lol.
+53. The script will continue retrying until an instance successfully provisions. It polls every 60 seconds to avoid rate limits or API abuse flags from Oracle. As soon as another tenant decommissions a VM or regional capacity frees up, the script executes `terraform apply` and claims the instance.
 
-To exist this tmux sesssion without stopping the script is to `hold ctrl then press b and press d (Ctrl + b d)`. You will detach from that session. 
+To exit the tmux session without terminating the background script, press `Ctrl + b` followed by `d` to detach.
 
-What do we do after this? 
+To check script progress at any point, re-attach to the session:
 
-We wait. No, you don't have to wait. You just need to forget about it and do your work normally. Maybe after a few hours you may get one.
+```bash
+tmux attach -t oracle-grabber
+```
 
-**Important**, If you turn your computer off, the script will stop. You can restart again by repeating step `59`.
-
-If you need to check how it is doing use this command: `tmux attach -t oracle-grapper`.
-
-I got mine after 5 hours. 
+Once provisioned, your instance will appear in the OCI dashboard with an assigned public IPv4 address ready for SSH access.
 
 ![Success](images/image47.png)
 
-Thank you for reading up until this point. I hope you get your Free Instance Soon. 
-
-bye bye see you next time.
+With your Always Free cloud instance running, you now have a reliable 24/7 environment to deploy Docker containers, automated workflows, or personal web services at zero cost.

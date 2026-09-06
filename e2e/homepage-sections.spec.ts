@@ -20,12 +20,12 @@ const HOVER_BORDER_BRONZE_REGEX = /hover:border-bronze/;
 const MT_6_REGEX = /mt-6/;
 const SM_MT_8_REGEX = /sm:mt-8/;
 const BOOK_FREE_CALL_REGEX = /Book a Free Call/i;
-const READ_ARCHITECTURE_REGEX = /Read Architecture/i;
+const READ_ARCHITECTURE_REGEX = /Read Case Study|Read Architecture/i;
 const MB_0_REGEX = /mb-0/;
 const MB_6_REGEX = /mb-6/;
 const MB_8_REGEX = /mb-8/;
-const INITIATE_DISCUSSION_REGEX = /Initiate Discussion/i;
-const BOOK_CONSULTATION_REGEX = /Book Consultation/i;
+const INITIATE_DISCUSSION_REGEX = /Let's Talk About Your Project/i;
+const BOOK_CONSULTATION_REGEX = /Book a Free Discovery Call/i;
 const BG_CRIMSON_REGEX = /bg-crimson/;
 const BG_INK_REGEX = /bg-ink/;
 const W_FULL_REGEX = /w-full/;
@@ -74,15 +74,17 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
 
     await expect(
       servicesSection.getByRole('heading', {
-        name: 'Workflow & Business Automation'
+        name: 'Workflow & Tool Integration'
       })
     ).toBeVisible();
     await expect(
-      servicesSection.getByRole('heading', { name: 'Social & Messaging Bots' })
+      servicesSection.getByRole('heading', {
+        name: 'Custom Bots & Chat Automations'
+      })
     ).toBeVisible();
     await expect(
       servicesSection.getByRole('heading', {
-        name: 'AI Systems & Custom Web Apps'
+        name: 'Custom Web Applications & Sites'
       })
     ).toBeVisible();
 
@@ -136,11 +138,11 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     );
   });
 
-  test('all homepage sections enforce uniform py-12 md:py-16 padding standard', async ({
+  test('homepage sections enforce responsive padding standards', async ({
     page
   }) => {
     await page.goto('/');
-    const sectionIds = [
+    const standardSectionIds = [
       'ecosystem',
       'architect',
       'services',
@@ -156,10 +158,36 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(heroSection).toHaveClass(PY_12_REGEX);
     await expect(heroSection).toHaveClass(MD_PY_16_REGEX);
 
-    for (const id of sectionIds) {
+    for (const id of standardSectionIds) {
       const sec = page.locator(`section#${id}`);
       await expect(sec).toHaveClass(PY_12_REGEX);
       await expect(sec).toHaveClass(MD_PY_16_REGEX);
+    }
+  });
+
+  test('tools and frameworks subtitle tag peeks into initial desktop viewport', async ({
+    page
+  }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.goto('/');
+
+    const toolsSubtitle = page.locator(
+      'section#ecosystem span:has-text("Tools & Frameworks")'
+    );
+    await expect(toolsSubtitle).toBeAttached();
+
+    const box = await toolsSubtitle.boundingBox();
+    expect(box).not.toBeNull();
+    if (box) {
+      expect(box.y).toBeLessThan(1080);
+      expect(box.y).toBeGreaterThan(0);
+    }
+
+    const heading = page.locator('section#ecosystem h2');
+    const headingBox = await heading.boundingBox();
+    expect(headingBox).not.toBeNull();
+    if (headingBox) {
+      expect(headingBox.y).toBeGreaterThanOrEqual(900);
     }
   });
 
@@ -207,13 +235,13 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await page.goto('/');
 
     const heroSubtitle = page.locator(
-      'section.overflow-hidden span:has-text("Digital Realm Builder")'
+      'section.overflow-hidden span:has-text("Web Development & Workflow Automation")'
     );
     await expect(heroSubtitle).toBeVisible();
     await expect(heroSubtitle).toHaveClass(HERO_SUBTITLE_TAG_REGEX);
 
     const servicesSubtitle = page.locator(
-      'section#services span:has-text("Core Capabilities")'
+      'section#services span:has-text("What I Do")'
     );
     await expect(servicesSubtitle).toBeVisible();
     await expect(servicesSubtitle).toHaveClass(SERVICES_SUBTITLE_TAG_REGEX);
@@ -231,14 +259,14 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(servicesHeader).toBeVisible();
 
     const subtitle = servicesHeader.locator('span').first();
-    await expect(subtitle).toHaveText('Core Capabilities');
+    await expect(subtitle).toHaveText('What I Do');
 
     const heading = servicesHeader.locator('h2');
-    await expect(heading).toHaveText('Specialized Engineering Services');
+    await expect(heading).toHaveText('Three Ways I Can Help Your Business');
 
     const paragraph = servicesHeader.locator('p');
     await expect(paragraph).toContainText(
-      'Bridging medieval precision with modern automation architecture'
+      'Practical development and automation services'
     );
 
     const divider = servicesHeader
@@ -252,7 +280,7 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     );
     await expect(heroHeader).toBeVisible();
     await expect(heroHeader.locator('h1')).toHaveText(
-      'Forging Scalable Web Systems & Autonomous Workflows'
+      'Custom Websites & Automations Built for Growing Businesses'
     );
 
     // 3. Small variant (architect section & cards)
@@ -260,9 +288,7 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
       'section#architect div.w-full.flex.flex-col.items-start'
     );
     await expect(architectHeader).toBeVisible();
-    await expect(architectHeader.locator('h2')).toHaveText(
-      'Meet Veasna — Your Architect'
-    );
+    await expect(architectHeader.locator('h2')).toHaveText("Hi, I'm Veasna.");
 
     const processCardHeaders = page.locator(
       'section#process div.w-full.flex.flex-col.items-start'
@@ -274,7 +300,9 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
       'section#contact div.w-full.flex.flex-col.items-start'
     );
     await expect(contactHeader).toBeVisible();
-    await expect(contactHeader.locator('h2')).toHaveText('Start Your Project');
+    await expect(contactHeader.locator('h2')).toHaveText(
+      'Tell Me About Your Project'
+    );
 
     // 5. CTA section (no subtitle)
     const ctaHeader = page.locator(
@@ -282,7 +310,7 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     );
     await expect(ctaHeader).toBeVisible();
     await expect(ctaHeader.locator('h2')).toHaveText(
-      'Ready to Transform Your Operations?'
+      'Ready to Automate Your Busywork?'
     );
   });
 

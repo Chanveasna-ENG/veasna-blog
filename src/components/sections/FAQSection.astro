@@ -8,31 +8,30 @@ interface Props {
 
 const defaultFAQItems: AccordionItem[] = [
   {
-    question: 'What types of systems and web platforms do you engineer?',
+    question: 'What kind of projects do you take on?',
     answer:
-      'I specialize in high-converting web architectures (Astro, Next.js, React), autonomous webhook queues, distributed data synchronization pipelines, and resilient containerized cloud infrastructure.'
+      'I build custom websites and web apps (using Astro, Next.js, and React), automate workflows between business apps (via n8n, Make, and Zapier), and build custom bots for messaging platforms like Telegram and Discord.'
   },
   {
-    question: 'How do you approach legacy system migration and CRM automation?',
+    question: 'How long does a typical project take?',
     answer:
-      'Migrations are executed via zero-downtime blue-green strategies. Form and intake pipelines are decoupled through edge workers, schema validation, and asynchronous queue workers ensuring 100% data fidelity with zero dropped leads.'
-  },
-  {
-    question:
-      'What is the standard engagement timeline from onboarding to deployment?',
-    answer:
-      'Standard projects follow a predictable 2 to 4-week delivery lifecycle: Stage 01 Architectural Blueprinting & Modeling (Week 1), Stage 02 Core Engineering & Iterative Staging (Weeks 2–3), and Stage 03 Runbook Handover & Transition Training (Week 4).'
+      'Most automation setups take 1 to 2 weeks. Custom bots and web applications typically take 2 to 4 weeks, depending on the complexity of integrations and features.'
   },
   {
     question:
-      'Will our internal team be able to update content and maintain the system independently?',
+      'Will my team be able to use and maintain the system after launch?',
     answer:
-      'Yes. Systems are built using typed Content Collections, typed CMS backends, and modular components, accompanied by bespoke recorded video walkthroughs and operational runbooks.'
+      'Yes. I provide recorded video tutorials and written step-by-step guides for your team so you can own and run your setup without being tied to a developer for daily changes.'
   },
   {
-    question: 'What post-launch support and documentation do you provide?',
+    question: 'What happens if something breaks after launch?',
     answer:
-      'Every completed delivery includes 30 days of dedicated transition support, automated health monitoring setup, and comprehensive documentation detailing operational procedures and recovery failovers.'
+      'Every project includes 30 days of post-launch support. If an integration hiccups or a bug appears during that period, I fix it at no extra charge.'
+  },
+  {
+    question: 'How do we get started?',
+    answer:
+      'Send an inquiry through the contact form or book a free 15-minute call. We will discuss what you need, confirm if I am the right fit, and give you an exact price and timeline.'
   }
 ];
 
@@ -43,8 +42,8 @@ const { items = defaultFAQItems } = Astro.props;
   <div class="max-w-4xl mx-auto">
     <!-- Centered Header Block -->
     <SectionHeader
-      subtitle="FAQS"
-      title="Frequently Addressed Inquiries"
+      subtitle="FAQ"
+      title="Frequently Asked Questions"
     />
 
     <!-- Reusable Accordion Component -->

@@ -19,12 +19,14 @@ const MIN_READ_REGEX = /\d+\s+min\s+read/i;
 const PROFILE_IMG_SRC_REGEX = /\/images\/profile\.jpg/;
 const ARTICLE_WORD_REGEX = /Article/i;
 const PROJECT_WORD_REGEX = /Project/i;
-const HIRE_US_REGEX = /Hire Us/i;
+const HIRE_US_REGEX = /Work With Me|Hire Us/i;
 const ROUNDED_FULL_REGEX = /rounded-full/;
 const BORDER_B_REGEX = /border-b/;
 const BORDER_T_REGEX = /border-t/;
 const PB_6_REGEX = /pb-6/;
 const ENGRAVED_SHADOW_REGEX = /engraved-shadow/;
+const MB_2_REGEX = /mb-2/;
+const START_PROJECT_HEADING_REGEX = /Start a Project|Start Your Project/i;
 
 test.describe('Single Blog Post Layout & Reading Experience', () => {
   test('renders branded title, breadcrumb to /page/1, reading time, and metadata', async ({
@@ -234,7 +236,7 @@ test.describe('Single Blog Post Layout & Reading Experience', () => {
     // Bio description paragraph enforces mb-2
     const bioParagraph = page.locator('.author-profile-card p');
     await expect(bioParagraph).toBeVisible();
-    await expect(bioParagraph).toHaveClass(/mb-2/);
+    await expect(bioParagraph).toHaveClass(MB_2_REGEX);
   });
 
   test('renders SimilarBlogList with strictly matched category recommendations', async ({
@@ -327,8 +329,7 @@ test.describe('Single Blog Post Layout & Reading Experience', () => {
 
     // Verify SidebarHireCard is inside aside
     const hireHeading = stickyAside.getByRole('heading', {
-      name: 'Start Your Project',
-      exact: true
+      name: START_PROJECT_HEADING_REGEX
     });
     await expect(hireHeading).toBeVisible();
 

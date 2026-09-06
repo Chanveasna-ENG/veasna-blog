@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 const BLOG_PAGE_TITLE_REGEX = /Articles & Field Notes/i;
-const SECTION_TITLE_REGEX = /Technical Blueprints & Articles/i;
+const SECTION_TITLE_REGEX = /Technical Guides & Articles/i;
 const READ_ARTICLE_REGEX = /Read Article/i;
 const POSTS_URL_REGEX = /\/posts\/.+/;
 const MD_GRID_COLS_12_REGEX = /md:grid-cols-12/;

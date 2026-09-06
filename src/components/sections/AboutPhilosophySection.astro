@@ -9,27 +9,21 @@ import SubtitleTag from '../ui/SubtitleTag.astro';
 const values = [
   {
     num: '01',
-    title: 'Autonomous Leverage (Zero Toil)',
+    title: 'Automate Repetitive Work',
     description:
-      'Repetitive operational tasks and manual data entry are bottlenecks to growth. If a task happens twice, it should be engineered to run 24/7 autonomously without human fatigue.'
+      'Manual data entry, copying leads, and routine notifications drain hours every week. If a task follows predictable rules, software should handle it in the background.'
   },
   {
     num: '02',
-    title: 'Deterministic Reliability & Failovers',
+    title: 'Build for Reliability',
     description:
-      'Fragile automations that break silently destroy trust. Every workflow, webhook queue, and messaging bot is constructed with retry mechanisms, state persistence, and real-time failure alerts.'
+      'Silent automation failures waste time and lose leads. Every workflow and bot includes automated retries, error logging, and instant alerts so issues get caught before clients notice.'
   },
   {
     num: '03',
-    title: 'Quality Consistency & Clean Architecture',
+    title: 'Direct Access & Full Ownership',
     description:
-      'Applying medieval craftsmanship to digital software engineering. Clean pipelines, strict typing, and modular architectures guarantee your systems scale smoothly without constant maintenance.'
-  },
-  {
-    num: '04',
-    title: 'Direct Partnership & Complete Ownership',
-    description:
-      'No middlemen, bloated agency overhead, or closed-garden lock-in. You receive transparent documentation, direct communication, and 100% ownership of your code, workflows, and infrastructure.'
+      'You work directly with the engineer building your system—no account managers or communication delays. You get full access, clear handover documentation, and 100% ownership of every workflow and repository.'
   }
 ];
 ---
@@ -43,11 +37,11 @@ const values = [
     <SectionHeader
       subtitle="Core Philosophy"
       title="Engineering Values That Drive Every Build"
-      description="Automation is not just about saving minutes—it is about establishing an unyielding foundation where your business operations run autonomously with predictable precision."
+      description="Good systems don't require daily supervision. I build automations and web platforms that handle routine work quietly, accurately, and without constant fixes."
     />
 
-    <!-- 4-Pillar Narrative Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- 3-Pillar Narrative Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       {values.map((val) => (
         <MedievalFrame size="small" interactive={true}>
           <div class="flex items-baseline justify-between mb-4">

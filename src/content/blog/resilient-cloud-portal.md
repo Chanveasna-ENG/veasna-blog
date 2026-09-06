@@ -1,6 +1,6 @@
 ---
 title: "Resilient Cloud Infrastructure & Microservices Architecture"
-description: "Hardened containerized cluster infrastructure with automated failover, zero-downtime deployment, and proxy security."
+description: "Containerized infrastructure with automated failover, zero-downtime deployment, and SSL proxy security."
 createdAt: 2026-08-18T14:00:00.000+07:00
 author: "Chanveasna Eng"
 tags: ["Docker", "Nginx", "DevOps", "Security"]

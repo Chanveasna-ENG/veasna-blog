@@ -18,7 +18,7 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
     <!-- Section Header -->
     <SectionHeader
       subtitle="Knowledge & Field Notes"
-      title="Technical Blueprints & Automation Hacks"
+      title="Technical Guides & System Walkthroughs"
       description="Step-by-step technical guides, automation patterns, and engineering insights from active production systems."
     />
 
@@ -58,7 +58,7 @@ const featuredPosts = getLatestPosts(allBlogPosts, 3);
                 href={`/posts/${post.id}`}
                 class="font-heading font-semibold text-xs text-ink group-hover:text-bronze flex items-center gap-1.5 transition-colors uppercase tracking-wider"
               >
-                Read Blueprint <span>&rarr;</span>
+                Read Article <span>&rarr;</span>
               </a>
               {post.data.tags && post.data.tags.length > 0 && (
                 <span class="text-[10px] font-body text-inkMuted bg-parchmentDark px-2 py-0.5 border border-ink/10">

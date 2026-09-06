@@ -29,15 +29,15 @@ const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
 ---
 
 <BaseLayout
-  title="Systems Portfolio & Architecture Catalog | Chanveasna ENG"
-  description="Explore production case studies, automation pipelines, and infrastructure solutions engineered to eliminate operational friction."
+  title="Systems Portfolio & Case Studies | Chanveasna ENG"
+  description="Production case studies of custom web applications, workflow automations, and backend infrastructure."
 >
   <div class="max-w-5xl mx-auto py-12 md:py-16 px-4 sm:px-6">
     <!-- Header with Divider -->
     <SectionHeader
-      subtitle="Engineering Archive"
+      subtitle="Case Studies"
       title="Systems Portfolio"
-      description="A documented catalog of high-impact web architectures, business automation pipelines, and infrastructure solutions built to eliminate operational friction."
+      description="Detailed case studies of web applications, automation pipelines, and backend systems built for production."
     />
 
     <!-- Tag Filter Bar -->
@@ -86,7 +86,7 @@ const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
           No Matching Projects
         </Heading>
         <Paragraph variant="small" align="center" spacing="md">
-          No architectural case studies found matching this filter.
+          No case studies found matching this filter.
         </Paragraph>
         <div class="flex justify-center mt-4">
           <SecondaryButton size="sm" id="portfolio-reset-filter-btn">
@@ -105,8 +105,8 @@ const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
               Projects In Staging
             </Heading>
             <Paragraph variant="small" align="center" spacing="none">
-              New architectural case studies are currently undergoing
-              documentation and will be released shortly.
+              New case studies are currently being documented and will be
+              published shortly.
             </Paragraph>
           </MedievalFrame>
         </div>
@@ -116,18 +116,18 @@ const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
     <!-- Bottom Contact CTA Banner -->
     <div class="mt-20 text-center">
       <MedievalFrame size="medium" interactive={true}>
-        <Heading as="h2" size="section" align="center">
-          Need a Custom Solution Engineered?
-        </Heading>
-        <div class="max-w-xl mx-auto mb-0">
-          <Paragraph variant="lead" align="center" spacing="none">
-            Whether you require an autonomous webhook pipeline, a high-converting web
-            portal, or hardened cloud infrastructure.
-          </Paragraph>
-        </div>
-        <div class="flex justify-center">
-          <PrimaryButton href="mailto:contact@chanveasna.eng" size="md">
-            Discuss Your Architecture
+        <SectionHeader
+          size="big"
+          as="h2"
+          headingSize="section"
+          title="Have a Project in Mind?"
+          description="Whether you need a custom web application, an automated workflow, or reliable messaging bots, let's talk about what you're building."
+          divider={false}
+          paragraphSpacing="none"
+        />
+        <div class="flex justify-center mt-6">
+          <PrimaryButton href="/contact" size="md">
+            Discuss Your Project
           </PrimaryButton>
         </div>
       </MedievalFrame>

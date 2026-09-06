@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 const PORTFOLIO_TITLE_REGEX = /Systems Portfolio/i;
 const PORTFOLIO_PAGE_TITLE_REGEX = /Portfolio/i;
-const READ_ARCHITECTURE_REGEX = /Read Architecture/i;
+const READ_CASE_STUDY_REGEX = /Read Case Study/i;
 const POSTS_URL_REGEX = /\/posts\/.+/;
 const FLEX_COL_REGEX = /flex-col/;
 const GAP_8_REGEX = /gap-8/;
@@ -11,6 +11,7 @@ const ALL_TAG_REGEX = /all/i;
 const RESET_PORTFOLIO_URL_REGEX = /\/portfolio(?!\?tag=)/;
 const BG_CRIMSON_REGEX = /bg-crimson/;
 const BG_INK_REGEX = /bg-ink/;
+const MB_DIGIT_REGEX = /mb-\d+/;
 
 test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', () => {
   test('renders single-column vertical stack container on portfolio page', async ({
@@ -85,15 +86,15 @@ test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', (
 
     const rightCol = firstCard.locator('div.md\\:col-span-7');
     const trackingLabel = rightCol.locator(
-      'span:has-text("COMPREHENSIVE CASE STUDY")'
+      'span.text-bronze:has-text("Case Study")'
     );
     await expect(trackingLabel).toBeVisible();
 
-    const readArchitectureBtn = rightCol.getByRole('link', {
-      name: READ_ARCHITECTURE_REGEX
+    const readCaseStudyBtn = rightCol.getByRole('link', {
+      name: READ_CASE_STUDY_REGEX
     });
-    await expect(readArchitectureBtn).toBeVisible();
-    await expect(readArchitectureBtn).toHaveAttribute('href', POSTS_URL_REGEX);
+    await expect(readCaseStudyBtn).toBeVisible();
+    await expect(readCaseStudyBtn).toHaveAttribute('href', POSTS_URL_REGEX);
   });
 
   test('tag filter bar renders dynamic buttons with All active by default and filters on click', async ({
@@ -168,12 +169,8 @@ test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', (
     page
   }) => {
     await page.goto('/portfolio');
-    const bannerDescWrapper = page.locator(
-      'div.mt-20 div.max-w-xl.mx-auto.mb-0'
-    );
-    await expect(bannerDescWrapper).toBeVisible();
-
-    const bannerParagraph = bannerDescWrapper.locator('p');
-    await expect(bannerParagraph).not.toHaveClass(/mb-\d+/);
+    const bannerParagraph = page.locator('div.mt-20 p');
+    await expect(bannerParagraph).toBeVisible();
+    await expect(bannerParagraph).not.toHaveClass(MB_DIGIT_REGEX);
   });
 });

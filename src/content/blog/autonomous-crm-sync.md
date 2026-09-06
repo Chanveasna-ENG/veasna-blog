@@ -16,7 +16,7 @@ Content production teams across multiple digital properties spent 20+ hours week
 
 ## The Core Challenge
 
-1. **Repetitive Operational Toil**: Multi-platform publishing was prone to human typographical errors and missed posting schedules.
+1. **Manual Publishing Overhead**: Multi-platform publishing was prone to human typographical errors and missed posting schedules.
 2. **API Rate Limiting**: Concurrent bursts triggered third-party endpoint throttling and silent transmission failures.
 3. **Audit Blindspots**: Lack of unified status logging made it difficult to detect failed deliveries.
 

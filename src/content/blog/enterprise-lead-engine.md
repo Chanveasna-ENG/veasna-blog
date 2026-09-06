@@ -1,6 +1,6 @@
 ---
 title: "Enterprise Lead Generation & Client Intake Engine"
-description: "High-converting web architecture engineered with sub-300ms Core Web Vitals and autonomous CRM intake pipelines."
+description: "Fast web platform with sub-300ms load times, structured lead validation, and automated CRM intake."
 createdAt: 2026-08-10T09:00:00.000+07:00
 author: "Chanveasna Eng"
 tags: ["Astro", "TypeScript", "Automation", "CRM"]

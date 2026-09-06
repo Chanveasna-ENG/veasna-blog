@@ -1,6 +1,6 @@
 ---
 title: "My First Blog: How everything started"
-description: I will talk about why I'm creating this server, how it is all started and what I have on my HomeLab.
+description: "How I converted an old laptop into a production home server behind CGNAT using Cloudflare Tunnels, Docker, and Linux."
 createdAt: 2026-03-28
 lastModifiedAt: 2026-03-28
 version: 1.0.0
@@ -22,27 +22,27 @@ demoUrl: https://www.veasnaec.com
 
 ## The Past
 
-I have always wanted to convert an old laptop to a personal linux server that I can host variety of services for myself, friends and family. However, I have one issue that I only know how to solve it recently. That one issue was my home internet is hidden behind CGNAT (Carrier Grade Network Address Translation), this means that I don't have my own Public IP Address. So, I cannot do Port Forwarding and cannot accept any incoming network traffic which means I cannot make the service available on the internet. 
+I had long wanted to convert an older laptop into a dedicated Linux home server to host personal tools and internal services. However, I ran into a persistent obstacle: my home internet connection is behind Carrier-Grade NAT (CGNAT). Because my ISP shares public IP addresses across multiple subscribers, traditional router port forwarding was impossible, preventing incoming traffic from reaching the machine.
 
-So, the old laptop has been sitting on the shelf for years. I don't know what to do with it. The only way I can access it from outside is to connect it via Tailscale (Private Mesh VPN Service). 
+As a result, the laptop sat idle on a shelf for months. The only way to access it remotely was through a private mesh VPN like Tailscale.
 
-## Recently
+## Finding the Missing Piece
 
-A few months ago, the dream of having my own server started again when I was playing around with AWS EC2, Google Cloud Compute Engine and Oracle Cloud. When I learned that Google Cloud and Oracle Cloud has a forever free tier, I want to try it. I did try Google Cloud for a few weeks, and it works really well on a free server, it has 1 GB ram and 2 processors. 
+A few months later, I revisited self-hosting while experimenting with AWS EC2, Google Cloud Compute Engine, and Oracle Cloud Always Free tiers. Running minimal cloud VMs worked well, but I wanted to keep sensitive workloads and persistent containers on local hardware without recurring cloud costs.
 
-The magic started when I tried to connect the google cloud IP Address to my domain name. When setting up the domain, port forwarding, and reverse proxies. I was asking AI about:
+While configuring reverse proxies and domain routing, I evaluated edge security options:
 
 Me: "What should I use? Nginx or Caddy for reverse proxy and protect my resource and ssl certificate? How about Cloudflare? I have seen people using it for DDoS protection, bot protection... How to use it?"
 
-AI: "... Cloudlare Tunnel Zero Trust Dashboard ..."
+AI: "... Cloudflare Tunnel Zero Trust Dashboard ..."
 
 Me: "What is Cloudflare tunnel? How is it different from traditional reverse proxy like Nginx?"
 
 ...
 
-Me: "Wait what? It creates outbound connection? That's mean I host anything from my laptop anywhere in the world as long as I have internet connection my services are all online? Wtf OMG"
+Me: "Wait what? It creates an outbound connection? That means I can host services from my laptop anywhere in the world without an open port or public IP?"
 
-My mind was blown at that moment. To think that something like that exist is incredible. The next thing I did after learning about it is to check cloudflare website and "destroy" google cloud instance. 
+It clicked immediately: an outbound tunnel bypassed CGNAT entirely. No port forwarding, no static public IP, and no risk of exposing router ports to the open internet. The next thing I did was decommission the cloud VM and move the workloads on-premise to the laptop. 
 
 As of now, I have a few services running inside my old laptop, such as:
 - N8N

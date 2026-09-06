@@ -3,7 +3,8 @@ import { expect, test } from '@playwright/test';
 const UPWORK_DOMAIN_REGEX = /upwork\.com/;
 const HIRE_ON_UPWORK_REGEX = /Hire on Upwork/i;
 const UPWORK_PARAM_REGEX = /\?upwork=true/;
-const CUSTOM_SOLUTION_HEADING_REGEX = /Need a Custom Solution Engineered\?/i;
+const CUSTOM_SOLUTION_HEADING_REGEX =
+  /Have a Project in Mind\?|Need a Custom Solution Engineered\?/i;
 
 test.describe('Upwork Compliance Mode (?upwork=true)', () => {
   test.beforeEach(async ({ context }) => {
@@ -146,6 +147,12 @@ test.describe('Upwork Compliance Mode (?upwork=true)', () => {
       'section#architect [data-upwork-hide]'
     );
     await expect(architectSocials).toBeHidden();
+
+    const architectCta = page
+      .locator('section#architect')
+      .getByRole('link', { name: HIRE_ON_UPWORK_REGEX });
+    await expect(architectCta).toBeVisible();
+    await expect(architectCta).toHaveAttribute('target', '_blank');
 
     // 2. Author card on single blog post
     await page.goto('/posts/autonomous-crm-sync?upwork=true');

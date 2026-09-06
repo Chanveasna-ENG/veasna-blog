@@ -16,13 +16,20 @@ const HIRE_WITH_ARROW_PHRASES = [
   'Book Strategy Call',
   'Initiate Direct Contact',
   'Discuss Your Architecture',
-  'Claim Strategy Call'
+  'Discuss Your Project',
+  "Let's Talk About Your Project",
+  'Claim Strategy Call',
+  'Start a Project',
+  'Book Your Strategy Call',
+  'Work With Me',
+  'Hire Me'
 ];
 
 function getOffPlatformReplacementLabel(currentText: string): string | null {
   if (
     currentText.includes('Book A Call') ||
-    currentText.includes('Book a Call')
+    currentText.includes('Book a Call') ||
+    currentText.includes('Book a Free')
   ) {
     return currentText.includes('→') ? 'Hire on Upwork →' : 'Hire on Upwork';
   }
@@ -53,6 +60,10 @@ function rewriteOffPlatformAnchor(
     const titleSpan = anchor.querySelector<HTMLElement>('.font-heading');
     if (titleSpan) {
       titleSpan.textContent = 'Hire on Upwork';
+    }
+    const subtitleSpan = anchor.querySelector<HTMLElement>('.font-body');
+    if (subtitleSpan) {
+      subtitleSpan.textContent = 'Available on Upwork';
     }
     return;
   }

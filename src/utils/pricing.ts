@@ -17,8 +17,7 @@ export function getPricingTiers(): PricingTier[] {
       title: 'Workflow Automation',
       startingPrice: 600,
       currency: 'USD',
-      subtitle:
-        'Eliminate manual bottlenecks with resilient automated pipelines.',
+      subtitle: 'Connect your software and automate repetitive manual tasks.',
       turnaround: '1 – 2 Weeks',
       deliverables: [
         'Custom n8n / Make.com / Zapier architecture',
@@ -27,16 +26,16 @@ export function getPricingTiers(): PricingTier[] {
         'Deployment on self-hosted VPS or cloud runner',
         '14-day post-launch warranty & handover guide'
       ],
-      recommendedFor: 'Founders & ops teams drowning in repetitive tasks.',
+      recommendedFor:
+        'Businesses spending hours each week on manual data entry.',
       ctaSubject: 'Workflow Automation (n8n / Make / Zapier)'
     },
     {
       id: 'bots',
-      title: 'Messaging & Social Bots',
+      title: 'Messaging Bots',
       startingPrice: 900,
       currency: 'USD',
-      subtitle:
-        '24/7 intelligent chat automations across leading messaging platforms.',
+      subtitle: 'Automate customer inquiries and lead intake on chat channels.',
       turnaround: '2 – 3 Weeks',
       deliverables: [
         'Telegram, Discord, WhatsApp, Messenger, or IG bot',
@@ -45,17 +44,16 @@ export function getPricingTiers(): PricingTier[] {
         'Payment gateway or API webhook integrations',
         'Dockerized deployment & monitoring'
       ],
-      recommendedFor:
-        'Businesses needing automated customer intake & community moderation.',
+      recommendedFor: 'Communities and businesses needing 24/7 chat responses.',
       ctaSubject: 'Messaging & Social Bots (Telegram / Discord / WhatsApp)'
     },
     {
       id: 'ai-web',
-      title: 'AI Systems & Custom Web Apps',
+      title: 'Custom Web Apps',
       startingPrice: 2500,
       currency: 'USD',
       subtitle:
-        'High-converting web platforms paired with custom AI agent capabilities.',
+        'Full-featured web platforms and client portals built from scratch.',
       turnaround: '3 – 5 Weeks',
       deliverables: [
         'Modern Astro / Next.js high-converting architecture',
@@ -65,7 +63,7 @@ export function getPricingTiers(): PricingTier[] {
         'Complete source code ownership & CI/CD deployment'
       ],
       recommendedFor:
-        'High-growth brands demanding bespoke design and intelligence.',
+        'Businesses needing a dedicated web product or internal tool.',
       ctaSubject: 'AI Systems & Custom Web Apps (Astro / Next.js / E-Commerce)'
     }
   ];

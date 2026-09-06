@@ -30,7 +30,7 @@ describe('resolveProjectCardConfig', () => {
     });
     expect(config.isSlider).toBe(false);
     expect(config.imageSrc).toBe('/images/custom-project.png');
-    expect(config.label).toBe('Comprehensive Case Study');
+    expect(config.label).toBe('Case Study');
     expect(config.primaryTag).toBe('System Architecture');
     expect(config.footerClass).toBe(
       'pt-4 border-t border-ink/15 flex items-center justify-between mt-auto'
