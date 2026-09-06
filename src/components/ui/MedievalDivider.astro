@@ -1,10 +1,12 @@
 ---
 interface Props {
   variant?: 'diamond' | 'feather' | 'knot' | 'divider-1' | 'simple';
+  class?: string;
   className?: string;
 }
 
-const { variant = 'diamond', className = '' } = Astro.props;
+const { variant = 'diamond', class: classProp, className = '' } = Astro.props;
+const customClass = classProp || className;
 
 // Strict 2-divider system:
 // 'diamond' -> Section boundary divider
@@ -13,7 +15,7 @@ const isDiamond =
   variant === 'diamond' || variant === 'knot' || variant === 'divider-1';
 ---
 
-<div class={`w-full flex items-center justify-center my-0 text-ink ${className}`}>
+<div class={`w-full flex items-center justify-center my-0 text-ink ${customClass}`}>
   {isDiamond ? (
     <div class="w-full max-w-5xl flex items-center justify-center px-2">
       <img

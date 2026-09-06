@@ -20,7 +20,9 @@ describe('resolveSecondaryButtonClasses', () => {
     });
     expect(containerClass).toContain('px-3.5 py-1.5 text-xs');
     expect(containerClass).toContain('text-parchment');
-    expect(containerClass).toContain('bg-ink');
+    expect(containerClass).toContain('bg-crimson');
+    expect(containerClass).toContain('border-crimson');
+    expect(containerClass).not.toContain('bg-ink');
     expect(innerLineClass).toContain('border-parchment');
     expect(innerLineClass).toContain('opacity-60');
   });

@@ -27,7 +27,7 @@ export function resolveSecondaryButtonClasses(
     : 'inline-flex items-center justify-center';
 
   const stateContainerClasses = active
-    ? 'text-parchment bg-ink border-ink shadow-sm'
+    ? 'text-parchment bg-crimson border-crimson shadow-sm'
     : 'text-ink bg-transparent hover:bg-parchmentDark border-ink';
 
   const stateInnerLineClasses = active

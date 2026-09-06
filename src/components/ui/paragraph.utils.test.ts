@@ -64,6 +64,9 @@ describe('getParagraphClasses', () => {
     const noneSpacing = getParagraphClasses({ spacing: 'none' });
     expect(noneSpacing).not.toMatch(MB_REGEX);
 
+    const xsSpacing = getParagraphClasses({ spacing: 'xs' });
+    expect(xsSpacing).toContain('mb-2');
+
     const smSpacing = getParagraphClasses({ spacing: 'sm' });
     expect(smSpacing).toContain('mb-4');
 

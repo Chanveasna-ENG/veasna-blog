@@ -13,7 +13,8 @@ export default {
         // Deep Oxidized Antique Bronze (#4A2E0B) for strong contrast and classic medieval warmth
         bronze: '#4A2E0B',
         bronzeHover: '#2D1B06',
-        crimson: '#5C0606',
+        crimson: '#300000',
+        deepRed: '#300000',
         // Alias
         gold: '#4A2E0B',
         darkBg: '#1A1A1A',

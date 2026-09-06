@@ -2,10 +2,17 @@
 interface Props {
   size?: 'sm' | 'md' | 'lg';
   text?: string;
+  class?: string;
   className?: string;
 }
 
-const { size = 'md', text = '', className = '' } = Astro.props;
+const {
+  size = 'md',
+  text = '',
+  class: classProp,
+  className = ''
+} = Astro.props;
+const customClass = classProp || className;
 
 const dimensions: Record<string, string> = {
   sm: 'w-10 h-10',
@@ -17,7 +24,7 @@ const dimensionClass = dimensions[size] || dimensions.md;
 ---
 
 <div
-  class={`relative inline-flex items-center justify-center select-none ${dimensionClass} ${className}`}
+  class={`relative inline-flex items-center justify-center select-none ${dimensionClass} ${customClass}`}
 >
   <img
     src="/wax-seal.png"

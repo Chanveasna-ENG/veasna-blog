@@ -9,6 +9,7 @@ export interface SectionHeaderProps {
   subtitleVariant?: 'bordered' | 'badge' | 'ghost';
   subtitleSize?: 'sm' | 'md';
   paragraphVariant?: 'lead' | 'body' | 'small';
+  paragraphSpacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg';
   divider?: boolean | 'feather' | 'diamond';
   clampTitle?: 1 | 2 | 3 | 'none';
   clampDescription?: 1 | 2 | 3 | 4 | 'none';
@@ -23,6 +24,7 @@ export interface ResolvedHeaderConfig {
   subtitleSpacing: 'lg' | 'md' | 'sm' | 'xs' | 'none';
   subtitleVariant: 'bordered' | 'badge' | 'ghost';
   paragraphVariant: 'lead' | 'body' | 'small';
+  paragraphSpacing: 'none' | 'xs' | 'sm' | 'md' | 'lg';
   containerClass: string;
   showDivider: boolean;
   dividerVariant: 'feather' | 'diamond';
@@ -78,6 +80,7 @@ function resolveBigHeaderConfig(
     subtitleSpacing: 'lg',
     subtitleVariant: props.subtitleVariant ?? 'bordered',
     paragraphVariant: props.paragraphVariant ?? 'lead',
+    paragraphSpacing: props.paragraphSpacing ?? 'md',
     containerClass,
     showDivider: dividerConfig.show,
     dividerVariant: dividerConfig.variant
@@ -103,6 +106,7 @@ function resolveSmallHeaderConfig(
     subtitleSpacing: 'xs',
     subtitleVariant: props.subtitleVariant ?? 'bordered',
     paragraphVariant: props.paragraphVariant ?? 'small',
+    paragraphSpacing: props.paragraphSpacing ?? 'md',
     containerClass,
     showDivider: dividerConfig.show,
     dividerVariant: dividerConfig.variant
@@ -130,6 +134,7 @@ function resolveNormalHeaderConfig(
     subtitleSpacing: 'sm',
     subtitleVariant: props.subtitleVariant ?? 'bordered',
     paragraphVariant: props.paragraphVariant ?? 'lead',
+    paragraphSpacing: props.paragraphSpacing ?? 'md',
     containerClass,
     showDivider: dividerConfig.show,
     dividerVariant: dividerConfig.variant

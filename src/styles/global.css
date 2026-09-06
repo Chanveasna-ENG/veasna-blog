@@ -58,9 +58,14 @@
 }
 
 .engraved-shadow {
-  box-shadow: 4px 4px 0px 0px #1a1a1a;
+  box-shadow: 4px 4px 0px 0px #300000;
 }
 
 .engraved-shadow:hover {
   box-shadow: 6px 6px 0px 0px #4a2e0b;
+}
+
+/* Upwork Compliance Mode */
+[data-upwork-mode="true"] [data-upwork-hide] {
+  display: none !important;
 }

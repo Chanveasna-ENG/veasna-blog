@@ -3,7 +3,6 @@ import { allSocialLinks } from '../../data/socials';
 import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import PrimaryButton from '../ui/PrimaryButton.astro';
-import SecondaryButton from '../ui/SecondaryButton.astro';
 import SocialLink from '../ui/SocialLink.astro';
 
 interface Props {
@@ -18,7 +17,7 @@ const subjectInputId = `${formId}-subject`;
 const messageInputId = `${formId}-message`;
 ---
 
-<section id={id} class="w-full py-12 md:py-16 px-4 sm:px-6">
+<section id={id} data-upwork-hide="true" class="w-full py-12 md:py-16 px-4 sm:px-6">
   <div class="max-w-6xl mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
       <!-- Left Column: Copy, Direct Action & Proof Status -->
@@ -44,9 +43,9 @@ const messageInputId = `${formId}-message`;
           </div>
 
           <div class="mb-8">
-            <SecondaryButton href="/book-a-call">
+            <PrimaryButton href="/book-a-call" size="md">
               Book a Free Call &rarr;
-            </SecondaryButton>
+            </PrimaryButton>
           </div>
         </div>
       </div>

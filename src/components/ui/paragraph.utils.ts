@@ -3,7 +3,7 @@ export interface ParagraphProps {
   color?: 'ink' | 'inkMuted' | 'bronze' | 'parchment';
   align?: 'left' | 'center' | 'right';
   clamp?: 1 | 2 | 3 | 4 | 'none';
-  spacing?: 'none' | 'sm' | 'md' | 'lg';
+  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg';
 }
 
 const variantClasses: Record<NonNullable<ParagraphProps['variant']>, string> = {
@@ -36,6 +36,7 @@ const clampClasses: Record<NonNullable<ParagraphProps['clamp']>, string> = {
 
 const spacingClasses: Record<NonNullable<ParagraphProps['spacing']>, string> = {
   none: '',
+  xs: 'mb-2',
   sm: 'mb-4',
   md: 'mb-6',
   lg: 'mb-8'

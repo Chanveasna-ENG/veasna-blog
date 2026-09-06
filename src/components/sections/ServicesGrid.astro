@@ -4,7 +4,7 @@ import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
 import Paragraph from '../ui/Paragraph.astro';
-import SecondaryButton from '../ui/SecondaryButton.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
 
 const services = [
@@ -99,13 +99,13 @@ const services = [
 
             <!-- Scoping CTA Link -->
             <div class="pt-2">
-              <SecondaryButton
+              <PrimaryButton
                 href={`/contact?subject=${encodeURIComponent(service.ctaSubject)}`}
                 size="sm"
                 fullWidth
               >
                 Inquire Service &rarr;
-              </SecondaryButton>
+              </PrimaryButton>
             </div>
           </div>
         </MedievalFrame>

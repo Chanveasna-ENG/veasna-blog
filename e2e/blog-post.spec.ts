@@ -230,6 +230,11 @@ test.describe('Single Blog Post Layout & Reading Experience', () => {
     });
     await expect(consultationBtn).toBeVisible();
     await expect(consultationBtn).toHaveAttribute('href', BOOK_CALL_URL_REGEX);
+
+    // Bio description paragraph enforces mb-2
+    const bioParagraph = page.locator('.author-profile-card p');
+    await expect(bioParagraph).toBeVisible();
+    await expect(bioParagraph).toHaveClass(/mb-2/);
   });
 
   test('renders SimilarBlogList with strictly matched category recommendations', async ({

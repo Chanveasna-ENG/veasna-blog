@@ -4,7 +4,7 @@ import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
 import Paragraph from '../ui/Paragraph.astro';
-import SecondaryButton from '../ui/SecondaryButton.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
 import SocialLink from '../ui/SocialLink.astro';
 ---
 
@@ -44,7 +44,7 @@ import SocialLink from '../ui/SocialLink.astro';
           </SectionHeader>
 
           <!-- Social Links (4 core platforms) -->
-          <div class="flex items-center gap-2.5 mt-6 sm:mt-8">
+          <div data-upwork-hide="true" class="flex items-center gap-2.5 mt-6 sm:mt-8">
             {
               primarySocialLinks.map((item) => (
                 <SocialLink platform={item.platform} href={item.href} />
@@ -87,9 +87,9 @@ import SocialLink from '../ui/SocialLink.astro';
 
             <!-- Action Button Under Headshot -->
             <div class="w-full justify-center">
-              <SecondaryButton href="/contact" fullWidth>
+              <PrimaryButton href="/contact" fullWidth>
                 Initiate Discussion
-              </SecondaryButton>
+              </PrimaryButton>
             </div>
           </div>
         </div>

@@ -25,6 +25,9 @@ const MB_0_REGEX = /mb-0/;
 const MB_6_REGEX = /mb-6/;
 const MB_8_REGEX = /mb-8/;
 const INITIATE_DISCUSSION_REGEX = /Initiate Discussion/i;
+const BOOK_CONSULTATION_REGEX = /Book Consultation/i;
+const BG_CRIMSON_REGEX = /bg-crimson/;
+const BG_INK_REGEX = /bg-ink/;
 const W_FULL_REGEX = /w-full/;
 const FLEX_REGEX = /flex/;
 const ITEMS_CENTER_REGEX = /items-center/;
@@ -82,6 +85,13 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
         name: 'AI Systems & Custom Web Apps'
       })
     ).toBeVisible();
+
+    const serviceCtas = servicesSection.locator('a[href*="/contact?subject="]');
+    await expect(serviceCtas).toHaveCount(3);
+    for (const cta of await serviceCtas.all()) {
+      await expect(cta).toHaveClass(BG_CRIMSON_REGEX);
+      await expect(cta).toHaveClass(ENGRAVED_SHADOW_REGEX);
+    }
   });
 
   test('pricing section renders starting rate baselines', async ({ page }) => {
@@ -342,6 +352,8 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     });
     await expect(bookCallBtn).toBeVisible();
     await expect(bookCallBtn).toHaveAttribute('href', '/book-a-call');
+    await expect(bookCallBtn).toHaveClass(BG_CRIMSON_REGEX);
+    await expect(bookCallBtn).toHaveClass(ENGRAVED_SHADOW_REGEX);
   });
 
   test('composite Accordion renders in FAQ section and toggles expansion', async ({
@@ -415,7 +427,7 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
   }) => {
     await page.goto('/');
 
-    // 1. Architect section fullWidth secondary button
+    // 1. Architect section fullWidth primary button
     const architectButton = page
       .locator('section#architect')
       .getByRole('link', { name: INITIATE_DISCUSSION_REGEX });
@@ -424,6 +436,8 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(architectButton).toHaveClass(FLEX_REGEX);
     await expect(architectButton).toHaveClass(ITEMS_CENTER_REGEX);
     await expect(architectButton).toHaveClass(JUSTIFY_CENTER_REGEX);
+    await expect(architectButton).toHaveClass(BG_CRIMSON_REGEX);
+    await expect(architectButton).toHaveClass(ENGRAVED_SHADOW_REGEX);
 
     // 2. Pricing section fullWidth primary button
     const pricingButton = page
@@ -435,5 +449,28 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(pricingButton).toHaveClass(FLEX_REGEX);
     await expect(pricingButton).toHaveClass(ITEMS_CENTER_REGEX);
     await expect(pricingButton).toHaveClass(JUSTIFY_CENTER_REGEX);
+  });
+
+  test('primary buttons and floating widget apply deep red styling and engraved shadow', async ({
+    page
+  }) => {
+    await page.goto('/');
+
+    const heroCta = page.getByRole('link', { name: BOOK_CONSULTATION_REGEX });
+    await expect(heroCta).toBeVisible();
+    await expect(heroCta).toHaveClass(BG_CRIMSON_REGEX);
+    await expect(heroCta).not.toHaveClass(BG_INK_REGEX);
+    await expect(heroCta).toHaveClass(ENGRAVED_SHADOW_REGEX);
+
+    const floatingWidget = page.locator('#floating-booking-widget');
+    await expect(floatingWidget).toBeVisible();
+    await expect(floatingWidget).toHaveClass(BG_CRIMSON_REGEX);
+    await expect(floatingWidget).not.toHaveClass(BG_INK_REGEX);
+
+    const shadowValue = await heroCta.evaluate(
+      (el) => window.getComputedStyle(el).boxShadow
+    );
+    expect(shadowValue).toContain('rgb(48, 0, 0)');
+    expect(shadowValue).toContain('4px 4px 0px 0px');
   });
 });

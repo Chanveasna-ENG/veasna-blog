@@ -9,6 +9,8 @@ const GAP_8_REGEX = /gap-8/;
 const MD_GRID_COLS_12_REGEX = /md:grid-cols-12/;
 const ALL_TAG_REGEX = /all/i;
 const RESET_PORTFOLIO_URL_REGEX = /\/portfolio(?!\?tag=)/;
+const BG_CRIMSON_REGEX = /bg-crimson/;
+const BG_INK_REGEX = /bg-ink/;
 
 test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', () => {
   test('renders single-column vertical stack container on portfolio page', async ({
@@ -108,6 +110,8 @@ test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', (
     const allBtn = filterButtons.first();
     await expect(allBtn).toContainText(ALL_TAG_REGEX);
     await expect(allBtn).toHaveAttribute('aria-pressed', 'true');
+    await expect(allBtn).toHaveClass(BG_CRIMSON_REGEX);
+    await expect(allBtn).not.toHaveClass(BG_INK_REGEX);
 
     const totalItems = await page.locator('.portfolio-project-item').count();
     expect(totalItems).toBeGreaterThan(0);
@@ -120,12 +124,15 @@ test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', (
     await specificBtn.click();
     await expect(page).toHaveURL(new RegExp(`\\?tag=${tagSlug}`));
     await expect(specificBtn).toHaveAttribute('aria-pressed', 'true');
+    await expect(specificBtn).toHaveClass(BG_CRIMSON_REGEX);
     await expect(allBtn).toHaveAttribute('aria-pressed', 'false');
+    await expect(allBtn).not.toHaveClass(BG_CRIMSON_REGEX);
 
     // Click 'All' to reset
     await allBtn.click();
     await expect(page).toHaveURL(RESET_PORTFOLIO_URL_REGEX);
     await expect(allBtn).toHaveAttribute('aria-pressed', 'true');
+    await expect(allBtn).toHaveClass(BG_CRIMSON_REGEX);
     const visibleAfterReset = page.locator('.portfolio-project-item:visible');
     await expect(visibleAfterReset).toHaveCount(totalItems);
   });
@@ -155,5 +162,18 @@ test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', (
     await page.goto('/portfolio');
     const searchInput = page.locator('#portfolio-search-input');
     await expect(searchInput).toHaveCount(0);
+  });
+
+  test('bottom CTA banner description enforces mb-0 and spacing="none"', async ({
+    page
+  }) => {
+    await page.goto('/portfolio');
+    const bannerDescWrapper = page.locator(
+      'div.mt-20 div.max-w-xl.mx-auto.mb-0'
+    );
+    await expect(bannerDescWrapper).toBeVisible();
+
+    const bannerParagraph = bannerDescWrapper.locator('p');
+    await expect(bannerParagraph).not.toHaveClass(/mb-\d+/);
   });
 });

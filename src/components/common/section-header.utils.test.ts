@@ -186,4 +186,18 @@ describe('resolveHeaderConfig', () => {
     );
     expect(bigConfig.paragraphVariant).toBe('body');
   });
+
+  it('defaults paragraphSpacing to md and allows override', () => {
+    const defaultConfig = resolveHeaderConfig(
+      { size: 'small', title: 'Title' },
+      true
+    );
+    expect(defaultConfig.paragraphSpacing).toBe('md');
+
+    const customConfig = resolveHeaderConfig(
+      { size: 'small', title: 'Title', paragraphSpacing: 'xs' },
+      true
+    );
+    expect(customConfig.paragraphSpacing).toBe('xs');
+  });
 });

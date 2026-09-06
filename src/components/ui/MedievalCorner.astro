@@ -2,10 +2,17 @@
 interface Props {
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   size?: number;
+  class?: string;
   className?: string;
 }
 
-const { position = 'top-left', size = 120, className = '' } = Astro.props;
+const {
+  position = 'top-left',
+  size = 120,
+  class: classProp,
+  className = ''
+} = Astro.props;
+const customClass = classProp || className;
 
 const rotationMap: Record<string, string> = {
   'top-left': 'rotate-0',
@@ -18,7 +25,7 @@ const rotationClass = rotationMap[position] || 'rotate-0';
 ---
 
 <div
-  class={`inline-block pointer-events-none text-ink ${rotationClass} ${className}`}
+  class={`inline-block pointer-events-none text-ink ${rotationClass} ${customClass}`}
   style={`width: ${size}px; height: ${size}px;`}
 >
   <img

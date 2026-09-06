@@ -45,6 +45,11 @@ export const allSocialLinks: SocialLinkItem[] = [
 
 export const socialLinks: SocialLinkItem[] = allSocialLinks;
 
+export function getUpworkUrl(): string {
+  const upworkLink = primarySocialLinks.find((s) => s.platform === 'upwork');
+  return upworkLink?.href || 'https://upwork.com';
+}
+
 export function getSocialLabel(
   platform: SocialPlatform,
   customLabel?: string

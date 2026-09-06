@@ -6,6 +6,11 @@ describe('resolvePrimaryButtonClasses', () => {
     const { containerClass, innerLineClass } = resolvePrimaryButtonClasses();
     expect(containerClass).toContain('px-8 py-3.5 text-lg');
     expect(containerClass).toContain('inline-flex items-center justify-center');
+    expect(containerClass).toContain('bg-crimson');
+    expect(containerClass).toContain('engraved-shadow');
+    expect(containerClass).toContain('hover:bg-bronze');
+    expect(containerClass).toContain('hover:border-ink');
+    expect(containerClass).not.toContain('bg-ink');
     expect(containerClass).not.toContain('w-full');
     expect(innerLineClass).toContain('border-bronze');
     expect(innerLineClass).toContain('opacity-60');

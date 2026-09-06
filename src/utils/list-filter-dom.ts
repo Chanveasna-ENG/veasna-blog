@@ -16,7 +16,12 @@ function setButtonActiveState(btn: HTMLButtonElement, isActive: boolean) {
   const innerLine = btn.querySelector('span:first-child');
 
   if (isActive) {
-    btn.classList.add('bg-ink', 'text-parchment', 'border-ink', 'shadow-sm');
+    btn.classList.add(
+      'bg-crimson',
+      'text-parchment',
+      'border-crimson',
+      'shadow-sm'
+    );
     btn.classList.remove(
       'bg-transparent',
       'text-ink',
@@ -31,7 +36,12 @@ function setButtonActiveState(btn: HTMLButtonElement, isActive: boolean) {
       );
     }
   } else {
-    btn.classList.remove('bg-ink', 'text-parchment', 'shadow-sm');
+    btn.classList.remove(
+      'bg-crimson',
+      'text-parchment',
+      'border-crimson',
+      'shadow-sm'
+    );
     btn.classList.add('bg-transparent', 'text-ink', 'hover:bg-parchmentDark');
     if (innerLine) {
       innerLine.classList.remove('border-parchment', 'opacity-60');

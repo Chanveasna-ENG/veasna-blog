@@ -13,10 +13,19 @@ interface Props {
   href: string;
   label?: string;
   size?: SocialLinkSize;
+  class?: string;
   className?: string;
 }
 
-const { platform, href, label, size = 'md', className = '' } = Astro.props;
+const {
+  platform,
+  href,
+  label,
+  size = 'md',
+  class: classProp,
+  className = ''
+} = Astro.props;
+const customClass = classProp || className;
 
 const displayLabel = getSocialLabel(platform, label);
 const iconSrc = getSocialIconPath(platform);
@@ -30,7 +39,7 @@ const { boxClass, iconClass, iconDimension } = getSocialLinkDimensions(size);
   rel={rel}
   aria-label={displayLabel}
   title={displayLabel}
-  class={`inline-flex items-center justify-center ${boxClass} border border-ink text-ink bg-parchment/60 hover:bg-parchmentDark hover:border-bronze transition-all duration-200 shadow-sm hover:shadow-md group ${className}`}
+  class={`inline-flex items-center justify-center ${boxClass} border border-ink text-ink bg-parchment/60 hover:bg-parchmentDark hover:border-bronze transition-all duration-200 shadow-sm hover:shadow-md group ${customClass}`}
 >
   <img
     src={iconSrc}

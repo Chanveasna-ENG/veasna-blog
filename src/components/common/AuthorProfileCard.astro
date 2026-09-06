@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 ---
 
-<div class="w-full">
+<div class="w-full author-profile-card">
   <MedievalFrame size="small" background="parchment">
     <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 md:gap-8 items-center p-3 sm:p-5">
       <!-- Left: Sharp Headshot Box (clean border, zero shadow) -->
@@ -46,12 +46,13 @@ const {
           title={name}
           description={bio}
           paragraphVariant="body"
+          paragraphSpacing="xs"
           divider={false}
         />
 
         <div class="flex flex-wrap items-center justify-center md:justify-between gap-4 mt-3">
           <!-- Primary Social Links -->
-          <div class="flex items-center gap-2.5">
+          <div data-upwork-hide="true" class="flex items-center gap-2.5">
             {
               primarySocialLinks.map((social) => (
                 <SocialLink platform={social.platform} href={social.href} size="sm" />

@@ -7,6 +7,7 @@ import {
   getSocialLabel,
   getSocialLinkDimensions,
   getSocialTarget,
+  getUpworkUrl,
   primarySocialLinks,
   socialLinks
 } from './socials';
@@ -92,5 +93,12 @@ describe('social data and utilities', () => {
     expect(dims.boxClass).toBe('w-9 h-9');
     expect(dims.iconClass).toBe('w-4 h-4');
     expect(dims.iconDimension).toBe(16);
+  });
+
+  it('getUpworkUrl returns a valid https Upwork profile URL', () => {
+    const url = getUpworkUrl();
+    expect(url).toBeDefined();
+    expect(url.startsWith('https://')).toBe(true);
+    expect(url).toContain('upwork.com');
   });
 });

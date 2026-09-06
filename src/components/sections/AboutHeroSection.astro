@@ -70,7 +70,7 @@ import WaxSeal from '../ui/WaxSeal.astro';
           <SecondaryButton href="#portfolio" size="sm">
             View Work &rarr;
           </SecondaryButton>
-          <div class="flex items-center gap-2 flex-nowrap">
+          <div data-upwork-hide="true" class="flex items-center gap-2 flex-nowrap">
             {
               primarySocialLinks.map((item) => (
                 <SocialLink platform={item.platform} href={item.href} size="sm" />

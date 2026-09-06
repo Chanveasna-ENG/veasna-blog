@@ -25,7 +25,7 @@ export function resolvePrimaryButtonClasses(
     : 'inline-flex items-center justify-center';
 
   const containerClass = [
-    'relative font-heading font-bold uppercase tracking-wider text-parchment bg-ink hover:bg-bronze border-2 border-bronze hover:border-ink transition-all duration-300 group engraved-shadow cursor-pointer',
+    'relative font-heading font-bold uppercase tracking-wider text-parchment bg-crimson hover:bg-bronze border-2 border-bronze hover:border-ink transition-all duration-300 group engraved-shadow cursor-pointer',
     sizeClasses[size],
     widthClasses
   ].join(' ');
