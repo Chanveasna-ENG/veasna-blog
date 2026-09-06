@@ -87,8 +87,8 @@ test.describe('Blog Archive Single-Column Horizontal Layout & Content Filtering'
     const title = postHeader.getByRole('heading', { level: 1 });
     await expect(title).toBeVisible();
 
-    // Verify cover image container is not present in header
-    const coverImage = postHeader.locator('img');
+    // Verify cover image container is not present in header (only decorative divider allowed)
+    const coverImage = postHeader.locator('img:not([src*="divider"])');
     await expect(coverImage).toHaveCount(0);
   });
 

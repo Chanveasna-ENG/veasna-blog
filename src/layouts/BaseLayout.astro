@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import FloatingBookingWidget from '../components/common/FloatingBookingWidget.astro';
 import MetaHead from '../components/common/MetaHead.astro';
 import FooterSection from '../components/sections/FooterSection.astro';
 import HeaderNav from '../components/sections/HeaderNav.astro';
@@ -11,6 +12,9 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
+
+const pathname = Astro.url.pathname.replace(/\/$/, '');
+const isBookingPage = pathname === '/book-a-call';
 ---
 
 <!doctype html>
@@ -24,6 +28,8 @@ const { title, description, image } = Astro.props;
     <main class="flex-grow w-full">
       <slot />
     </main>
+
+    {!isBookingPage && <FloatingBookingWidget />}
 
     <FooterSection />
   </body>

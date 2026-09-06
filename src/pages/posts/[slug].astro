@@ -4,10 +4,13 @@ import type { CollectionEntry } from 'astro:content';
 
 import BlogContent from '../../components/blog/BlogContent.astro';
 import PostHeader from '../../components/blog/PostHeader.astro';
+import PostNavigation from '../../components/blog/PostNavigation.astro';
 import ReadingProgress from '../../components/blog/ReadingProgress.astro';
+import SidebarHireCard from '../../components/blog/SidebarHireCard.astro';
 import SimilarBlogList from '../../components/blog/SimilarBlogList.astro';
 import TableOfContent from '../../components/blog/TableOfContent.astro';
 import AuthorProfileCard from '../../components/common/AuthorProfileCard.astro';
+import MedievalDivider from '../../components/ui/MedievalDivider.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 // 1. Generate static routes for every post at build time
@@ -16,15 +19,16 @@ export async function getStaticPaths() {
 
   return blogEntries.map((post) => ({
     params: { slug: post.id },
-    props: { post }
+    props: { post, allPosts: blogEntries }
   }));
 }
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  allPosts: CollectionEntry<'blog'>[];
 }
 
-const { post } = Astro.props;
+const { post, allPosts = [] } = Astro.props;
 
 // 2. Render the markdown into HTML and extract the heading tree
 const { Content, headings } = await render(post);
@@ -39,7 +43,7 @@ const { Content, headings } = await render(post);
   <ReadingProgress />
 
   {/* Main Body Grid Layout */}
-  <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 mt-6 sm:mt-8 mb-16">
+  <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-10 mt-6 sm:mt-8 mb-16 items-start">
     
     {/* Left Column (8 of 12 columns on desktop) */}
     <div class="lg:col-span-8 flex flex-col min-w-0">
@@ -58,18 +62,25 @@ const { Content, headings } = await render(post);
       </BlogContent>
 
       {/* Content Footer Elements */}
-      <div class="mt-14 pt-10 border-t border-ink/20 flex flex-col space-y-12">
+      <div class="mt-14 flex flex-col space-y-10">
         <AuthorProfileCard />
         
+        {/* Diamond Divider preceding Related Analyses */}
+        <MedievalDivider variant="diamond" className="my-2" />
+
         {/* Generates build-time recommendations */}
         <SimilarBlogList currentPost={post} />
+
+        {/* Adjacent Post Navigation Switch */}
+        <PostNavigation currentPost={post} allPosts={allPosts} />
       </div>
 
     </div>
 
     {/* Right Column (4 of 12 columns on desktop) - Desktop Sticky Sidebar */}
-    <aside class="hidden lg:block lg:col-span-4 relative w-full">
+    <aside class="hidden lg:block lg:col-span-4 sticky top-6 self-start w-full space-y-6">
       <TableOfContent headings={headings} variant="desktop" />
+      <SidebarHireCard />
     </aside>
 
   </div>

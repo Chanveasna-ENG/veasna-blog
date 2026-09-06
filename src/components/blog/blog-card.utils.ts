@@ -1,3 +1,4 @@
+import { calculateReadingTime, formatReadingTime } from '../../utils/blog';
 import { formatDateICT } from '../../utils/date';
 
 export interface BlogCardInput {
@@ -10,6 +11,8 @@ export interface BlogCardInput {
   coverAlt?: string;
   createdAt: Date;
   lastModifiedAt?: Date;
+  wordCount?: number;
+  body?: string;
 }
 
 export interface BlogCardResolvedConfig {
@@ -17,6 +20,7 @@ export interface BlogCardResolvedConfig {
   imageSrc: string;
   hasCustomImage: boolean;
   dateText: string;
+  readingTimeText: string;
   categoryLabel: string;
   primaryTags: string[];
 }
@@ -29,6 +33,9 @@ export function resolveBlogCardConfig(
   const imageSrc = input.coverImageSrc || '/images/profile.jpg';
   const targetDate = input.lastModifiedAt || input.createdAt;
   const dateText = formatDateICT(targetDate).split(',')[0];
+  const readingTimeText = formatReadingTime(
+    calculateReadingTime(input.wordCount ?? input.body ?? 200)
+  );
   const categoryLabel = input.category || 'Article';
   const primaryTags = (input.tags || []).slice(0, 3);
 
@@ -37,6 +44,7 @@ export function resolveBlogCardConfig(
     imageSrc,
     hasCustomImage,
     dateText,
+    readingTimeText,
     categoryLabel,
     primaryTags
   };

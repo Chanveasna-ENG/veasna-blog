@@ -13,8 +13,9 @@
     prose-strong:text-ink prose-strong:font-bold
     prose-blockquote:border-l-4 prose-blockquote:border-l-bronze prose-blockquote:bg-parchmentDark/40 prose-blockquote:text-ink prose-blockquote:font-body prose-blockquote:py-2 prose-blockquote:px-5 prose-blockquote:not-italic prose-blockquote:rounded-r-sm
     prose-code:text-bronze prose-code:bg-parchmentDark/70 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-sm prose-code:font-mono prose-code:before:hidden prose-code:after:hidden
-    prose-pre:bg-[#1a1714] prose-pre:border prose-pre:border-ink/30 prose-pre:text-[#f4efe6] prose-pre:rounded-sm prose-pre:p-4 prose-pre:relative prose-pre:shadow-sm
-    prose-img:border prose-img:border-ink/20 prose-img:rounded-sm
+    prose-pre:bg-parchmentDark/40 prose-pre:border prose-pre:border-ink/20 prose-pre:text-ink prose-pre:rounded-sm prose-pre:p-4 prose-pre:relative prose-pre:shadow-sm
+    prose-pre:prose-code:bg-transparent prose-pre:prose-code:p-0 prose-pre:prose-code:border-none prose-pre:prose-code:rounded-none
+    prose-img:border prose-img:border-ink/20 prose-img:rounded-sm prose-img:mx-auto prose-img:block
     prose-li:text-ink prose-li:font-body
     prose-hr:border-ink/20
   "
@@ -24,9 +25,29 @@
 
 <style is:global>
   article.blog-article-body pre.astro-code {
-    background-color: #1a1714 !important;
+    background-color: rgba(229, 218, 196, 0.45) !important;
     border: 1px solid rgba(44, 24, 16, 0.25) !important;
-    color: #f4efe6 !important;
+    color: #1a1a1a !important;
+  }
+  article.blog-article-body pre code {
+    background-color: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: inherit !important;
+  }
+  article.blog-article-body img {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+  }
+  article.blog-article-body figure {
+    text-align: center;
+  }
+  article.blog-article-body iframe {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
   }
 </style>
 
@@ -34,12 +55,11 @@
   function setupCodeCopyButtons() {
     const codeBlocks = document.querySelectorAll<HTMLElement>('article.blog-article-body pre');
     codeBlocks.forEach((pre) => {
-      pre.classList.add('bg-[#1a1714]');
       if (pre.querySelector('.copy-code-btn')) return;
 
       const button = document.createElement('button');
       button.className =
-        'copy-code-btn absolute top-2 right-2 px-2 py-1 text-xs font-mono bg-parchmentDark/90 text-ink border border-ink/30 rounded-sm hover:bg-bronze hover:text-white transition-colors cursor-pointer select-none';
+        'copy-code-btn absolute top-2 right-2 px-2 py-1 text-xs font-mono bg-parchment/90 text-ink border border-ink/30 rounded-sm hover:bg-bronze hover:text-parchment transition-colors cursor-pointer select-none';
       button.type = 'button';
       button.innerText = 'Copy';
       button.setAttribute('aria-label', 'Copy code snippet to clipboard');

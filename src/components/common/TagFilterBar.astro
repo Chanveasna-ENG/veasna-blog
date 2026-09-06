@@ -6,7 +6,6 @@ interface Props {
   id?: string;
   tags: string[];
   activeTag?: string;
-  buttonClassName?: string;
   className?: string;
 }
 
@@ -14,7 +13,6 @@ const {
   id = 'filter-bar',
   tags,
   activeTag = 'all',
-  buttonClassName = 'portfolio-filter-btn',
   className = ''
 } = Astro.props;
 ---
@@ -30,7 +28,6 @@ const {
         size="sm"
         active={isTagActive(tag, activeTag, idx)}
         data-filter-tag={tag.toLowerCase()}
-        className={buttonClassName}
       >
         {tag}
       </SecondaryButton>

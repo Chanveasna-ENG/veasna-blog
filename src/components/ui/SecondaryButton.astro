@@ -5,10 +5,13 @@ import {
   resolveSecondaryButtonClasses
 } from './secondary-button.utils';
 
-type ButtonAttrs = Omit<HTMLAttributes<'button'>, 'type' | 'size'>;
+type ButtonAttrs = Omit<
+  HTMLAttributes<'button'>,
+  'type' | 'size' | 'class' | 'className'
+>;
 type AnchorAttrs = Omit<
   HTMLAttributes<'a'>,
-  'type' | 'size' | 'href' | 'target'
+  'type' | 'size' | 'href' | 'target' | 'class' | 'className'
 >;
 
 interface CustomProps {
@@ -17,7 +20,8 @@ interface CustomProps {
   target?: string;
   size?: SecondaryButtonSize;
   active?: boolean;
-  className?: string;
+  fullWidth?: boolean;
+  id?: string;
 }
 
 type Props = CustomProps & ButtonAttrs & AnchorAttrs;
@@ -28,14 +32,14 @@ const {
   target = '_self',
   size = 'md',
   active = false,
-  className = '',
+  fullWidth = false,
   ...rest
 } = Astro.props;
 
 const { containerClass, innerLineClass } = resolveSecondaryButtonClasses({
   size,
   active,
-  className
+  fullWidth
 });
 ---
 

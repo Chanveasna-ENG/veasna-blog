@@ -35,5 +35,18 @@ describe('resolveBlogCardConfig', () => {
     expect(config.imageSrc).toBe('/images/profile.jpg');
     expect(config.categoryLabel).toBe('Article');
     expect(config.primaryTags).toEqual([]);
+    expect(config.readingTimeText).toBe('1 min read');
+  });
+
+  it('computes reading time text from provided wordCount or body', () => {
+    const config = resolveBlogCardConfig({
+      id: 'long-post',
+      title: 'Long Post',
+      description: 'A long post description.',
+      createdAt: new Date('2026-01-15T08:00:00Z'),
+      wordCount: 650
+    });
+
+    expect(config.readingTimeText).toBe('4 min read');
   });
 });

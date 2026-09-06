@@ -332,4 +332,98 @@ import Checklist from './Checklist.astro';
     );
     expect(violations).toHaveLength(0);
   });
+
+  it('flags <PrimaryButton> with class or className prop', () => {
+    const code = `---
+import PrimaryButton from './PrimaryButton.astro';
+---
+<PrimaryButton className="w-full">Action</PrimaryButton>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-primarybutton-classname');
+    expect(violations[0].line).toBe(4);
+  });
+
+  it('flags <PrimaryButton> with multiline class or className prop', () => {
+    const code = `---
+import PrimaryButton from './PrimaryButton.astro';
+---
+<div>
+  <PrimaryButton
+    size="md"
+    class="w-full"
+  >
+    Action
+  </PrimaryButton>
+</div>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-primarybutton-classname');
+    expect(violations[0].line).toBe(5);
+  });
+
+  it('passes on clean template using PrimaryButton', () => {
+    const code = `---
+import PrimaryButton from './PrimaryButton.astro';
+---
+<PrimaryButton size="md" fullWidth={true}>Action</PrimaryButton>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(0);
+  });
+
+  it('flags <SecondaryButton> with class or className prop', () => {
+    const code = `---
+import SecondaryButton from './SecondaryButton.astro';
+---
+<SecondaryButton className="px-4">Action</SecondaryButton>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-secondarybutton-classname');
+    expect(violations[0].line).toBe(4);
+  });
+
+  it('flags <SecondaryButton> with multiline class or className prop', () => {
+    const code = `---
+import SecondaryButton from './SecondaryButton.astro';
+---
+<div>
+  <SecondaryButton
+    size="sm"
+    class="btn-custom"
+  >
+    Action
+  </SecondaryButton>
+</div>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-secondarybutton-classname');
+    expect(violations[0].line).toBe(5);
+  });
+
+  it('passes on clean template using SecondaryButton', () => {
+    const code = `---
+import SecondaryButton from './SecondaryButton.astro';
+---
+<SecondaryButton size="sm" fullWidth={true} active={true}>Action</SecondaryButton>`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(0);
+  });
 });

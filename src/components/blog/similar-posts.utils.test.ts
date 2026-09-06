@@ -41,44 +41,58 @@ describe('similar-posts.utils', () => {
     expect(score).toBe(12);
   });
 
-  it('filters out current post and sorts by similarity score then date', () => {
+  it('filters out current post and posts with differing category, sorting by similarity score', () => {
     const current: SimilarityInput = {
       id: 'current',
-      category: 'Architecture',
+      category: 'blog',
       tags: ['n8n'],
-      title: 'Main System',
+      title: 'Main Blog',
       description: 'Base Description',
       createdAt: new Date('2026-01-01')
     };
 
-    const targetA: SimilarityInput = {
-      id: 'target-a',
-      category: 'Architecture',
-      tags: ['n8n'], // score higher
+    const targetBlogA: SimilarityInput = {
+      id: 'target-blog-a',
+      category: 'blog',
+      tags: ['n8n'], // high score
       title: 'Unrelated Title',
       description: 'Other words',
       createdAt: new Date('2026-01-02')
     };
 
-    const targetB: SimilarityInput = {
-      id: 'target-b',
-      category: 'Different',
-      tags: ['different'],
+    const targetProject: SimilarityInput = {
+      id: 'target-project',
+      category: 'project',
+      tags: ['n8n', 'other'], // same tags but DIFFERENT category
+      title: 'Project Post',
+      description: 'Project description',
+      createdAt: new Date('2026-01-04')
+    };
+
+    const targetBlogB: SimilarityInput = {
+      id: 'target-blog-b',
+      category: 'blog',
+      tags: ['automation'],
       title: 'Other Topic',
       description: 'Random',
       createdAt: new Date('2026-01-03')
     };
 
-    const targetC: SimilarityInput = {
+    const targetCurrent: SimilarityInput = {
       id: 'current', // should be excluded
-      category: 'Architecture',
+      category: 'blog',
       tags: ['n8n'],
-      title: 'Main System',
+      title: 'Main Blog',
       description: 'Base Description',
       createdAt: new Date('2026-01-01')
     };
 
-    const top = getTopSimilarPosts(current, [targetA, targetB, targetC], 2);
-    expect(top.map((p) => p.id)).toEqual(['target-a', 'target-b']);
+    const top = getTopSimilarPosts(
+      current,
+      [targetBlogA, targetProject, targetBlogB, targetCurrent],
+      2
+    );
+    // targetProject must be excluded because category !== current.category
+    expect(top.map((p) => p.id)).toEqual(['target-blog-a', 'target-blog-b']);
   });
 });

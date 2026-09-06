@@ -101,7 +101,7 @@ test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', (
     const filterBar = page.locator('#portfolio-filter-bar');
     await expect(filterBar).toBeVisible();
 
-    const filterButtons = filterBar.locator('button.portfolio-filter-btn');
+    const filterButtons = filterBar.locator('button[data-filter-tag]');
     const btnCount = await filterButtons.count();
     expect(btnCount).toBeGreaterThan(1);
 
@@ -135,7 +135,7 @@ test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', (
   }) => {
     await page.goto('/portfolio');
     const filterButtons = page.locator(
-      '#portfolio-filter-bar button.portfolio-filter-btn'
+      '#portfolio-filter-bar button[data-filter-tag]'
     );
     const secondBtn = filterButtons.nth(1);
     const tagSlug = await secondBtn.getAttribute('data-filter-tag');

@@ -3,7 +3,7 @@ export type SecondaryButtonSize = 'sm' | 'md' | 'lg';
 export interface SecondaryButtonOptions {
   size?: SecondaryButtonSize;
   active?: boolean;
-  className?: string;
+  fullWidth?: boolean;
 }
 
 export function resolveSecondaryButtonClasses(
@@ -14,13 +14,17 @@ export function resolveSecondaryButtonClasses(
 } {
   const size = options.size ?? 'md';
   const active = Boolean(options.active);
-  const customClass = options.className || '';
+  const isFullWidth = Boolean(options.fullWidth);
 
   const sizeClasses: Record<SecondaryButtonSize, string> = {
     sm: 'px-3.5 py-1.5 text-xs',
     md: 'px-6 py-3 text-xs sm:text-sm',
     lg: 'px-8 py-3.5 text-sm sm:text-base'
   };
+
+  const widthClasses = isFullWidth
+    ? 'w-full text-center justify-center'
+    : 'inline-flex items-center justify-center';
 
   const stateContainerClasses = active
     ? 'text-parchment bg-ink border-ink shadow-sm'
@@ -31,10 +35,10 @@ export function resolveSecondaryButtonClasses(
     : 'border-ink opacity-30 group-hover:opacity-60';
 
   const containerClass = [
-    'relative inline-flex items-center justify-center font-heading font-semibold uppercase tracking-wider border-2 transition-all duration-200 group cursor-pointer',
+    'relative font-heading font-semibold uppercase tracking-wider border-2 transition-all duration-200 group cursor-pointer',
     sizeClasses[size],
-    stateContainerClasses,
-    customClass
+    widthClasses,
+    stateContainerClasses
   ]
     .filter(Boolean)
     .join(' ');

@@ -1,7 +1,9 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { calculateReadingTime, formatReadingTime } from '../../utils/blog';
 import { formatDateICT } from '../../utils/date';
 import Heading from '../ui/Heading.astro';
+import MedievalDivider from '../ui/MedievalDivider.astro';
 import SubtitleTag from '../ui/SubtitleTag.astro';
 
 interface Props {
@@ -10,18 +12,24 @@ interface Props {
 
 const { post } = Astro.props;
 
-// Enforce fallback date logic
+// Enforce fallback date logic and precomputed reading time
 const targetDate = post.data.lastModifiedAt || post.data.createdAt;
+const readingTimeText = formatReadingTime(
+  calculateReadingTime(post.body || '')
+);
+const isProject = post.data.category === 'project';
+const breadcrumbHref = isProject ? '/portfolio' : '/page/1';
+const breadcrumbText = isProject ? 'Back to Portfolio' : 'Back to Articles';
 ---
 
-<header class="mb-10 flex flex-col items-start border-b border-ink/20 pb-8">
+<header class="mb-10 flex flex-col items-start pb-8">
   {/* Back to Archive Breadcrumb */}
   <a
-    href="/page/1"
+    href={breadcrumbHref}
     class="inline-flex items-center gap-2 text-xs font-heading font-semibold uppercase tracking-widest text-inkMuted hover:text-bronze transition-colors mb-6 group"
   >
     <span class="transition-transform group-hover:-translate-x-1">&larr;</span>
-    Back to Articles
+    {breadcrumbText}
   </a>
 
   {/* Category & Version Badges */}
@@ -39,7 +47,7 @@ const targetDate = post.data.lastModifiedAt || post.data.createdAt;
     {post.data.title}
   </Heading>
 
-  {/* Author & Date Meta */}
+  {/* Author, Date & Reading Time Meta */}
   <div class="flex flex-wrap items-center text-inkMuted text-sm font-body gap-x-4 gap-y-2">
     <time datetime={targetDate.toISOString()}>
       Last Modified: <span class="text-ink font-medium">{formatDateICT(targetDate)}</span>
@@ -47,6 +55,10 @@ const targetDate = post.data.lastModifiedAt || post.data.createdAt;
     <span class="hidden sm:inline text-ink/30" aria-hidden="true">|</span>
     <span>
       By <span class="text-ink font-medium">{post.data.author}</span>
+    </span>
+    <span class="hidden sm:inline text-ink/30" aria-hidden="true">|</span>
+    <span class="text-bronze font-mono text-xs font-semibold">
+      {readingTimeText}
     </span>
   </div>
 
@@ -100,4 +112,6 @@ const targetDate = post.data.lastModifiedAt || post.data.createdAt;
       )}
     </div>
   )}
+
+  <MedievalDivider variant="diamond" className="mt-8" />
 </header>

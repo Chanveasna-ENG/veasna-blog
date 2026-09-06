@@ -11,6 +11,12 @@ export default defineConfig({
   site: 'https://veasnaec.com',
   output: 'static',
 
+  markdown: {
+    shikiConfig: {
+      theme: 'github-light'
+    }
+  },
+
   integrations: [react(), mdx(), sitemap()],
 
   redirects: {

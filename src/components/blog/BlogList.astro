@@ -38,7 +38,8 @@ const lastPageUrl = `${baseUrl}/${page.lastPage}`;
           coverImageSrc: post.data.coverImage?.src,
           coverAlt: post.data.coverAlt,
           createdAt: post.data.createdAt,
-          lastModifiedAt: post.data.lastModifiedAt
+          lastModifiedAt: post.data.lastModifiedAt,
+          body: post.body
         });
 
         return (
@@ -75,9 +76,15 @@ const lastPageUrl = `${baseUrl}/${page.lastPage}`;
                       <SubtitleTag variant="badge" size="sm" color="bronze" spacing="none">
                         {config.categoryLabel}
                       </SubtitleTag>
-                      <time datetime={post.data.createdAt.toISOString()} class="text-xs font-body text-inkMuted">
-                        {config.dateText}
-                      </time>
+                      <div class="flex items-center gap-2 text-xs font-body text-inkMuted">
+                        <time datetime={post.data.createdAt.toISOString()}>
+                          {config.dateText}
+                        </time>
+                        <span aria-hidden="true">&bull;</span>
+                        <span class="font-mono text-[11px] text-bronze font-medium">
+                          {config.readingTimeText}
+                        </span>
+                      </div>
                     </div>
 
                     <Heading as="h2" size="card" spacing="sm">

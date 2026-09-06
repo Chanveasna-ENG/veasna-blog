@@ -64,7 +64,11 @@ export function getTopSimilarPosts<T extends SimilarityInput>(
   limit = 3
 ): T[] {
   return all
-    .filter((post) => post.id !== current.id)
+    .filter(
+      (post) =>
+        post.id !== current.id &&
+        (!current.category || post.category === current.category)
+    )
     .map((post) => ({
       post,
       score: calculateSimilarityScore(current, post)

@@ -1,7 +1,7 @@
 ---
 import Heading from '../ui/Heading.astro';
 import Paragraph from '../ui/Paragraph.astro';
-import ContactButton from './ContactButton.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
 
 interface Props {
   name?: string;
@@ -50,11 +50,9 @@ const {
 
       {/* Action */}
       <div class="mt-auto">
-        <ContactButton 
-          href={email} 
-          text="Get in Touch" 
-          icon={`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>`}
-        />
+        <PrimaryButton href={email} size="md">
+          Get in Touch &rarr;
+        </PrimaryButton>
       </div>
     </div>
     

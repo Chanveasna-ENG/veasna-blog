@@ -1,49 +1,62 @@
 ---
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+import {
+  type PrimaryButtonSize,
+  resolvePrimaryButtonClasses
+} from './primary-button.utils';
+
+type ButtonAttrs = Omit<
+  HTMLAttributes<'button'>,
+  'type' | 'size' | 'class' | 'className'
+>;
+type AnchorAttrs = Omit<
+  HTMLAttributes<'a'>,
+  'type' | 'size' | 'href' | 'target' | 'class' | 'className'
+>;
+
+interface CustomProps {
   href?: string;
   type?: 'button' | 'submit' | 'reset';
   target?: string;
-  size?: 'md' | 'lg';
-  className?: string;
+  size?: PrimaryButtonSize;
+  fullWidth?: boolean;
+  id?: string;
 }
+
+type Props = CustomProps & ButtonAttrs & AnchorAttrs;
 
 const {
   href,
   type,
   target = '_self',
   size = 'lg',
-  className = ''
+  fullWidth = false,
+  ...rest
 } = Astro.props;
 
-const paddingClasses =
-  size === 'lg'
-    ? 'px-8 py-3.5 text-lg md:text-xl'
-    : 'px-6 py-2.5 text-base md:text-lg';
-
-const baseClasses = `relative inline-flex items-center justify-center font-heading font-bold uppercase tracking-wider text-parchment bg-ink hover:bg-bronze border-2 border-bronze hover:border-ink transition-all duration-300 group engraved-shadow cursor-pointer ${paddingClasses} ${className}`;
+const { containerClass, innerLineClass } = resolvePrimaryButtonClasses({
+  size,
+  fullWidth
+});
 ---
 
 {
   href ? (
-    <a href={href} target={target} class={baseClasses}>
+    <a href={href} target={target} class={containerClass} {...rest}>
       <!-- Decorative Inner Line Frame -->
-      <span
-        class="absolute inset-[3px] border border-bronze opacity-60 group-hover:border-parchment transition-colors pointer-events-none"
-      />
+      <span class={innerLineClass} />
 
-      <!-- Left & Right Arrow Accents -->
+      <!-- Content Slot -->
       <span class="relative z-10 font-bold drop-shadow">
         <slot />
       </span>
     </a>
   ) : (
-    <button type={type || 'button'} class={baseClasses}>
+    <button type={type || 'button'} class={containerClass} {...rest}>
       <!-- Decorative Inner Line Frame -->
-      <span
-        class="absolute inset-[3px] border border-bronze opacity-60 group-hover:border-parchment transition-colors pointer-events-none"
-      />
+      <span class={innerLineClass} />
 
-      <!-- Left & Right Arrow Accents -->
+      <!-- Content Slot -->
       <span class="relative z-10 font-bold drop-shadow">
         <slot />
       </span>

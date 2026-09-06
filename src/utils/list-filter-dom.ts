@@ -153,7 +153,9 @@ export function initListFilter(config: ListFilterDomConfig): () => void {
 
   const filterBtns = filterBar
     ? Array.from(
-        filterBar.querySelectorAll<HTMLButtonElement>('.portfolio-filter-btn')
+        filterBar.querySelectorAll<HTMLButtonElement>(
+          'button[data-filter-tag], .portfolio-filter-btn'
+        )
       )
     : [];
 

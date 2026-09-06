@@ -35,7 +35,7 @@ const showDesktop = variant === 'all' || variant === 'desktop';
             <li class={indentClass}>
               <a
                 href={`#${heading.slug}`}
-                class="toc-link block text-ink/70 hover:text-bronze transition-colors py-0.5"
+                class="toc-link block text-ink/70 hover:text-bronze border-l-2 border-transparent pl-2.5 transition-colors py-0.5"
                 data-slug={heading.slug}
               >
                 {heading.text}
@@ -50,22 +50,22 @@ const showDesktop = variant === 'all' || variant === 'desktop';
     {/* Desktop Sticky Sidebar TOC */}
     {showDesktop && (
       <nav
-        class="hidden lg:block w-full lg:sticky lg:top-24 max-h-[calc(100vh-8rem)] flex flex-col p-5 bg-parchmentDark/30 border border-ink/20 rounded-sm"
+        class="hidden lg:block w-full max-h-[calc(100vh-14rem)] flex flex-col p-5 bg-parchmentDark/30 border border-ink/20 rounded-sm overflow-hidden"
         aria-label="Table of Contents"
       >
-        <div class="border-b border-ink/20 pb-3 mb-4 flex-shrink-0">
+        <div class="mb-3 flex-shrink-0">
           <Heading as="h2" size="card" color="bronze" spacing="none">
             Table of Contents
           </Heading>
         </div>
-        <ul class="flex flex-col space-y-2.5 overflow-y-auto pr-2 pb-2">
+        <ul class="flex flex-col space-y-2.5 overflow-y-auto pr-2 pb-6">
           {toc.map((heading) => {
             const indentClass = resolveHeadingIndentClass(heading.depth);
             return (
               <li class={indentClass}>
                 <a
                   href={`#${heading.slug}`}
-                  class="toc-link block text-ink/70 hover:text-bronze transition-all py-0.5 leading-snug"
+                  class="toc-link block text-ink/70 hover:text-bronze border-l-2 border-transparent pl-2.5 transition-all py-0.5 leading-snug"
                   data-slug={heading.slug}
                 >
                   {heading.text}
@@ -80,39 +80,35 @@ const showDesktop = variant === 'all' || variant === 'desktop';
 )}
 
 <script>
+  import { resolveActiveHeadingId } from './blog-toc.utils';
+
   function setupTocScrollSpy() {
     const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
     if (tocLinks.length === 0) return;
 
     const headingElements = Array.from(
-      document.querySelectorAll<HTMLElement>('article.blog-article-body h2[id], article.blog-article-body h3[id]')
+      document.querySelectorAll<HTMLElement>(
+        'article.blog-article-body h2[id], article.blog-article-body h3[id]'
+      )
     );
     if (headingElements.length === 0) return;
 
     function highlightActiveHeading() {
-      const scrollPos = window.scrollY + 140;
-      let currentActiveId: string | null = null;
+      const headingRects = headingElements.map((el) => ({
+        id: el.id,
+        top: el.getBoundingClientRect().top
+      }));
 
-      for (let i = headingElements.length - 1; i >= 0; i--) {
-        const heading = headingElements[i];
-        if (heading.offsetTop <= scrollPos) {
-          currentActiveId = heading.id;
-          break;
-        }
-      }
-
-      if (!currentActiveId && headingElements.length > 0) {
-        currentActiveId = headingElements[0].id;
-      }
+      const activeId = resolveActiveHeadingId(headingRects, 140);
 
       tocLinks.forEach((link) => {
         const slug = link.getAttribute('data-slug');
-        if (slug === currentActiveId) {
-          link.classList.add('text-bronze', 'font-bold', 'border-l-2', 'border-bronze', 'pl-2', '-ml-2');
-          link.classList.remove('text-ink/70');
+        if (slug === activeId) {
+          link.classList.add('text-bronze', 'font-bold', 'border-bronze');
+          link.classList.remove('text-ink/70', 'border-transparent');
         } else {
-          link.classList.remove('text-bronze', 'font-bold', 'border-l-2', 'border-bronze', 'pl-2', '-ml-2');
-          link.classList.add('text-ink/70');
+          link.classList.remove('text-bronze', 'font-bold', 'border-bronze');
+          link.classList.add('text-ink/70', 'border-transparent');
         }
       });
     }

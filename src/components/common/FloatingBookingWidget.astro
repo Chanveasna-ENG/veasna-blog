@@ -1,0 +1,46 @@
+---
+interface Props {
+  avatarUrl?: string;
+}
+
+const { avatarUrl = '/images/profile.jpg' } = Astro.props;
+---
+
+<aside aria-label="Book a consultation" class="fixed bottom-6 right-6 z-40 print:hidden">
+  <a
+    href="/book-a-call"
+    id="floating-booking-widget"
+    class="relative inline-flex items-center gap-3.5 px-3.5 py-2.5 bg-ink hover:bg-bronze border-2 border-bronze hover:border-ink transition-all duration-300 group engraved-shadow cursor-pointer"
+  >
+    <!-- Decorative Inner Line Frame -->
+    <span
+      class="absolute inset-[3px] border border-bronze opacity-60 group-hover:border-parchment transition-colors pointer-events-none"
+    />
+
+    <!-- Sharp Square Headshot Frame (Clean box: zero shadow, zero inner overlays) -->
+    <div class="relative z-10 w-9 h-9 flex-shrink-0 overflow-hidden border border-bronze bg-parchmentDark/40">
+      <img
+        src={avatarUrl}
+        alt=""
+        aria-hidden="true"
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Text Block -->
+    <div class="relative z-10 flex flex-col text-left pr-0.5 leading-tight">
+      <span class="font-heading font-bold text-xs uppercase tracking-wider text-parchment leading-tight">
+        Book A Call
+      </span>
+      <span class="font-body text-[10px] text-parchment/70 normal-case tracking-normal font-normal leading-tight">
+        Start Today
+      </span>
+    </div>
+
+    <!-- Directional Arrow -->
+    <span class="relative z-10 text-xs font-bold text-parchment pl-0.5" aria-hidden="true">
+      &rarr;
+    </span>
+  </a>
+</aside>

@@ -1,0 +1,65 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getAdjacentPosts } from '../../utils/blog';
+import MedievalFrame from '../common/MedievalFrame.astro';
+import Heading from '../ui/Heading.astro';
+
+interface Props {
+  currentPost: CollectionEntry<'blog'>;
+  allPosts: CollectionEntry<'blog'>[];
+}
+
+const { currentPost, allPosts } = Astro.props;
+const { prevPost, nextPost } = getAdjacentPosts(currentPost.id, allPosts);
+
+const hasAny = Boolean(prevPost || nextPost);
+const hasBoth = Boolean(prevPost && nextPost);
+---
+
+{
+  hasAny && (
+    <nav class="w-full" aria-label="Adjacent Articles Navigation">
+      <div class={`grid gap-6 ${hasBoth ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
+        {/* Previous Post Card */}
+        {prevPost && (
+          <MedievalFrame size="small" as="article" interactive={true}>
+            <a
+              href={`/posts/${prevPost.id}`}
+              class="flex flex-col justify-between h-full p-2 group focus:outline-none"
+              aria-label={`Previous article: ${prevPost.data.title}`}
+            >
+              <div>
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold text-bronze uppercase tracking-widest mb-2 group-hover:-translate-x-1 transition-transform">
+                  &larr; Previous {prevPost.data.category === 'project' ? 'Project' : 'Article'}
+                </span>
+                <Heading as="h3" size="sm" color="ink" clamp={2} spacing="none">
+                  {prevPost.data.title}
+                </Heading>
+              </div>
+            </a>
+          </MedievalFrame>
+        )}
+
+        {/* Next Post Card */}
+        {nextPost && (
+          <MedievalFrame size="small" as="article" interactive={true}>
+            <a
+              href={`/posts/${nextPost.id}`}
+              class={`flex flex-col justify-between h-full p-2 group focus:outline-none ${!prevPost ? '' : 'text-right'}`}
+              aria-label={`Next article: ${nextPost.data.title}`}
+            >
+              <div>
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold text-bronze uppercase tracking-widest mb-2 group-hover:translate-x-1 transition-transform">
+                  Next {nextPost.data.category === 'project' ? 'Project' : 'Article'} &rarr;
+                </span>
+                <Heading as="h3" size="sm" color="ink" clamp={2} spacing="none">
+                  {nextPost.data.title}
+                </Heading>
+              </div>
+            </a>
+          </MedievalFrame>
+        )}
+      </div>
+    </nav>
+  )
+}

@@ -8,6 +8,8 @@ const MEDIEVAL_FRAME_TAG_REGEX = /<MedievalFrame\b([^>]*)>/gs;
 const ACCORDION_TAG_REGEX = /<Accordion\b([^>]*)>/gs;
 const PROJECT_CARD_TAG_REGEX = /<ProjectCard\b([^>]*)>/gs;
 const CHECKLIST_TAG_REGEX = /<Checklist\b([^>]*)>/gs;
+const PRIMARY_BUTTON_TAG_REGEX = /<PrimaryButton\b([^>]*)>/gs;
+const SECONDARY_BUTTON_TAG_REGEX = /<SecondaryButton\b([^>]*)>/gs;
 const CLASS_PROP_REGEX = /\b(className|class)\s*=/i;
 
 /**
@@ -267,6 +269,58 @@ function checkChecklistClassProps(content) {
 }
 
 /**
+ * Checks content for forbidden className or class props on PrimaryButton components.
+ * @param {string} content
+ * @returns {Array<{ rule: string, line: number, message: string }>}
+ */
+function checkPrimaryButtonClassProps(content) {
+  const propViolations = [];
+  const matches = content.matchAll(PRIMARY_BUTTON_TAG_REGEX);
+
+  for (const match of matches) {
+    const attrs = match[1];
+    if (CLASS_PROP_REGEX.test(attrs)) {
+      const upToMatch = content.slice(0, match.index);
+      const lineNumber = upToMatch.split('\n').length;
+      propViolations.push({
+        rule: 'no-primarybutton-classname',
+        line: lineNumber,
+        message:
+          'Forbidden className or class prop on <PrimaryButton>. Use size, fullWidth, or layout containers.'
+      });
+    }
+  }
+
+  return propViolations;
+}
+
+/**
+ * Checks content for forbidden className or class props on SecondaryButton components.
+ * @param {string} content
+ * @returns {Array<{ rule: string, line: number, message: string }>}
+ */
+function checkSecondaryButtonClassProps(content) {
+  const propViolations = [];
+  const matches = content.matchAll(SECONDARY_BUTTON_TAG_REGEX);
+
+  for (const match of matches) {
+    const attrs = match[1];
+    if (CLASS_PROP_REGEX.test(attrs)) {
+      const upToMatch = content.slice(0, match.index);
+      const lineNumber = upToMatch.split('\n').length;
+      propViolations.push({
+        rule: 'no-secondarybutton-classname',
+        line: lineNumber,
+        message:
+          'Forbidden className or class prop on <SecondaryButton>. Use size, fullWidth, or layout containers.'
+      });
+    }
+  }
+
+  return propViolations;
+}
+
+/**
  * Validates an Astro template string against atomic typography and styling rules.
  * @param {string} content - Full file content of the .astro file
  * @param {string} filePath - Path to the file being validated
@@ -307,6 +361,8 @@ export function validateAstroTemplate(content, filePath = '') {
   violations.push(...checkAccordionClassProps(content));
   violations.push(...checkProjectCardClassProps(content));
   violations.push(...checkChecklistClassProps(content));
+  violations.push(...checkPrimaryButtonClassProps(content));
+  violations.push(...checkSecondaryButtonClassProps(content));
 
   return violations;
 }

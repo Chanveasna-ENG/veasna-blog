@@ -20,13 +20,7 @@ const blogCollection = defineCollection({
       coverAlt: z.string().optional(),
 
       // --- The Discriminator ---
-      category: z.enum([
-        'blog',
-        'project',
-        'participation',
-        'learning',
-        'random'
-      ]),
+      category: z.enum(['blog', 'project']),
 
       // --- Type-Specific Fields (Optional but Typed) ---
       repoUrl: z.string().url().optional(),
