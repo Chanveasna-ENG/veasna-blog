@@ -5,6 +5,9 @@ const HEADING_TAG_REGEX = /<Heading\b([^>]*)>/gs;
 const SUBTITLE_TAG_REGEX = /<SubtitleTag\b([^>]*)>/gs;
 const SECTION_HEADER_TAG_REGEX = /<SectionHeader\b([^>]*)>/gs;
 const MEDIEVAL_FRAME_TAG_REGEX = /<MedievalFrame\b([^>]*)>/gs;
+const ACCORDION_TAG_REGEX = /<Accordion\b([^>]*)>/gs;
+const PROJECT_CARD_TAG_REGEX = /<ProjectCard\b([^>]*)>/gs;
+const CHECKLIST_TAG_REGEX = /<Checklist\b([^>]*)>/gs;
 const CLASS_PROP_REGEX = /\b(className|class)\s*=/i;
 
 /**
@@ -186,6 +189,84 @@ function checkMedievalFrameClassProps(content) {
 }
 
 /**
+ * Checks content for forbidden className or class props on Accordion components.
+ * @param {string} content
+ * @returns {Array<{ rule: string, line: number, message: string }>}
+ */
+function checkAccordionClassProps(content) {
+  const propViolations = [];
+  const matches = content.matchAll(ACCORDION_TAG_REGEX);
+
+  for (const match of matches) {
+    const attrs = match[1];
+    if (CLASS_PROP_REGEX.test(attrs)) {
+      const upToMatch = content.slice(0, match.index);
+      const lineNumber = upToMatch.split('\n').length;
+      propViolations.push({
+        rule: 'no-accordion-classname',
+        line: lineNumber,
+        message:
+          'Forbidden className or class prop on <Accordion>. Layout and borders are encapsulated.'
+      });
+    }
+  }
+
+  return propViolations;
+}
+
+/**
+ * Checks content for forbidden className or class props on ProjectCard components.
+ * @param {string} content
+ * @returns {Array<{ rule: string, line: number, message: string }>}
+ */
+function checkProjectCardClassProps(content) {
+  const propViolations = [];
+  const matches = content.matchAll(PROJECT_CARD_TAG_REGEX);
+
+  for (const match of matches) {
+    const attrs = match[1];
+    if (CLASS_PROP_REGEX.test(attrs)) {
+      const upToMatch = content.slice(0, match.index);
+      const lineNumber = upToMatch.split('\n').length;
+      propViolations.push({
+        rule: 'no-projectcard-classname',
+        line: lineNumber,
+        message:
+          'Forbidden className or class prop on <ProjectCard>. Layout and borders are encapsulated.'
+      });
+    }
+  }
+
+  return propViolations;
+}
+
+/**
+ * Checks content for forbidden className or class props on Checklist components.
+ * @param {string} content
+ * @returns {Array<{ rule: string, line: number, message: string }>}
+ */
+function checkChecklistClassProps(content) {
+  const propViolations = [];
+  const matches = content.matchAll(CHECKLIST_TAG_REGEX);
+
+  for (const match of matches) {
+    const attrs = match[1];
+    if (CLASS_PROP_REGEX.test(attrs)) {
+      const upToMatch = content.slice(0, match.index);
+      const lineNumber = upToMatch.split('\n').length;
+      propViolations.push({
+        rule: 'no-checklist-classname',
+        line: lineNumber,
+        message:
+          'Forbidden className or class prop on <Checklist>. Layout and spacing are encapsulated.'
+      });
+    }
+  }
+
+  return propViolations;
+}
+
+/**
  * Validates an Astro template string against atomic typography and styling rules.
  * @param {string} content - Full file content of the .astro file
  * @param {string} filePath - Path to the file being validated
@@ -223,6 +304,9 @@ export function validateAstroTemplate(content, filePath = '') {
   violations.push(...checkSubtitleTagClassProps(content));
   violations.push(...checkSectionHeaderClassProps(content));
   violations.push(...checkMedievalFrameClassProps(content));
+  violations.push(...checkAccordionClassProps(content));
+  violations.push(...checkProjectCardClassProps(content));
+  violations.push(...checkChecklistClassProps(content));
 
   return violations;
 }

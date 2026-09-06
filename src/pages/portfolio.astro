@@ -1,12 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import MedievalFrame from '../components/common/MedievalFrame.astro';
+import ProjectCard from '../components/common/ProjectCard.astro';
 import SectionHeader from '../components/common/SectionHeader.astro';
 import Heading from '../components/ui/Heading.astro';
 import Paragraph from '../components/ui/Paragraph.astro';
 import PrimaryButton from '../components/ui/PrimaryButton.astro';
-import SecondaryButton from '../components/ui/SecondaryButton.astro';
-import SubtitleTag from '../components/ui/SubtitleTag.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 // 1. Fetch all published projects
@@ -42,52 +41,16 @@ const sortedProjects = allProjects.sort((a, b) => {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
       {
         sortedProjects.map((project) => (
-          <MedievalFrame size="small" as="article" interactive={true}>
-            <div>
-              <!-- Visual Preview Frame -->
-              <div class="w-full aspect-[16/10] overflow-hidden border border-ink/30 relative mb-6 bg-parchmentDark/40">
-                <img
-                  src="/images/profile.jpg"
-                  alt={`${project.data.title} Architecture Preview`}
-                  class="w-full h-full object-cover"
-                  loading="lazy"
-                />
-                <div class="absolute inset-0 border border-bronze/20 pointer-events-none" />
-              </div>
-
-              <!-- Tags Row -->
-              <div class="flex flex-wrap items-center gap-2 mb-3">
-                {project.data.tags.map((tag) => (
-                  <SubtitleTag variant="ghost" size="sm" spacing="none">
-                    #{tag}
-                  </SubtitleTag>
-                ))}
-              </div>
-
-              <!-- Title -->
-              <Heading as="h2" size="card">
-                {project.data.title}
-              </Heading>
-
-              <!-- Description -->
-              <Paragraph variant="small">
-                {project.data.description}
-              </Paragraph>
-            </div>
-
-            <!-- Action Link / Card Footer -->
-            <div class="pt-6 border-t border-ink/15 flex items-center justify-between mt-auto">
-              <span class="font-heading font-semibold text-xs text-bronze uppercase tracking-widest">
-                Comprehensive Case Study
-              </span>
-              <SecondaryButton
-                href={`/posts/${project.id}`}
-                className="text-xs !py-2 !px-4"
-              >
-                Read Architecture &rarr;
-              </SecondaryButton>
-            </div>
-          </MedievalFrame>
+          <ProjectCard
+            project={{
+              id: project.id,
+              title: project.data.title,
+              description: project.data.description,
+              tags: project.data.tags,
+              coverImageSrc: project.data.coverImage?.src
+            }}
+            variant="grid"
+          />
         ))
       }
     </div>

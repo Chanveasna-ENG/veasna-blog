@@ -257,4 +257,79 @@ import MedievalFrame from './MedievalFrame.astro';
     );
     expect(violations).toHaveLength(0);
   });
+
+  it('flags <Accordion> with class or className prop', () => {
+    const code = `---
+import Accordion from './Accordion.astro';
+---
+<Accordion items={[]} className="custom-accordion" />`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-accordion-classname');
+  });
+
+  it('passes on clean template using Accordion', () => {
+    const code = `---
+import Accordion from './Accordion.astro';
+---
+<Accordion items={[]} />`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(0);
+  });
+
+  it('flags <ProjectCard> with class or className prop', () => {
+    const code = `---
+import ProjectCard from './ProjectCard.astro';
+---
+<ProjectCard project={p} className="custom-card" />`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-projectcard-classname');
+  });
+
+  it('passes on clean template using ProjectCard', () => {
+    const code = `---
+import ProjectCard from './ProjectCard.astro';
+---
+<ProjectCard project={p} variant="slider" />`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(0);
+  });
+
+  it('flags <Checklist> with class or className prop', () => {
+    const code = `---
+import Checklist from './Checklist.astro';
+---
+<Checklist items={[]} className="custom-list" />`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(1);
+    expect(violations[0].rule).toBe('no-checklist-classname');
+  });
+
+  it('passes on clean template using Checklist', () => {
+    const code = `---
+import Checklist from './Checklist.astro';
+---
+<Checklist items={['Item 1']} bullet="diamond" />`;
+    const violations = validateAstroTemplate(
+      code,
+      'src/components/Section.astro'
+    );
+    expect(violations).toHaveLength(0);
+  });
 });

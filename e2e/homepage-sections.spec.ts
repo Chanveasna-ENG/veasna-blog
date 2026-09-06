@@ -20,6 +20,7 @@ const HOVER_BORDER_BRONZE_REGEX = /hover:border-bronze/;
 const MT_6_REGEX = /mt-6/;
 const SM_MT_8_REGEX = /sm:mt-8/;
 const BOOK_FREE_CALL_REGEX = /Book a Free Call/i;
+const READ_ARCHITECTURE_REGEX = /Read Architecture/i;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
@@ -333,5 +334,55 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     });
     await expect(bookCallBtn).toBeVisible();
     await expect(bookCallBtn).toHaveAttribute('href', '/book-a-call');
+  });
+
+  test('composite Accordion renders in FAQ section and toggles expansion', async ({
+    page
+  }) => {
+    await page.goto('/#faq');
+    const faqSection = page.locator('section#faq');
+    await expect(faqSection).toBeVisible();
+
+    const firstDetails = faqSection.locator('details').first();
+    await expect(firstDetails).toBeVisible();
+    await expect(firstDetails).not.toHaveAttribute('open', '');
+
+    await firstDetails.locator('summary').click();
+    await expect(firstDetails).toHaveAttribute('open', '');
+    await expect(firstDetails.locator('p')).toBeVisible();
+  });
+
+  test('composite ProjectCard renders in slider and portfolio archive grid', async ({
+    page
+  }) => {
+    // 1. Homepage slider variant renders portfolio-card-link
+    await page.goto('/#portfolio');
+    const sliderCards = page.locator('section#portfolio article');
+    await expect(sliderCards.first()).toBeVisible();
+    const sliderLink = sliderCards.first().locator('a.portfolio-card-link');
+    await expect(sliderLink).toBeVisible();
+
+    // 2. Portfolio archive grid variant renders full action button
+    await page.goto('/portfolio');
+    const gridCards = page.locator('main article, div.max-w-6xl article');
+    await expect(gridCards.first()).toBeVisible();
+    const gridButton = gridCards.first().getByRole('link', {
+      name: READ_ARCHITECTURE_REGEX
+    });
+    await expect(gridButton).toBeVisible();
+  });
+
+  test('composite Checklist renders with check and diamond bullet styles', async ({
+    page
+  }) => {
+    await page.goto('/#services');
+    const serviceList = page.locator('section#services ul');
+    await expect(serviceList.first()).toBeVisible();
+    await expect(serviceList.first().locator('li').first()).toContainText('✓');
+
+    await page.goto('/#pricing');
+    const pricingList = page.locator('section#pricing ul');
+    await expect(pricingList.first()).toBeVisible();
+    await expect(pricingList.first().locator('li').first()).toContainText('✦');
   });
 });

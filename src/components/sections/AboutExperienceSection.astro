@@ -1,4 +1,5 @@
 ---
+import Checklist from '../common/Checklist.astro';
 import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
@@ -62,14 +63,7 @@ const competencyCategories = [
               {cat.title}
             </Heading>
 
-            <ul class="space-y-2 border-t border-ink/10 pt-4">
-              {cat.skills.map((skill) => (
-                <li class="font-body text-xs text-ink flex items-center gap-2">
-                  <span class="text-bronze font-bold">✓</span>
-                  <span>{skill}</span>
-                </li>
-              ))}
-            </ul>
+            <Checklist items={cat.skills} bullet="check" borderTop={true} />
           </div>
         </MedievalFrame>
       ))}

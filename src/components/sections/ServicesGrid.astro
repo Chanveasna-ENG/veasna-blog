@@ -1,4 +1,5 @@
 ---
+import Checklist from '../common/Checklist.astro';
 import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
@@ -92,14 +93,9 @@ const services = [
 
           <div>
             <!-- Feature Bullet List -->
-            <ul class="border-t border-ink/10 pt-4 space-y-2 mb-6">
-              {service.highlights.map((item) => (
-                <li class="font-body text-xs text-ink flex items-center gap-2">
-                  <span class="text-bronze font-bold">✓</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            <div class="mb-6">
+              <Checklist items={service.highlights} bullet="check" borderTop={true} />
+            </div>
 
             <!-- Scoping CTA Link -->
             <div class="pt-2">

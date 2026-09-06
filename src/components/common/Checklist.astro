@@ -1,0 +1,19 @@
+---
+import { type ChecklistProps, resolveChecklistConfig } from './checklist.utils';
+
+interface Props extends ChecklistProps {}
+
+const config = resolveChecklistConfig(Astro.props);
+const { items = [] } = Astro.props;
+---
+
+<ul class={config.containerClass}>
+  {
+    items.map((item) => (
+      <li class={config.itemClass}>
+        <span class={config.bulletClass}>{config.bulletSymbol}</span>
+        <span>{item}</span>
+      </li>
+    ))
+  }
+</ul>

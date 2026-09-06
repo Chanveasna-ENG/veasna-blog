@@ -1,5 +1,5 @@
 ---
-import Paragraph from './Paragraph.astro';
+import Paragraph from '../ui/Paragraph.astro';
 
 export interface AccordionItem {
   question: string;
@@ -8,13 +8,12 @@ export interface AccordionItem {
 
 interface Props {
   items: AccordionItem[];
-  className?: string;
 }
 
-const { items = [], className = '' } = Astro.props;
+const { items = [] } = Astro.props;
 ---
 
-<div class={`w-full divide-y divide-ink/20 border-t border-b border-ink/20 ${className}`}>
+<div class="w-full divide-y divide-ink/20 border-t border-b border-ink/20">
   {
     items.map((item) => (
       <details class="group py-2 transition-all">

@@ -4,6 +4,7 @@ import {
   getInquiryUrl,
   getPricingTiers
 } from '../../utils/pricing';
+import Checklist from '../common/Checklist.astro';
 import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
 import Heading from '../ui/Heading.astro';
@@ -55,14 +56,7 @@ const tiers = getPricingTiers();
               <span class="block font-heading font-semibold text-xs uppercase tracking-wider text-ink mb-3">
                 Scope Includes:
               </span>
-              <ul class="space-y-2.5">
-                {tier.deliverables.map((item) => (
-                  <li class="font-body text-xs text-ink flex items-start gap-2">
-                    <span class="text-bronze font-bold flex-shrink-0 mt-0.5">✦</span>
-                    <span class="leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <Checklist items={tier.deliverables} bullet="diamond" spacing="md" />
             </div>
           </div>
 
