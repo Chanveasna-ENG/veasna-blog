@@ -10,7 +10,7 @@ import MedievalDivider from '../ui/MedievalDivider.astro';
     class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6"
   >
     <!-- Prominent Big Footer Logo using wax-seal.png -->
-    <a href="/" class="flex items-center gap-4 group">
+    <a href="/" class="flex items-center gap-4 group order-2 md:order-1">
       <img
         src="/wax-seal.png"
         alt="Chanveasna ENG Logo"
@@ -23,16 +23,19 @@ import MedievalDivider from '../ui/MedievalDivider.astro';
       </span>
     </a>
 
-    <div class="flex items-center gap-6 font-heading text-sm text-inkMuted">
+    <nav
+      class="flex items-center justify-center gap-6 font-heading text-sm text-inkMuted flex-wrap order-1 md:order-2"
+      aria-label="Footer Navigation"
+    >
       <a href="/page/1" class="hover:text-ink transition-colors"
         >Blog Archive</a
       >
       <a href="/about" class="hover:text-ink transition-colors">About</a>
       <a href="/rss.xml" class="hover:text-ink transition-colors">RSS</a>
       <a href="/contact" class="hover:text-ink transition-colors">Contact</a>
-    </div>
+    </nav>
 
-    <div class="font-body text-xs text-inkMuted">
+    <div class="font-body text-xs text-inkMuted order-3 md:order-3 text-center md:text-right">
       &copy; {new Date().getFullYear()} Chanveasna ENG. All rights reserved.
     </div>
   </div>

@@ -34,16 +34,18 @@ const messageInputId = `${formId}-message`;
           />
 
           <!-- Social Direct Connect (All 8 Platforms) -->
-          <div class="flex flex-wrap items-center gap-2 mb-5">
-            {
-              allSocialLinks.map((item) => (
-                <SocialLink platform={item.platform} href={item.href} />
-              ))
-            }
+          <div class="flex items-center justify-center sm:justify-start mb-5">
+            <div class="grid grid-cols-4 sm:flex sm:flex-wrap items-center gap-2 w-fit">
+              {
+                allSocialLinks.map((item) => (
+                  <SocialLink platform={item.platform} href={item.href} />
+                ))
+              }
+            </div>
           </div>
 
-          <div class="mb-8">
-            <PrimaryButton href="/book-a-call" size="md">
+          <div class="mb-8 w-full sm:w-auto">
+            <PrimaryButton href="/book-a-call" size="md" fullWidth="mobile">
               Book a Free Call &rarr;
             </PrimaryButton>
           </div>

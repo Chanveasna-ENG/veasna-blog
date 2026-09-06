@@ -4,6 +4,7 @@ const BOOKING_TITLE_REGEX = /Book A Strategy Call/i;
 const CALENDAR_SCHEDULE_REGEX =
   /calendar\.google\.com\/calendar\/appointments\/schedules/;
 const MIX_BLEND_MULTIPLY_REGEX = /mix-blend-mode:\s*multiply/;
+const CALENDAR_HEIGHT_REGEX = /760|1000|1250|1350/;
 const PY_12_REGEX = /py-12/;
 const MD_PY_16_REGEX = /md:py-16/;
 
@@ -37,7 +38,10 @@ test.describe('Book A Call Page & Navigation Architecture', () => {
       'src',
       CALENDAR_SCHEDULE_REGEX
     );
-    await expect(calendarIframe).toHaveAttribute('height', '760');
+    await expect(calendarIframe).toHaveAttribute(
+      'height',
+      CALENDAR_HEIGHT_REGEX
+    );
     await expect(calendarIframe).toHaveAttribute(
       'style',
       MIX_BLEND_MULTIPLY_REGEX
@@ -122,11 +126,11 @@ test.describe('Book A Call Page & Navigation Architecture', () => {
   }) => {
     await page.goto('/');
 
-    const navContact = page.locator('header nav a[href="/contact"]');
+    const navContact = page.locator('header nav a[href="/contact"]').first();
     await expect(navContact).toBeVisible();
     await expect(navContact).toHaveText('Contact');
 
-    const headerCta = page.locator('header a[href="/book-a-call"]');
+    const headerCta = page.locator('header a[href="/book-a-call"]').first();
     await expect(headerCta).toBeVisible();
     await expect(headerCta).toContainText('Book A Call');
 

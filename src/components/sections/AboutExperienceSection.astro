@@ -7,7 +7,6 @@ import Heading from '../ui/Heading.astro';
 const competencyCategories = [
   {
     title: 'Workflow & Integration Engines',
-    icon: '/svg/sketch-blueprint.svg',
     skills: [
       'n8n Setup & Self-Hosting',
       'Make & Zapier Automations',
@@ -18,7 +17,6 @@ const competencyCategories = [
   },
   {
     title: 'Messaging & Bot Ecosystems',
-    icon: '/svg/sketch-shield.svg',
     skills: [
       'Telegram & Discord Bot Development',
       'WhatsApp Business API Automations',
@@ -29,7 +27,6 @@ const competencyCategories = [
   },
   {
     title: 'Web Platforms & Custom Tools',
-    icon: '/svg/sketch-laptop.svg',
     skills: [
       'Astro, Next.js & React Development',
       'LLM Integrations & Document Processing',
@@ -55,10 +52,6 @@ const competencyCategories = [
       {competencyCategories.map((cat) => (
         <MedievalFrame size="small">
           <div>
-            <div class="w-12 h-12 p-2 mb-5 border border-ink/40 flex items-center justify-center text-ink">
-              <img src={cat.icon} alt={cat.title} class="w-full h-full object-contain" />
-            </div>
-
             <Heading as="h3" size="card">
               {cat.title}
             </Heading>

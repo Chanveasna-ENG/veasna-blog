@@ -16,7 +16,7 @@ const navLinks = [
 ];
 ---
 
-<header class="w-full bg-transparent py-4 px-4 sm:px-8 relative z-10">
+<header class="w-full bg-transparent py-4 px-4 sm:px-8 relative z-50">
   <div class="max-w-6xl mx-auto flex items-center justify-between">
     <!-- Prominent Big Header Logo using wax-seal.png -->
     <a href="/" class="flex items-center gap-4 group">
@@ -53,11 +53,123 @@ const navLinks = [
       }
     </nav>
 
-    <!-- Call to Action -->
-    <div class="flex items-center">
+    <!-- Call to Action (Desktop) -->
+    <div class="flex items-center hidden md:flex">
       <PrimaryButton href="/book-a-call" size="md">
+        Book A Call
+      </PrimaryButton>
+    </div>
+
+    <!-- Mobile Hamburger Toggle Button -->
+    <button
+      id="mobile-menu-toggle"
+      type="button"
+      aria-label="Toggle Navigation Menu"
+      aria-expanded="false"
+      class="md:hidden flex flex-col items-center justify-center w-10 h-10 border border-ink/40 p-2 text-ink hover:border-bronze hover:text-bronze transition-colors cursor-pointer bg-parchment"
+    >
+      <span class="w-5 h-0.5 bg-current mb-1 transition-transform"></span>
+      <span class="w-5 h-0.5 bg-current mb-1 transition-opacity"></span>
+      <span class="w-5 h-0.5 bg-current transition-transform"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Drawer Backdrop -->
+  <div
+    id="mobile-menu-backdrop"
+    class="fixed inset-0 bg-ink/50 backdrop-blur-xs z-40 hidden transition-opacity"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Mobile Slide-In Drawer -->
+  <div
+    id="mobile-menu-drawer"
+    class="fixed top-0 right-0 bottom-0 w-72 max-w-[85vw] bg-parchment border-l border-ink shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-6"
+    style="background-color: #e5d9b8;"
+    role="dialog"
+    aria-label="Mobile Navigation"
+  >
+    <div>
+      <div class="flex items-center justify-between pb-4 mb-6 border-b border-ink/20">
+        <span class="font-heading font-bold text-lg text-ink">Navigation</span>
+        <button
+          id="mobile-menu-close"
+          type="button"
+          aria-label="Close Menu"
+          class="w-8 h-8 border border-ink/40 flex items-center justify-center text-ink hover:text-bronze hover:border-bronze cursor-pointer font-bold text-lg"
+        >
+          &times;
+        </button>
+      </div>
+
+      <nav class="flex flex-col gap-4 font-heading text-lg font-semibold">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class={`py-1.5 text-ink hover:text-bronze transition-colors ${currentPath === link.href ? 'text-bronze font-bold' : ''}`}
+            >
+              {link.name}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div class="pt-6 border-t border-ink/20">
+      <PrimaryButton href="/book-a-call" size="md" fullWidth>
         Book A Call
       </PrimaryButton>
     </div>
   </div>
 </header>
+
+<script>
+  function setupMobileMenu() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+    const drawer = document.getElementById('mobile-menu-drawer');
+
+    if (!toggleBtn || !drawer || !backdrop) return;
+
+    function openMenu() {
+      drawer?.classList.remove('translate-x-full');
+      backdrop?.classList.remove('hidden');
+      toggleBtn?.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      drawer?.classList.add('translate-x-full');
+      backdrop?.classList.add('hidden');
+      toggleBtn?.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    closeBtn?.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+    });
+  }
+
+  setupMobileMenu();
+  document.addEventListener('astro:after-swap', setupMobileMenu);
+</script>

@@ -395,4 +395,22 @@ test.describe('Single Blog Post Layout & Reading Experience', () => {
     const hireImgBox = page.locator('img[alt="Chanveasna Eng"]').locator('..');
     await expect(hireImgBox).not.toHaveClass(ENGRAVED_SHADOW_REGEX);
   });
+
+  test('scales embedded video iframes responsively without horizontal overflow on mobile viewport', async ({
+    page
+  }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto(POST_URL);
+
+    const videoIframe = page
+      .locator('article.blog-article-body iframe')
+      .first();
+    await expect(videoIframe).toBeVisible();
+
+    const box = await videoIframe.boundingBox();
+    expect(box).not.toBeNull();
+    if (box) {
+      expect(box.width).toBeLessThanOrEqual(375);
+    }
+  });
 });

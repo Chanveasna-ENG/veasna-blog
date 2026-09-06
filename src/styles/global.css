@@ -69,3 +69,15 @@
 [data-upwork-mode="true"] [data-upwork-hide] {
   display: none !important;
 }
+
+/* Responsive Video & Embedded Media */
+article iframe,
+.prose iframe,
+iframe[src*="youtube.com"],
+iframe[src*="youtube-nocookie.com"],
+iframe[src*="youtu.be"],
+iframe[src*="vimeo.com"] {
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+}

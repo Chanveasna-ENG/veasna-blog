@@ -26,7 +26,8 @@ const rotationClass = rotationMap[position] || 'rotate-0';
 
 <div
   class={`inline-block pointer-events-none text-ink ${rotationClass} ${customClass}`}
-  style={`width: ${size}px; height: ${size}px;`}
+  style={`--corner-desktop: ${size}px; width: min(var(--corner-desktop), 60px); height: min(var(--corner-desktop), 60px);`}
+  class:list={['sm:!w-[var(--corner-desktop)] sm:!h-[var(--corner-desktop)]']}
 >
   <img
     src="/svg/medieval-corner.svg"

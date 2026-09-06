@@ -11,7 +11,6 @@ const services = [
   {
     id: 'workflow-automation',
     title: 'Workflow & Tool Integration',
-    icon: '/svg/sketch-blueprint.svg',
     tag: 'Automation',
     description:
       'Connect your apps and automate repetitive processes so data flows between your CRM, forms, and tools without manual copy-pasting.',
@@ -26,8 +25,7 @@ const services = [
   {
     id: 'messaging-bots',
     title: 'Custom Bots & Chat Automations',
-    icon: '/svg/sketch-shield.svg',
-    tag: 'Messaging',
+    tag: 'Messaging Bots',
     description:
       'Build smart chat assistants that answer customer questions, qualify inquiries, and alert your team directly in messaging apps.',
     highlights: [
@@ -41,7 +39,6 @@ const services = [
   {
     id: 'ai-web-apps',
     title: 'Custom Web Applications & Sites',
-    icon: '/svg/sketch-laptop.svg',
     tag: 'Web Development',
     description:
       'Fast, clean web applications and landing pages built to load quickly, rank well on search engines, and turn visitors into inquiries.',
@@ -70,11 +67,7 @@ const services = [
       {services.map((service) => (
         <MedievalFrame size="medium" interactive={true}>
           <div>
-            <div class="flex items-center justify-between mb-6">
-              <!-- Sketch Icon Container -->
-              <div class="w-14 h-14 p-2.5 bg-transparent border border-ink/40 flex items-center justify-center text-ink group-hover:text-bronze transition-colors">
-                <img src={service.icon} alt={service.title} class="w-full h-full object-contain" />
-              </div>
+            <div class="mb-4 text-left">
               <SubtitleTag variant="badge" size="sm" color="bronze" spacing="none">
                 {service.tag}
               </SubtitleTag>

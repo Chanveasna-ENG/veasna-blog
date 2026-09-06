@@ -34,6 +34,15 @@ describe('resolvePrimaryButtonClasses', () => {
     expect(containerClass).not.toContain('inline-flex');
   });
 
+  it('applies mobile-only fullWidth layout classes when fullWidth is mobile', () => {
+    const { containerClass } = resolvePrimaryButtonClasses({
+      fullWidth: 'mobile'
+    });
+    expect(containerClass).toContain(
+      'w-full sm:w-auto flex sm:inline-flex items-center justify-center text-center'
+    );
+  });
+
   it('keeps inline layout when fullWidth is false', () => {
     const { containerClass } = resolvePrimaryButtonClasses({
       fullWidth: false

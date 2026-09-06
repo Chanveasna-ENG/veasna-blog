@@ -20,6 +20,7 @@ const HOVER_BORDER_BRONZE_REGEX = /hover:border-bronze/;
 const MT_6_REGEX = /mt-6/;
 const SM_MT_8_REGEX = /sm:mt-8/;
 const BOOK_FREE_CALL_REGEX = /Book a Free Call/i;
+const BOOK_15_MIN_CALL_REGEX = /Book a Free 15-Min Call/i;
 const READ_ARCHITECTURE_REGEX = /Read Case Study|Read Architecture/i;
 const MB_0_REGEX = /mb-0/;
 const MB_6_REGEX = /mb-6/;
@@ -32,11 +33,17 @@ const W_FULL_REGEX = /w-full/;
 const FLEX_REGEX = /flex/;
 const ITEMS_CENTER_REGEX = /items-center/;
 const JUSTIFY_CENTER_REGEX = /justify-center/;
+const TRANSLATE_X_FULL_REGEX = /translate-x-full/;
+const BG_PARCHMENT_SOLID_REGEX = /bg-parchment\b/;
+const BG_PARCHMENT_60_REGEX = /bg-parchment\/60/;
+const W_FIT_REGEX = /w-fit/;
+const SM_W_AUTO_REGEX = /sm:w-auto/;
+const Z_50_REGEX = /z-50/;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
     await page.goto('/');
-    const nav = page.locator('header nav');
+    const nav = page.locator('header nav').first();
     await expect(nav).toBeVisible();
 
     await expect(nav.getByRole('link', { name: 'Home' })).toHaveAttribute(
@@ -87,6 +94,11 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
         name: 'Custom Web Applications & Sites'
       })
     ).toBeVisible();
+
+    await expect(servicesSection.getByText('Messaging Bots')).toBeVisible();
+    await expect(
+      servicesSection.locator('img[src*="/svg/sketch"]')
+    ).toHaveCount(0);
 
     const serviceCtas = servicesSection.locator('a[href*="/contact?subject="]');
     await expect(serviceCtas).toHaveCount(3);
@@ -189,6 +201,11 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     if (headingBox) {
       expect(headingBox.y).toBeGreaterThanOrEqual(900);
     }
+
+    const marqueeTrackContainer = page
+      .locator('section#ecosystem .marquee-track')
+      .locator('..');
+    await expect(marqueeTrackContainer).toHaveClass(MT_6_REGEX);
   });
 
   test('hero and section paragraphs enforce token classes without custom class leakage', async ({
@@ -290,10 +307,10 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(architectHeader).toBeVisible();
     await expect(architectHeader.locator('h2')).toHaveText("Hi, I'm Veasna.");
 
-    const processCardHeaders = page.locator(
-      'section#process div.w-full.flex.flex-col.items-start'
-    );
-    await expect(processCardHeaders.first()).toBeVisible();
+    const processCards = page.locator('section#process .medieval-frame');
+    await expect(processCards).toHaveCount(3);
+    await expect(processCards.first().locator('h3')).toHaveText('Scope & Plan');
+    await expect(processCards.first().locator('text="Stage"')).toBeVisible();
 
     // 4. Contact section
     const contactHeader = page.locator(
@@ -312,6 +329,9 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(ctaHeader.locator('h2')).toHaveText(
       'Ready to Automate Your Busywork?'
     );
+    const ctaBtn = page.locator('section#cta a[href="/book-a-call"]');
+    await expect(ctaBtn).toBeVisible();
+    await expect(ctaBtn).toHaveText(BOOK_15_MIN_CALL_REGEX);
   });
 
   test('composite MedievalFrame renders outer border, 4 corners, and interactive shadow', async ({
@@ -352,11 +372,14 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     await expect(architectSection).toBeVisible();
 
     const socialContainer = architectSection.locator(
-      'div.flex.items-center.gap-2\\.5'
+      'div[data-upwork-hide="true"]'
     );
     await expect(socialContainer).toBeVisible();
     await expect(socialContainer).toHaveClass(MT_6_REGEX);
     await expect(socialContainer).toHaveClass(SM_MT_8_REGEX);
+
+    const directChannels = architectSection.locator('text="Direct Channels:"');
+    await expect(directChannels).toBeVisible();
 
     const socialLinks = socialContainer.locator('a[title]');
     await expect(socialLinks).toHaveCount(4);
@@ -500,5 +523,91 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     );
     expect(shadowValue).toContain('rgb(48, 0, 0)');
     expect(shadowValue).toContain('4px 4px 0px 0px');
+  });
+
+  test('mobile header toggles slide-in navigation drawer with links and CTA', async ({
+    page
+  }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/');
+
+    const headerEl = page.locator('header');
+    await expect(headerEl).toHaveClass(Z_50_REGEX);
+
+    const toggleBtn = page.locator('#mobile-menu-toggle');
+    await expect(toggleBtn).toBeVisible();
+    await expect(toggleBtn).toHaveClass(BG_PARCHMENT_SOLID_REGEX);
+    await expect(toggleBtn).not.toHaveClass(BG_PARCHMENT_60_REGEX);
+
+    const drawer = page.locator('#mobile-menu-drawer');
+    const backdrop = page.locator('#mobile-menu-backdrop');
+
+    // Initially closed (drawer translated offscreen)
+    await expect(drawer).toHaveClass(TRANSLATE_X_FULL_REGEX);
+
+    // Click toggle to open
+    await toggleBtn.click();
+    await expect(drawer).not.toHaveClass(TRANSLATE_X_FULL_REGEX);
+    await expect(drawer.getByRole('link', { name: 'Home' })).toBeVisible();
+    await expect(drawer.getByRole('link', { name: 'About' })).toBeVisible();
+    await expect(
+      drawer.getByRole('link', { name: 'Book A Call' })
+    ).toBeVisible();
+
+    // Click close button to dismiss
+    const closeBtn = page.locator('#mobile-menu-close');
+    await closeBtn.click();
+    await expect(drawer).toHaveClass(TRANSLATE_X_FULL_REGEX);
+
+    // Reopen and test backdrop dismissal
+    await toggleBtn.click();
+    await expect(drawer).not.toHaveClass(TRANSLATE_X_FULL_REGEX);
+    await backdrop.click({ position: { x: 20, y: 100 } });
+    await expect(drawer).toHaveClass(TRANSLATE_X_FULL_REGEX);
+  });
+
+  test('footer displays navigation links above logo on mobile viewport', async ({
+    page
+  }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/');
+
+    const footerNav = page.locator('footer nav');
+    await expect(footerNav).toBeVisible();
+
+    const footerLogo = page.locator('footer a[href="/"]');
+    await expect(footerLogo).toBeVisible();
+
+    const navBox = await footerNav.boundingBox();
+    const logoBox = await footerLogo.boundingBox();
+    expect(navBox).not.toBeNull();
+    expect(logoBox).not.toBeNull();
+    if (navBox && logoBox) {
+      // Nav links appear above the logo on mobile
+      expect(navBox.y).toBeLessThan(logoBox.y);
+    }
+  });
+
+  test('contact section displays 8 social links in 4-column grid on mobile', async ({
+    page
+  }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/#contact');
+
+    const contactSection = page.locator('section#contact');
+    const contactSocialGrid = contactSection.locator('div.grid-cols-4');
+    await expect(contactSocialGrid).toBeVisible();
+    await expect(contactSocialGrid).toHaveClass(W_FIT_REGEX);
+    await expect(contactSocialGrid.locator('..')).toHaveClass(
+      JUSTIFY_CENTER_REGEX
+    );
+    const links = contactSocialGrid.locator('a[title]');
+    await expect(links).toHaveCount(8);
+
+    const bookCallBtn = contactSection.getByRole('link', {
+      name: BOOK_FREE_CALL_REGEX
+    });
+    await expect(bookCallBtn).toHaveClass(W_FULL_REGEX);
+    await expect(bookCallBtn).toHaveClass(SM_W_AUTO_REGEX);
   });
 });

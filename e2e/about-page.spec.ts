@@ -2,11 +2,11 @@ import { expect, test } from '@playwright/test';
 
 const ABOUT_TITLE_REGEX = /About Chanveasna ENG/i;
 const BOOK_CALL_REGEX = /Book Strategy Call/i;
-const VIEW_WORK_REGEX = /View Work/i;
+const VIEW_PROJECTS_REGEX = /View Recent Projects/i;
 const PY_12_REGEX = /py-12/;
 const MD_PY_16_REGEX = /md:py-16/;
-const W_9_REGEX = /w-9/;
-const H_9_REGEX = /h-9/;
+const W_11_REGEX = /w-11/;
+const H_11_REGEX = /h-11/;
 
 test.describe('About Page Revamped Architecture', () => {
   test('about page loads with hero, portrait, and bio', async ({ page }) => {
@@ -23,27 +23,31 @@ test.describe('About Page Revamped Architecture', () => {
     await expect(profileImg).toBeVisible();
 
     const heroSection = page.locator('section.relative').first();
-    const actionRow = heroSection.locator('div.pt-4.flex');
+    const socialGroup = heroSection.locator('div[data-upwork-hide="true"]');
+    await expect(socialGroup).toBeVisible();
+
+    const socialLinks = socialGroup.locator('a[title]');
+    await expect(socialLinks).toHaveCount(4);
+    await expect(socialLinks.first()).toHaveClass(W_11_REGEX);
+    await expect(socialLinks.first()).toHaveClass(H_11_REGEX);
+
+    const actionRow = heroSection.locator('div.pt-3.flex');
     await expect(actionRow).toBeVisible();
 
     const bookCallBtn = actionRow.getByRole('link', { name: BOOK_CALL_REGEX });
     await expect(bookCallBtn).toBeVisible();
+    await expect(bookCallBtn).toHaveAttribute('href', '/book-a-call');
 
-    const viewWorkBtn = actionRow.getByRole('link', { name: VIEW_WORK_REGEX });
+    const viewWorkBtn = actionRow.getByRole('link', {
+      name: VIEW_PROJECTS_REGEX
+    });
     await expect(viewWorkBtn).toBeVisible();
+    await expect(viewWorkBtn).toHaveAttribute('href', '#portfolio');
 
     const connectFollowLabel = page.locator(
       'span:has-text("Connect & Follow:")'
     );
     await expect(connectFollowLabel).not.toBeVisible();
-
-    const socialGroup = actionRow.locator('div.flex-nowrap');
-    await expect(socialGroup).toBeVisible();
-
-    const socialLinks = socialGroup.locator('a[title]');
-    await expect(socialLinks).toHaveCount(4);
-    await expect(socialLinks.first()).toHaveClass(W_9_REGEX);
-    await expect(socialLinks.first()).toHaveClass(H_9_REGEX);
   });
 
   test('philosophy section displays core values manifesto', async ({
@@ -111,6 +115,11 @@ test.describe('About Page Revamped Architecture', () => {
         name: 'Web Platforms & Custom Tools'
       })
     ).toBeVisible();
+
+    const experienceIcons = experienceSection.locator(
+      'img[src*="/svg/sketch"]'
+    );
+    await expect(experienceIcons).toHaveCount(0);
   });
 
   test('reused sections (process, portfolio, inquiry, faq) render on about page', async ({
@@ -148,5 +157,96 @@ test.describe('About Page Revamped Architecture', () => {
     const quoteSec = page.locator('section:has(blockquote)');
     await expect(quoteSec).toHaveClass(PY_12_REGEX);
     await expect(quoteSec).toHaveClass(MD_PY_16_REGEX);
+  });
+
+  test('about hero action buttons stack vertically on mobile and render side-by-side on desktop', async ({
+    page
+  }) => {
+    // 1. Mobile viewport (375x667): primary on top, secondary in row below
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/about');
+
+    const heroSection = page.locator('section.relative').first();
+    const actionRow = heroSection.locator('div.pt-3.flex');
+    await expect(actionRow).toBeVisible();
+
+    const bookCallBtn = actionRow.getByRole('link', { name: BOOK_CALL_REGEX });
+    const viewWorkBtn = actionRow.getByRole('link', {
+      name: VIEW_PROJECTS_REGEX
+    });
+    await expect(bookCallBtn).toBeVisible();
+    await expect(viewWorkBtn).toBeVisible();
+
+    const mobileBookBox = await bookCallBtn.boundingBox();
+    const mobileWorkBox = await viewWorkBtn.boundingBox();
+    expect(mobileBookBox).not.toBeNull();
+    expect(mobileWorkBox).not.toBeNull();
+    if (mobileBookBox && mobileWorkBox) {
+      expect(mobileBookBox.y + mobileBookBox.height).toBeLessThanOrEqual(
+        mobileWorkBox.y
+      );
+    }
+
+    // 2. Desktop viewport (1024x768): buttons side-by-side in same row
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await page.goto('/about');
+
+    const deskHeroSection = page.locator('section.relative').first();
+    const deskActionRow = deskHeroSection.locator('div.pt-3.flex');
+    const deskBookBtn = deskActionRow.getByRole('link', {
+      name: BOOK_CALL_REGEX
+    });
+    const deskWorkBtn = deskActionRow.getByRole('link', {
+      name: VIEW_PROJECTS_REGEX
+    });
+
+    const deskBookBox = await deskBookBtn.boundingBox();
+    const deskWorkBox = await deskWorkBtn.boundingBox();
+    expect(deskBookBox).not.toBeNull();
+    expect(deskWorkBox).not.toBeNull();
+    if (deskBookBox && deskWorkBox) {
+      // Buttons sit side-by-side horizontally
+      expect(deskBookBox.x + deskBookBox.width).toBeLessThanOrEqual(
+        deskWorkBox.x
+      );
+      // Buttons share the same row vertically
+      expect(Math.abs(deskBookBox.y - deskWorkBox.y)).toBeLessThanOrEqual(15);
+    }
+  });
+
+  test('space between secondary button to divider and divider to subtitle tag is balanced', async ({
+    page
+  }) => {
+    await page.goto('/about');
+
+    const heroSection = page.locator('section.relative').first();
+    const viewProjectsBtn = heroSection.getByRole('link', {
+      name: VIEW_PROJECTS_REGEX
+    });
+    const divider = page.locator(
+      'section#philosophy img[alt*="Medieval Diamond Section Divider"]'
+    );
+    const subtitleTag = page.locator(
+      'section#philosophy span:has-text("Core Philosophy")'
+    );
+
+    await expect(viewProjectsBtn).toBeVisible();
+    await expect(divider).toBeVisible();
+    await expect(subtitleTag).toBeVisible();
+
+    const btnBox = await viewProjectsBtn.boundingBox();
+    const dividerBox = await divider.boundingBox();
+    const subtitleBox = await subtitleTag.boundingBox();
+
+    expect(btnBox).not.toBeNull();
+    expect(dividerBox).not.toBeNull();
+    expect(subtitleBox).not.toBeNull();
+
+    if (btnBox && dividerBox && subtitleBox) {
+      const topGap = dividerBox.y - (btnBox.y + btnBox.height);
+      const bottomGap = subtitleBox.y - (dividerBox.y + dividerBox.height);
+      // Both gaps should be close to equal (within 20px)
+      expect(Math.abs(topGap - bottomGap)).toBeLessThanOrEqual(20);
+    }
   });
 });

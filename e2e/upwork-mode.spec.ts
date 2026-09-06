@@ -43,7 +43,9 @@ test.describe('Upwork Compliance Mode (?upwork=true)', () => {
     await expect(inquirySection).toBeHidden();
 
     // 4. Header Nav Link & Header CTA button both rewritten to Upwork profile
-    const headerNavLink = page.locator('header nav a[href*="upwork.com"]');
+    const headerNavLink = page
+      .locator('header nav a[href*="upwork.com"]')
+      .first();
     await expect(headerNavLink).toBeVisible();
     await expect(headerNavLink).toHaveAttribute('target', '_blank');
     await expect(headerNavLink).toContainText(HIRE_ON_UPWORK_REGEX);
@@ -63,7 +65,7 @@ test.describe('Upwork Compliance Mode (?upwork=true)', () => {
     await expect(floatingWidget).toContainText(HIRE_ON_UPWORK_REGEX);
 
     // 6. Internal nav link propagation
-    const portfolioLink = page.locator('nav a[href*="/portfolio"]');
+    const portfolioLink = page.locator('nav a[href*="/portfolio"]').first();
     await expect(portfolioLink).toHaveAttribute('href', UPWORK_PARAM_REGEX);
   });
 

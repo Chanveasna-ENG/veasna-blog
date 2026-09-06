@@ -1,6 +1,9 @@
 ---
 import MedievalFrame from '../common/MedievalFrame.astro';
 import SectionHeader from '../common/SectionHeader.astro';
+import Heading from '../ui/Heading.astro';
+import Paragraph from '../ui/Paragraph.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
 
 const steps = [
   {
@@ -8,7 +11,6 @@ const steps = [
     title: 'Scope & Plan',
     description:
       'We discuss your current bottlenecks, agree on exact deliverables, and set a clear timeline and price before writing any code.',
-    icon: '/svg/sketch-blueprint.svg',
     image: '/images/profile.jpg',
     imageAlt: 'Architecture Discovery & Planning'
   },
@@ -17,7 +19,6 @@ const steps = [
     title: 'Build & Review',
     description:
       'I build your system in milestones and share live staging previews so you can test and give feedback as we go.',
-    icon: '/svg/sketch-laptop.svg',
     image: '/images/profile.jpg',
     imageAlt: 'Iterative Engineering & Feedback'
   },
@@ -26,7 +27,6 @@ const steps = [
     title: 'Handover & Support',
     description:
       'You get recorded video walkthroughs, documentation, and 30 days of direct support to make sure everything runs smoothly in production.',
-    icon: '/svg/sketch-shield.svg',
     image: '/images/profile.jpg',
     imageAlt: 'Handover & Documentation'
   }
@@ -46,31 +46,23 @@ const steps = [
       {
         steps.map((item) => (
           <MedievalFrame size="small" interactive={true}>
-            <!-- Giant Watermark Step Number -->
-            <div
-              class="absolute -top-3 -right-2 font-heading font-bold text-6xl md:text-7xl text-bronze/10 select-none pointer-events-none"
-              aria-hidden="true"
-            >
-              {item.step}
-            </div>
-
-            <div class="relative z-10">
-              <!-- Step Icon Badge -->
-              <div class="w-14 h-14 mb-6 p-3 bg-transparent border border-ink/40 flex items-center justify-center text-ink group-hover:text-bronze group-hover:border-bronze transition-colors">
-                <img
-                  src={item.icon}
-                  alt={`${item.title} icon`}
-                  class="w-full h-full object-contain"
-                />
+            <div>
+              <div class="flex items-baseline justify-between mb-4">
+                <span class="font-heading font-bold text-2xl text-bronze">
+                  {item.step}
+                </span>
+                <SubtitleTag variant="ghost" size="sm" color="ink" spacing="none">
+                  Stage
+                </SubtitleTag>
               </div>
 
-              <SectionHeader
-                size="small"
-                subtitleVariant="ghost"
-                subtitle={`Stage ${item.step}`}
-                title={item.title}
-                description={item.description}
-              />
+              <Heading as="h3" size="card" spacing="sm">
+                {item.title}
+              </Heading>
+
+              <Paragraph variant="small">
+                {item.description}
+              </Paragraph>
             </div>
 
             <!-- Visual Preview Mockup Box -->

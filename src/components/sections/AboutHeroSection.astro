@@ -56,27 +56,29 @@ import WaxSeal from '../ui/WaxSeal.astro';
             <Paragraph variant="lead">
               I build custom web applications, workflow automations, and messaging bots. My focus is helping businesses cut manual data entry and connect their tools so work moves without bottlenecks.
             </Paragraph>
-            <Paragraph variant="body" spacing="lg">
+            <Paragraph variant="body" spacing="sm">
               Instead of fragile, quick-fix setups, I build systems designed to stay up and run reliably: backend workflows (n8n, Make), messaging bots (Telegram, Discord, WhatsApp), and fast web apps (Astro, Next.js). Everything comes with clear documentation and full code ownership.
             </Paragraph>
           </div>
         </SectionHeader>
 
-        <!-- Actions & Social Links Row -->
-        <div class="pt-4 flex items-center gap-3 sm:gap-4 flex-wrap">
-          <PrimaryButton href="/contact" size="md">
+        <!-- Social Channels -->
+        <div data-upwork-hide="true" class="my-4 flex items-center justify-center sm:justify-start gap-3 w-full">
+          {
+            primarySocialLinks.map((item) => (
+              <SocialLink platform={item.platform} href={item.href} size="md" />
+            ))
+          }
+        </div>
+
+        <!-- Action Buttons Row -->
+        <div class="pt-3 flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-4 w-full">
+          <PrimaryButton href="/book-a-call" size="lg">
             Book Strategy Call
           </PrimaryButton>
-          <SecondaryButton href="#portfolio" size="sm">
-            View Work &rarr;
+          <SecondaryButton href="#portfolio" size="md">
+            View Recent Projects
           </SecondaryButton>
-          <div data-upwork-hide="true" class="flex items-center gap-2 flex-nowrap">
-            {
-              primarySocialLinks.map((item) => (
-                <SocialLink platform={item.platform} href={item.href} size="sm" />
-              ))
-            }
-          </div>
         </div>
 
       </div>
