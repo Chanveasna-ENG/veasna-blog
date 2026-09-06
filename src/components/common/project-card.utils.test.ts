@@ -16,6 +16,7 @@ describe('resolveProjectCardConfig', () => {
     expect(config.href).toBe('/posts/workflow-sync');
     expect(config.label).toBe('Case Study');
     expect(config.primaryTag).toBe('Automation');
+    expect(config.footerClass).toBe('pt-4 flex items-center justify-between');
   });
 
   it('resolves grid variant with custom image and comprehensive label', () => {
@@ -31,5 +32,8 @@ describe('resolveProjectCardConfig', () => {
     expect(config.imageSrc).toBe('/images/custom-project.png');
     expect(config.label).toBe('Comprehensive Case Study');
     expect(config.primaryTag).toBe('System Architecture');
+    expect(config.footerClass).toBe(
+      'pt-4 border-t border-ink/15 flex items-center justify-between mt-auto'
+    );
   });
 });

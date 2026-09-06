@@ -1,27 +1,55 @@
 ---
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+import {
+  type SecondaryButtonSize,
+  resolveSecondaryButtonClasses
+} from './secondary-button.utils';
+
+type ButtonAttrs = Omit<HTMLAttributes<'button'>, 'type' | 'size'>;
+type AnchorAttrs = Omit<
+  HTMLAttributes<'a'>,
+  'type' | 'size' | 'href' | 'target'
+>;
+
+interface CustomProps {
   href?: string;
   type?: 'button' | 'submit' | 'reset';
   target?: string;
+  size?: SecondaryButtonSize;
+  active?: boolean;
   className?: string;
 }
 
-const { href, type, target = '_self', className = '' } = Astro.props;
+type Props = CustomProps & ButtonAttrs & AnchorAttrs;
 
-const baseClasses = `relative inline-flex items-center justify-center px-6 py-3 font-heading font-semibold uppercase tracking-wider text-ink bg-transparent hover:bg-parchmentDark border-2 border-ink transition-all duration-200 group cursor-pointer ${className}`;
+const {
+  href,
+  type = 'button',
+  target = '_self',
+  size = 'md',
+  active = false,
+  className = '',
+  ...rest
+} = Astro.props;
+
+const { containerClass, innerLineClass } = resolveSecondaryButtonClasses({
+  size,
+  active,
+  className
+});
 ---
 
 {
   href ? (
-    <a href={href} target={target} class={baseClasses}>
-      <span class="absolute inset-[2px] border border-ink opacity-30 group-hover:opacity-60 pointer-events-none" />
+    <a href={href} target={target} class={containerClass} {...rest}>
+      <span class={innerLineClass} />
       <span class="relative z-10">
         <slot />
       </span>
     </a>
   ) : (
-    <button type={type || 'button'} class={baseClasses}>
-      <span class="absolute inset-[2px] border border-ink opacity-30 group-hover:opacity-60 pointer-events-none" />
+    <button type={type} class={containerClass} {...rest}>
+      <span class={innerLineClass} />
       <span class="relative z-10">
         <slot />
       </span>

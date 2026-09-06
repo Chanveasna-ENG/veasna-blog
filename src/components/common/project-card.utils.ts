@@ -19,6 +19,7 @@ export interface ProjectCardResolvedConfig {
   label: string;
   isSlider: boolean;
   primaryTag: string;
+  footerClass: string;
 }
 
 export function resolveProjectCardConfig(
@@ -30,12 +31,16 @@ export function resolveProjectCardConfig(
   const href = `/posts/${props.project.id}`;
   const label = isSlider ? 'Case Study' : 'Comprehensive Case Study';
   const primaryTag = props.project.tags[0] || 'System Architecture';
+  const footerClass = isSlider
+    ? 'pt-4 flex items-center justify-between'
+    : 'pt-4 border-t border-ink/15 flex items-center justify-between mt-auto';
 
   return {
     imageSrc,
     href,
     label,
     isSlider,
-    primaryTag
+    primaryTag,
+    footerClass
   };
 }

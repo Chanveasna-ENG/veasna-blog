@@ -35,12 +35,12 @@ export const primarySocialLinks: SocialLinkItem[] = [
 export const allSocialLinks: SocialLinkItem[] = [
   { platform: 'linkedin', href: 'https://linkedin.com/in/chanveasna-eng' },
   { platform: 'upwork', href: 'https://upwork.com' },
+  { platform: 'telegram', href: 'https://t.me/' },
+  { platform: 'email', href: 'mailto:contact@chanveasna.eng' },
   { platform: 'github', href: 'https://github.com/chanveasna-eng' },
   { platform: 'facebook', href: 'https://facebook.com' },
-  { platform: 'telegram', href: 'https://t.me/' },
   { platform: 'whatsapp', href: 'https://wa.me/' },
-  { platform: 'instagram', href: 'https://instagram.com' },
-  { platform: 'email', href: 'mailto:contact@chanveasna.eng' }
+  { platform: 'instagram', href: 'https://instagram.com' }
 ];
 
 export const socialLinks: SocialLinkItem[] = allSocialLinks;

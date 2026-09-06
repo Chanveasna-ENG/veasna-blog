@@ -6,7 +6,9 @@ import SectionHeader from '../components/common/SectionHeader.astro';
 import Heading from '../components/ui/Heading.astro';
 import Paragraph from '../components/ui/Paragraph.astro';
 import PrimaryButton from '../components/ui/PrimaryButton.astro';
+import SecondaryButton from '../components/ui/SecondaryButton.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { extractUniqueProjectTags } from '../utils/portfolio';
 
 // 1. Fetch all published projects
 const allProjects = await getCollection(
@@ -20,6 +22,9 @@ const sortedProjects = allProjects.sort((a, b) => {
   const dateB = b.data.lastModifiedAt || b.data.createdAt;
   return dateB.getTime() - dateA.getTime();
 });
+
+// 3. Extract unique tags for category filter bar
+const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
 ---
 
 <BaseLayout
@@ -37,22 +42,67 @@ const sortedProjects = allProjects.sort((a, b) => {
       description="A documented catalog of high-impact web architectures, business automation pipelines, and infrastructure solutions built to eliminate operational friction."
     />
 
-    <!-- Projects Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <!-- Category / Tag Filter Bar -->
+    <div
+      id="portfolio-filter-bar"
+      class="my-8 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5"
+    >
       {
-        sortedProjects.map((project) => (
-          <ProjectCard
-            project={{
-              id: project.id,
-              title: project.data.title,
-              description: project.data.description,
-              tags: project.data.tags,
-              coverImageSrc: project.data.coverImage?.src
-            }}
-            variant="grid"
-          />
+        filterTags.map((tag, idx) => (
+          <SecondaryButton
+            type="button"
+            size="sm"
+            active={idx === 0}
+            data-filter-tag={tag.toLowerCase()}
+            className="portfolio-filter-btn"
+          >
+            {tag}
+          </SecondaryButton>
         ))
       }
+    </div>
+
+    <!-- Projects List -->
+    <div id="portfolio-project-list" class="flex flex-col gap-8 sm:gap-10">
+      {
+        sortedProjects.map((project) => (
+          <div
+            class="portfolio-project-item transition-opacity duration-200"
+            data-project-tags={project.data.tags.map((t) => t.toLowerCase()).join(',')}
+          >
+            <ProjectCard
+              project={{
+                id: project.id,
+                title: project.data.title,
+                description: project.data.description,
+                tags: project.data.tags,
+                coverImageSrc: project.data.coverImage?.src
+              }}
+              variant="grid"
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- No Filter Matches Fallback -->
+    <div
+      id="portfolio-no-matches"
+      class="hidden max-w-xl mx-auto my-12 text-center"
+    >
+      <MedievalFrame size="small">
+        <Heading as="h3" size="card" align="center" spacing="sm">
+          No Matching Projects
+        </Heading>
+        <Paragraph variant="small" align="center" spacing="md">
+          No architectural case studies found matching this filter.
+        </Paragraph>
+        <div class="flex justify-center mt-4">
+          <SecondaryButton size="sm" id="portfolio-reset-filter-btn">
+            Reset Filter &rarr;
+          </SecondaryButton>
+        </div>
+      </MedievalFrame>
     </div>
 
     <!-- Empty State Fallback -->
@@ -92,4 +142,102 @@ const sortedProjects = allProjects.sort((a, b) => {
       </MedievalFrame>
     </div>
   </div>
+
+  <script>
+    function setupPortfolioFilter() {
+      const filterBar = document.getElementById('portfolio-filter-bar');
+      const items = document.querySelectorAll<HTMLElement>('.portfolio-project-item');
+      const noMatches = document.getElementById('portfolio-no-matches');
+      const resetBtn = document.getElementById('portfolio-reset-filter-btn');
+
+      if (!filterBar) return;
+
+      const filterBtns = filterBar.querySelectorAll<HTMLButtonElement>('.portfolio-filter-btn');
+
+      function applyFilter(selectedTag: string, updateUrl = true) {
+        const normalizedTag = selectedTag.trim().toLowerCase();
+        let visibleCount = 0;
+
+        // Update button active state classes
+        filterBtns.forEach((btn) => {
+          const btnTag = btn.getAttribute('data-filter-tag')?.toLowerCase() || '';
+          const isActive = btnTag === normalizedTag;
+          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+          const innerLine = btn.querySelector('span:first-child');
+          if (isActive) {
+            btn.classList.add('bg-ink', 'text-parchment', 'border-ink', 'shadow-sm');
+            btn.classList.remove('bg-transparent', 'text-ink', 'hover:bg-parchmentDark');
+            if (innerLine) {
+              innerLine.classList.add('border-parchment', 'opacity-60');
+              innerLine.classList.remove('border-ink', 'opacity-30', 'group-hover:opacity-60');
+            }
+          } else {
+            btn.classList.remove('bg-ink', 'text-parchment', 'shadow-sm');
+            btn.classList.add('bg-transparent', 'text-ink', 'hover:bg-parchmentDark');
+            if (innerLine) {
+              innerLine.classList.remove('border-parchment', 'opacity-60');
+              innerLine.classList.add('border-ink', 'opacity-30', 'group-hover:opacity-60');
+            }
+          }
+        });
+
+        // Filter project card items
+        items.forEach((item) => {
+          const rawTags = item.getAttribute('data-project-tags') || '';
+          const tags = rawTags.split(',').map((t) => t.trim().toLowerCase());
+          const isMatch = normalizedTag === 'all' || tags.includes(normalizedTag);
+
+          if (isMatch) {
+            item.style.display = '';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        // Toggle no matches fallback
+        if (noMatches) {
+          if (visibleCount === 0 && items.length > 0) {
+            noMatches.classList.remove('hidden');
+          } else {
+            noMatches.classList.add('hidden');
+          }
+        }
+
+        // Sync URL query param
+        if (updateUrl) {
+          const url = new URL(window.location.href);
+          if (normalizedTag === 'all') {
+            url.searchParams.delete('tag');
+          } else {
+            url.searchParams.set('tag', normalizedTag);
+          }
+          window.history.replaceState({}, '', url);
+        }
+      }
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const tag = btn.getAttribute('data-filter-tag') || 'all';
+          applyFilter(tag, true);
+        });
+      });
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          applyFilter('all', true);
+        });
+      }
+
+      // Initial filter from URL params if present
+      const url = new URL(window.location.href);
+      const initialTag = url.searchParams.get('tag') || 'all';
+      applyFilter(initialTag, false);
+    }
+
+    setupPortfolioFilter();
+    document.addEventListener('astro:page-load', setupPortfolioFilter);
+    document.addEventListener('astro:after-swap', setupPortfolioFilter);
+  </script>
 </BaseLayout>
