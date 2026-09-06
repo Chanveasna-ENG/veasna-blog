@@ -1,56 +1,105 @@
 ---
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
+import { type CollectionEntry, getCollection } from 'astro:content';
 import type { GetStaticPathsOptions, Page } from 'astro';
 
 import BlogList from '../../components/blog/BlogList.astro';
-import ProfileCard from '../../components/common/ProfileCard.astro';
+import MedievalFrame from '../../components/common/MedievalFrame.astro';
+import SearchInput from '../../components/common/SearchInput.astro';
+import SectionHeader from '../../components/common/SectionHeader.astro';
 import Heading from '../../components/ui/Heading.astro';
+import Paragraph from '../../components/ui/Paragraph.astro';
+import SecondaryButton from '../../components/ui/SecondaryButton.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { filterBlogPosts, sortBlogPostsByDate } from '../../utils/blog';
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-  // 1. Fetch all non-draft posts
-  const allPosts = await getCollection('blog', (post) => !post.data.draft);
+  // 1. Fetch all blog entries, filter out drafts and projects
+  const allPosts = await getCollection('blog');
+  const eligiblePosts = filterBlogPosts(allPosts);
 
-  // 2. Sort by date (Newest first)
-  const sortedPosts = allPosts.sort((a, b) => {
-    const dateA = a.data.lastModifiedAt || a.data.createdAt;
-    const dateB = b.data.lastModifiedAt || b.data.createdAt;
-    return dateB.getTime() - dateA.getTime();
-  });
+  // 2. Sort by date descending (Newest first)
+  const sortedPosts = sortBlogPostsByDate(eligiblePosts);
 
-  // 3. Generate paginated routes (10 posts per page)
-  return paginate(sortedPosts, { pageSize: 10 });
+  // 3. Load all posts onto route so infinite scroll manages batches smoothly
+  return paginate(sortedPosts, { pageSize: 100 });
 }
 
-// Extract the paginated chunk provided by getStaticPaths
-const { page } = Astro.props as { page: Page<CollectionEntry<'blog'>> };
+interface Props {
+  page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
 ---
 
-<BaseLayout title={`Blog - Page ${page.currentPage} | Veasna.`} description="Browse through all the articles, projects, and learning resources.">
-  
-  {/* Main Body Grid Layout (70% / 30% visual split) */}
-  <div class="w-full grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-10 mt-8 mb-16">
-    
-    {/* Left Column (70%) */}
-    <div class="flex flex-col space-y-10">
-      
-      <div class="mt-2">
-        <Heading as="h2" size="section" color="bronze" spacing="none">Hello there.</Heading>
-      </div>
+<BaseLayout
+  title={`Articles & Field Notes - Page ${page.currentPage} | Chanveasna ENG`}
+  description="Documented architectural patterns, automation hacks, and engineering notes from active production systems."
+>
+  <div class="max-w-5xl mx-auto py-12 md:py-16 px-4 sm:px-6">
+    <SectionHeader
+      subtitle="Knowledge & Field Notes"
+      title="Technical Blueprints & Articles"
+      description="Documented architectural patterns, systems automation, and field notes from real-world engineering challenges."
+    />
 
-      {/* Post Iteration (Receives the paginated data chunk) */}
-      <BlogList page={page} baseUrl="/page" />
+    <!-- Search Bar -->
+    <SearchInput
+      id="blog-search-input"
+      clearId="blog-search-clear"
+      placeholder="Search articles by keyword, topic, or tech..."
+    />
 
+    <BlogList page={page} baseUrl="/page" />
+
+    <!-- Infinite Scroll Sentinel -->
+    <div
+      id="blog-scroll-sentinel"
+      class="h-8 w-full flex items-center justify-center my-4"
+    />
+
+    <!-- No Filter Matches Fallback -->
+    <div
+      id="blog-no-matches"
+      class="hidden max-w-xl mx-auto my-12 text-center"
+    >
+      <MedievalFrame size="small">
+        <Heading as="h3" size="card" align="center" spacing="sm">
+          No Matching Articles
+        </Heading>
+        <Paragraph variant="small" align="center" spacing="md">
+          No technical articles found matching this search query.
+        </Paragraph>
+        <div class="flex justify-center mt-4">
+          <SecondaryButton size="sm" id="blog-reset-filter-btn">
+            Reset Search &rarr;
+          </SecondaryButton>
+        </div>
+      </MedievalFrame>
     </div>
-
-    {/* Right Column (30%) */}
-    <aside class="flex flex-col space-y-8">
-      <div class="sticky top-24">
-        <ProfileCard />
-      </div>
-    </aside>
-
   </div>
 
+  <script>
+    import { initListFilter } from '../../utils/list-filter-dom';
+
+    let teardown: (() => void) | null = null;
+
+    function setupBlogFilter() {
+      if (teardown) {
+        teardown();
+      }
+      teardown = initListFilter({
+        searchInputId: 'blog-search-input',
+        searchClearId: 'blog-search-clear',
+        itemSelector: '.blog-post-item',
+        noMatchesId: 'blog-no-matches',
+        resetBtnId: 'blog-reset-filter-btn',
+        sentinelId: 'blog-scroll-sentinel',
+        batchSize: 6
+      });
+    }
+
+    setupBlogFilter();
+    document.addEventListener('astro:page-load', setupBlogFilter);
+    document.addEventListener('astro:after-swap', setupBlogFilter);
+  </script>
 </BaseLayout>

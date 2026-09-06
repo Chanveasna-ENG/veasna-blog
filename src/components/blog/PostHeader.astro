@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { formatDateICT } from '../../utils/date';
 import Heading from '../ui/Heading.astro';
@@ -15,19 +14,6 @@ const targetDate = post.data.lastModifiedAt || post.data.createdAt;
 ---
 
 <header class="mb-10 flex flex-col items-start border-b border-gray-800 pb-8">
-  
-  {/* Cover Image */}
-  {post.data.coverImage && (
-    <div class="w-full mb-8 rounded-2xl overflow-hidden border border-gray-800 shadow-xl bg-gray-900">
-      <Image 
-        src={post.data.coverImage} 
-        alt={post.data.coverAlt || post.data.title}
-        class="w-full h-auto object-cover max-h-[350px]"
-        loading="eager"
-      />
-    </div>
-  )}
-  
   {/* Category & Version Badges */}
   <div class="flex items-center gap-3 mb-4">
     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-800 text-gold border border-gray-700 uppercase tracking-wider">

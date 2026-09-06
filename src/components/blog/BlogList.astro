@@ -1,121 +1,208 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import type { Page } from 'astro';
-import { formatDateICT } from '../../utils/date';
+import MedievalFrame from '../common/MedievalFrame.astro';
 import Heading from '../ui/Heading.astro';
 import Paragraph from '../ui/Paragraph.astro';
+import SecondaryButton from '../ui/SecondaryButton.astro';
+import SubtitleTag from '../ui/SubtitleTag.astro';
+import { resolveBlogCardConfig } from './blog-card.utils';
 
 interface Props {
   page: Page<CollectionEntry<'blog'>>;
-  // The base path for the pagination links, defaulting to the TRD specification
   baseUrl?: string;
 }
 
-const { page, baseUrl = '/posts/page' } = Astro.props;
+const { page, baseUrl = '/page' } = Astro.props;
 
-// Pure function to generate an array of page numbers without mutating external state
 const generatePageNumbers = (lastPage: number): number[] => {
   return Array.from({ length: lastPage }, (_, i) => i + 1);
 };
 
 const pageNumbers = generatePageNumbers(page.lastPage);
-
-// Calculate explicit First and Last URLs based on the provided baseUrl
 const firstPageUrl = `${baseUrl}/1`;
 const lastPageUrl = `${baseUrl}/${page.lastPage}`;
 ---
 
-<div class="w-full max-w-4xl mx-auto flex flex-col space-y-10">
-  
-  {/* Vertical Stack of Blog Previews */}
-  <div class="flex flex-col space-y-6">
-    {page.data.map((post) => (
-      <article class="p-6 bg-darkBg border border-gray-700 rounded-lg shadow-sm hover:border-gold transition-colors duration-200 group">
-        <a href={`/posts/${post.id}`} class="block group-hover:text-yellow-500 transition-colors duration-200">
-          <Heading as="h2" size="card" color="bronze" spacing="sm">
-            {post.data.title}
-          </Heading>
-          <Paragraph variant="small" color="inkMuted" clamp={3} spacing="sm">
-            {post.data.description}
-          </Paragraph>
-          <div class="flex flex-wrap items-center justify-between text-xs text-gray-500 uppercase tracking-wider">
-            <span class="bg-gray-800 px-2 py-1 rounded text-gold border border-gray-700">
-              {post.data.category}
-            </span>
-            <time datetime={post.data.createdAt.toISOString()}>
-              {formatDateICT(post.data.createdAt)}
-            </time>
+<div class="w-full flex flex-col space-y-10">
+  <!-- Vertical Stack of Blog Cards -->
+  <div id="blog-post-list" class="flex flex-col gap-8 sm:gap-10">
+    {
+      page.data.map((post) => {
+        const config = resolveBlogCardConfig({
+          id: post.id,
+          title: post.data.title,
+          description: post.data.description,
+          category: post.data.category,
+          tags: post.data.tags,
+          coverImageSrc: post.data.coverImage?.src,
+          coverAlt: post.data.coverAlt,
+          createdAt: post.data.createdAt,
+          lastModifiedAt: post.data.lastModifiedAt
+        });
+
+        return (
+          <div
+            class="blog-post-item transition-opacity duration-200"
+            data-project-tags={(post.data.tags || []).map((t) => t.toLowerCase()).join(',')}
+            data-search-text={`${post.data.title} ${post.data.description} ${post.data.category || ''} ${(post.data.tags || []).join(' ')}`.toLowerCase()}
+          >
+            <MedievalFrame size="small" as="article" interactive={true}>
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+                <!-- Left Column: Thumbnail Image Link -->
+                <div class="md:col-span-5 flex flex-col">
+                  <a
+                    href={config.href}
+                    class="block group/image focus:outline-none"
+                    aria-label={`Read article: ${post.data.title}`}
+                  >
+                    <div class="w-full aspect-[16/10] overflow-hidden border border-ink/40 relative bg-parchmentDark/40 flex items-center justify-center">
+                      <img
+                        src={config.imageSrc}
+                        alt={post.data.coverAlt || `${post.data.title} Thumbnail`}
+                        class="w-full h-full object-cover group-hover/image:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                      <div class="absolute inset-0 border border-bronze/20 pointer-events-none" />
+                    </div>
+                  </a>
+                </div>
+
+                <!-- Right Column: Meta, Title, Description, Tags & Action -->
+                <div class="md:col-span-7 flex flex-col justify-between h-full space-y-4">
+                  <div>
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                      <SubtitleTag variant="badge" size="sm" color="bronze" spacing="none">
+                        {config.categoryLabel}
+                      </SubtitleTag>
+                      <time datetime={post.data.createdAt.toISOString()} class="text-xs font-body text-inkMuted">
+                        {config.dateText}
+                      </time>
+                    </div>
+
+                    <Heading as="h2" size="card" spacing="sm">
+                      <a
+                        href={config.href}
+                        class="hover:text-bronze transition-colors focus:outline-none"
+                      >
+                        {post.data.title}
+                      </a>
+                    </Heading>
+
+                    <Paragraph variant="small" clamp={3} spacing="none">
+                      {post.data.description}
+                    </Paragraph>
+                  </div>
+
+                  <div class="pt-4 border-t border-ink/15 flex items-center justify-between mt-auto">
+                    <div class="flex flex-wrap gap-1.5">
+                      {config.primaryTags.map((tag) => (
+                        <SubtitleTag variant="ghost" size="sm" spacing="none">
+                          #{tag}
+                        </SubtitleTag>
+                      ))}
+                    </div>
+
+                    <SecondaryButton href={config.href} size="sm">
+                      Read Article &rarr;
+                    </SecondaryButton>
+                  </div>
+                </div>
+              </div>
+            </MedievalFrame>
           </div>
-        </a>
-      </article>
-    ))}
+        );
+      })
+    }
   </div>
 
-  {/* Pagination Controls */}
-  {page.lastPage > 1 && (
-    <nav class="flex justify-center items-center space-x-2 border-t border-gray-700 pt-8" aria-label="Pagination">
-      
-      {/* << First Page */}
-      <a
-        href={firstPageUrl}
-        class={`px-3 py-2 rounded-md border transition-colors ${page.url.prev ? 'border-gray-600 text-offWhite hover:border-gold hover:text-gold' : 'border-gray-800 text-gray-600 cursor-not-allowed pointer-events-none'}`}
-        aria-disabled={!page.url.prev}
-        aria-label="First page"
+  <!-- Pagination Controls -->
+  {
+    page.lastPage > 1 && (
+      <nav
+        class="flex justify-center items-center gap-2 border-t border-ink/15 pt-8"
+        aria-label="Pagination"
       >
-        &lt;&lt;
-      </a>
+        <!-- First Page -->
+        <a
+          href={firstPageUrl}
+          class={`px-3 py-1.5 font-heading text-xs font-semibold uppercase tracking-wider border transition-colors ${
+            page.url.prev
+              ? 'border-ink text-ink bg-transparent hover:bg-parchmentDark'
+              : 'border-ink/20 text-ink/30 cursor-not-allowed pointer-events-none'
+          }`}
+          aria-disabled={!page.url.prev}
+          aria-label="First page"
+        >
+          &laquo;
+        </a>
 
-      {/* < Previous Page */}
-      <a
-        href={page.url.prev || '#'}
-        class={`px-3 py-2 rounded-md border transition-colors ${page.url.prev ? 'border-gray-600 text-offWhite hover:border-gold hover:text-gold' : 'border-gray-800 text-gray-600 cursor-not-allowed pointer-events-none'}`}
-        aria-disabled={!page.url.prev}
-        aria-label="Previous page"
-      >
-        &lt;
-      </a>
+        <!-- Previous Page -->
+        <a
+          href={page.url.prev || '#'}
+          class={`px-3 py-1.5 font-heading text-xs font-semibold uppercase tracking-wider border transition-colors ${
+            page.url.prev
+              ? 'border-ink text-ink bg-transparent hover:bg-parchmentDark'
+              : 'border-ink/20 text-ink/30 cursor-not-allowed pointer-events-none'
+          }`}
+          aria-disabled={!page.url.prev}
+          aria-label="Previous page"
+        >
+          &lsaquo;
+        </a>
 
-      {/* Page Numbers (Hidden on very small screens to save space) */}
-      <div class="hidden sm:flex space-x-2">
-        {pageNumbers.map((pageNum) => {
-          const isCurrent = pageNum === page.currentPage;
-          return (
-            <a
-              href={`${baseUrl}/${pageNum}`}
-              class={`px-3 py-2 rounded-md border transition-colors ${isCurrent ? 'border-gold text-darkBg bg-gold font-bold' : 'border-gray-600 text-offWhite hover:border-gold hover:text-gold'}`}
-              aria-current={isCurrent ? 'page' : undefined}
-            >
-              {pageNum}
-            </a>
-          );
-        })}
-      </div>
+        <!-- Page Numbers -->
+        <div class="hidden sm:flex items-center gap-2">
+          {pageNumbers.map((pageNum) => {
+            const isCurrent = pageNum === page.currentPage;
+            return (
+              <a
+                href={`${baseUrl}/${pageNum}`}
+                class={`px-3 py-1.5 font-heading text-xs font-semibold uppercase tracking-wider border transition-colors ${
+                  isCurrent
+                    ? 'bg-ink text-parchment border-ink font-bold'
+                    : 'border-ink/40 text-ink bg-transparent hover:bg-parchmentDark hover:border-ink'
+                }`}
+                aria-current={isCurrent ? 'page' : undefined}
+              >
+                {pageNum}
+              </a>
+            );
+          })}
+        </div>
 
-      {/* Mobile Page Indicator */}
-      <span class="sm:hidden text-sm text-gray-400 font-medium px-2">
-        {page.currentPage} / {page.lastPage}
-      </span>
+        <span class="sm:hidden text-xs font-heading text-inkMuted font-medium px-2">
+          {page.currentPage} / {page.lastPage}
+        </span>
 
-      {/* > Next Page */}
-      <a
-        href={page.url.next || '#'}
-        class={`px-3 py-2 rounded-md border transition-colors ${page.url.next ? 'border-gray-600 text-offWhite hover:border-gold hover:text-gold' : 'border-gray-800 text-gray-600 cursor-not-allowed pointer-events-none'}`}
-        aria-disabled={!page.url.next}
-        aria-label="Next page"
-      >
-        &gt;
-      </a>
+        <!-- Next Page -->
+        <a
+          href={page.url.next || '#'}
+          class={`px-3 py-1.5 font-heading text-xs font-semibold uppercase tracking-wider border transition-colors ${
+            page.url.next
+              ? 'border-ink text-ink bg-transparent hover:bg-parchmentDark'
+              : 'border-ink/20 text-ink/30 cursor-not-allowed pointer-events-none'
+          }`}
+          aria-disabled={!page.url.next}
+          aria-label="Next page"
+        >
+          &rsaquo;
+        </a>
 
-      {/* >> Last Page */}
-      <a
-        href={lastPageUrl}
-        class={`px-3 py-2 rounded-md border transition-colors ${page.url.next ? 'border-gray-600 text-offWhite hover:border-gold hover:text-gold' : 'border-gray-800 text-gray-600 cursor-not-allowed pointer-events-none'}`}
-        aria-disabled={!page.url.next}
-        aria-label="Last page"
-      >
-        &gt;&gt;
-      </a>
-
-    </nav>
-  )}
+        <!-- Last Page -->
+        <a
+          href={lastPageUrl}
+          class={`px-3 py-1.5 font-heading text-xs font-semibold uppercase tracking-wider border transition-colors ${
+            page.url.next
+              ? 'border-ink text-ink bg-transparent hover:bg-parchmentDark'
+              : 'border-ink/20 text-ink/30 cursor-not-allowed pointer-events-none'
+          }`}
+          aria-disabled={!page.url.next}
+          aria-label="Last page"
+        >
+          &raquo;
+        </a>
+      </nav>
+    )
+  }
 </div>

@@ -148,4 +148,12 @@ test.describe('Systems Portfolio Single-Column Horizontal Cards Architecture', (
       await expect(activeBtn).toHaveAttribute('aria-pressed', 'true');
     }
   });
+
+  test('search input is not present on portfolio page, keeping clean tag filter interface', async ({
+    page
+  }) => {
+    await page.goto('/portfolio');
+    const searchInput = page.locator('#portfolio-search-input');
+    await expect(searchInput).toHaveCount(0);
+  });
 });

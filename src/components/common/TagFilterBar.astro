@@ -1,0 +1,39 @@
+---
+import SecondaryButton from '../ui/SecondaryButton.astro';
+import { isTagActive } from './tag-filter-bar.utils';
+
+interface Props {
+  id?: string;
+  tags: string[];
+  activeTag?: string;
+  buttonClassName?: string;
+  className?: string;
+}
+
+const {
+  id = 'filter-bar',
+  tags,
+  activeTag = 'all',
+  buttonClassName = 'portfolio-filter-btn',
+  className = ''
+} = Astro.props;
+---
+
+<div
+  id={id}
+  class={`my-8 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 ${className}`}
+>
+  {
+    tags.map((tag, idx) => (
+      <SecondaryButton
+        type="button"
+        size="sm"
+        active={isTagActive(tag, activeTag, idx)}
+        data-filter-tag={tag.toLowerCase()}
+        className={buttonClassName}
+      >
+        {tag}
+      </SecondaryButton>
+    ))
+  }
+</div>

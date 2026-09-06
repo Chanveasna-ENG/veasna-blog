@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import MedievalFrame from '../components/common/MedievalFrame.astro';
 import ProjectCard from '../components/common/ProjectCard.astro';
 import SectionHeader from '../components/common/SectionHeader.astro';
+import TagFilterBar from '../components/common/TagFilterBar.astro';
 import Heading from '../components/ui/Heading.astro';
 import Paragraph from '../components/ui/Paragraph.astro';
 import PrimaryButton from '../components/ui/PrimaryButton.astro';
@@ -28,39 +29,22 @@ const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
 ---
 
 <BaseLayout
-  title="Systems Portfolio | Chanveasna ENG"
-  description="Explore production web platforms, custom microservices, and autonomous integration workflows engineered for scalability and measurable business ROI."
+  title="Systems Portfolio & Architecture Catalog | Chanveasna ENG"
+  description="Explore production case studies, automation pipelines, and infrastructure solutions engineered to eliminate operational friction."
 >
-  <div class="w-full max-w-6xl mx-auto py-12 px-4 sm:px-6">
-    <!-- Page Header -->
+  <div class="max-w-5xl mx-auto py-12 md:py-16 px-4 sm:px-6">
+    <!-- Header with Divider -->
     <SectionHeader
-      as="h1"
-      headingSize="hero"
-      divider="diamond"
       subtitle="Engineering Archive"
       title="Systems Portfolio"
       description="A documented catalog of high-impact web architectures, business automation pipelines, and infrastructure solutions built to eliminate operational friction."
     />
 
-    <!-- Category / Tag Filter Bar -->
-    <div
+    <!-- Tag Filter Bar -->
+    <TagFilterBar
       id="portfolio-filter-bar"
-      class="my-8 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5"
-    >
-      {
-        filterTags.map((tag, idx) => (
-          <SecondaryButton
-            type="button"
-            size="sm"
-            active={idx === 0}
-            data-filter-tag={tag.toLowerCase()}
-            className="portfolio-filter-btn"
-          >
-            {tag}
-          </SecondaryButton>
-        ))
-      }
-    </div>
+      tags={filterTags}
+    />
 
     <!-- Projects List -->
     <div id="portfolio-project-list" class="flex flex-col gap-8 sm:gap-10">
@@ -69,6 +53,7 @@ const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
           <div
             class="portfolio-project-item transition-opacity duration-200"
             data-project-tags={project.data.tags.map((t) => t.toLowerCase()).join(',')}
+            data-search-text={`${project.data.title} ${project.data.description} ${project.data.tags.join(' ')}`.toLowerCase()}
           >
             <ProjectCard
               project={{
@@ -84,6 +69,12 @@ const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
         ))
       }
     </div>
+
+    <!-- Infinite Scroll Sentinel -->
+    <div
+      id="portfolio-scroll-sentinel"
+      class="h-8 w-full flex items-center justify-center my-4"
+    />
 
     <!-- No Filter Matches Fallback -->
     <div
@@ -144,96 +135,22 @@ const filterTags = ['All', ...extractUniqueProjectTags(sortedProjects)];
   </div>
 
   <script>
+    import { initListFilter } from '../utils/list-filter-dom';
+
+    let teardown: (() => void) | null = null;
+
     function setupPortfolioFilter() {
-      const filterBar = document.getElementById('portfolio-filter-bar');
-      const items = document.querySelectorAll<HTMLElement>('.portfolio-project-item');
-      const noMatches = document.getElementById('portfolio-no-matches');
-      const resetBtn = document.getElementById('portfolio-reset-filter-btn');
-
-      if (!filterBar) return;
-
-      const filterBtns = filterBar.querySelectorAll<HTMLButtonElement>('.portfolio-filter-btn');
-
-      function applyFilter(selectedTag: string, updateUrl = true) {
-        const normalizedTag = selectedTag.trim().toLowerCase();
-        let visibleCount = 0;
-
-        // Update button active state classes
-        filterBtns.forEach((btn) => {
-          const btnTag = btn.getAttribute('data-filter-tag')?.toLowerCase() || '';
-          const isActive = btnTag === normalizedTag;
-          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-
-          const innerLine = btn.querySelector('span:first-child');
-          if (isActive) {
-            btn.classList.add('bg-ink', 'text-parchment', 'border-ink', 'shadow-sm');
-            btn.classList.remove('bg-transparent', 'text-ink', 'hover:bg-parchmentDark');
-            if (innerLine) {
-              innerLine.classList.add('border-parchment', 'opacity-60');
-              innerLine.classList.remove('border-ink', 'opacity-30', 'group-hover:opacity-60');
-            }
-          } else {
-            btn.classList.remove('bg-ink', 'text-parchment', 'shadow-sm');
-            btn.classList.add('bg-transparent', 'text-ink', 'hover:bg-parchmentDark');
-            if (innerLine) {
-              innerLine.classList.remove('border-parchment', 'opacity-60');
-              innerLine.classList.add('border-ink', 'opacity-30', 'group-hover:opacity-60');
-            }
-          }
-        });
-
-        // Filter project card items
-        items.forEach((item) => {
-          const rawTags = item.getAttribute('data-project-tags') || '';
-          const tags = rawTags.split(',').map((t) => t.trim().toLowerCase());
-          const isMatch = normalizedTag === 'all' || tags.includes(normalizedTag);
-
-          if (isMatch) {
-            item.style.display = '';
-            visibleCount++;
-          } else {
-            item.style.display = 'none';
-          }
-        });
-
-        // Toggle no matches fallback
-        if (noMatches) {
-          if (visibleCount === 0 && items.length > 0) {
-            noMatches.classList.remove('hidden');
-          } else {
-            noMatches.classList.add('hidden');
-          }
-        }
-
-        // Sync URL query param
-        if (updateUrl) {
-          const url = new URL(window.location.href);
-          if (normalizedTag === 'all') {
-            url.searchParams.delete('tag');
-          } else {
-            url.searchParams.set('tag', normalizedTag);
-          }
-          window.history.replaceState({}, '', url);
-        }
+      if (teardown) {
+        teardown();
       }
-
-      filterBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const tag = btn.getAttribute('data-filter-tag') || 'all';
-          applyFilter(tag, true);
-        });
+      teardown = initListFilter({
+        filterBarId: 'portfolio-filter-bar',
+        itemSelector: '.portfolio-project-item',
+        noMatchesId: 'portfolio-no-matches',
+        resetBtnId: 'portfolio-reset-filter-btn',
+        sentinelId: 'portfolio-scroll-sentinel',
+        batchSize: 6
       });
-
-      if (resetBtn) {
-        resetBtn.addEventListener('click', () => {
-          applyFilter('all', true);
-        });
-      }
-
-      // Initial filter from URL params if present
-      const url = new URL(window.location.href);
-      const initialTag = url.searchParams.get('tag') || 'all';
-      applyFilter(initialTag, false);
     }
 
     setupPortfolioFilter();

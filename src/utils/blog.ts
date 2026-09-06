@@ -12,16 +12,25 @@ export interface MinimalBlogPost {
   };
 }
 
+export function filterBlogPosts<T extends MinimalBlogPost>(posts: T[]): T[] {
+  return posts.filter(
+    (post) => !post.data.draft && post.data.category !== 'project'
+  );
+}
+
+export function sortBlogPostsByDate<T extends MinimalBlogPost>(
+  posts: T[]
+): T[] {
+  return [...posts].sort((a, b) => {
+    const dateA = (a.data.lastModifiedAt || a.data.createdAt).getTime();
+    const dateB = (b.data.lastModifiedAt || b.data.createdAt).getTime();
+    return dateB - dateA;
+  });
+}
+
 export function getLatestPosts<T extends MinimalBlogPost>(
   posts: T[],
   count = 3
 ): T[] {
-  return posts
-    .filter((post) => !post.data.draft)
-    .sort((a, b) => {
-      const dateA = (a.data.lastModifiedAt || a.data.createdAt).getTime();
-      const dateB = (b.data.lastModifiedAt || b.data.createdAt).getTime();
-      return dateB - dateA;
-    })
-    .slice(0, count);
+  return sortBlogPostsByDate(filterBlogPosts(posts)).slice(0, count);
 }
