@@ -7,7 +7,7 @@ const MIX_BLEND_MULTIPLY_REGEX = /mix-blend-mode:\s*multiply/;
 const PY_12_REGEX = /py-12/;
 const MD_PY_16_REGEX = /md:py-16/;
 
-const BOOK_A_CALL_URL_REGEX = /.*\/book-a-call/;
+const CONTACT_URL_REGEX = /.*\/contact/;
 
 test.describe('Book A Call Page & Navigation Architecture', () => {
   test('book-a-call page loads with hero, title, and embedded calendar', async ({
@@ -108,17 +108,21 @@ test.describe('Book A Call Page & Navigation Architecture', () => {
     await expect(ctaSec).toHaveClass(MD_PY_16_REGEX);
   });
 
-  test('legacy /contact route redirects to /book-a-call', async ({ page }) => {
+  test('standalone /contact page renders inquiry form and FAQ sections', async ({
+    page
+  }) => {
     await page.goto('/contact');
-    await expect(page).toHaveURL(BOOK_A_CALL_URL_REGEX);
+    await expect(page).toHaveURL(CONTACT_URL_REGEX);
+    await expect(page.locator('form[data-project-inquiry-form]')).toBeVisible();
+    await expect(page.locator('section#faq')).toBeVisible();
   });
 
-  test('header navigation and footer contact links point to /#contact and button to /book-a-call', async ({
+  test('header navigation and footer contact links point to /contact and button to /book-a-call', async ({
     page
   }) => {
     await page.goto('/');
 
-    const navContact = page.locator('header nav a[href="/#contact"]');
+    const navContact = page.locator('header nav a[href="/contact"]');
     await expect(navContact).toBeVisible();
     await expect(navContact).toHaveText('Contact');
 
@@ -126,7 +130,7 @@ test.describe('Book A Call Page & Navigation Architecture', () => {
     await expect(headerCta).toBeVisible();
     await expect(headerCta).toContainText('Book A Call');
 
-    const footerContact = page.locator('footer a[href="/#contact"]');
+    const footerContact = page.locator('footer a[href="/contact"]');
     await expect(footerContact).toBeVisible();
     await expect(footerContact).toHaveText('Contact');
   });

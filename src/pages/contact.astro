@@ -1,0 +1,15 @@
+---
+import FAQSection from '../components/sections/FAQSection.astro';
+import ProjectInquirySection from '../components/sections/ProjectInquirySection.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact | Chanveasna ENG - Digital Systems Architect"
+  description="Initiate a project inquiry or explore frequently addressed questions regarding custom web applications, workflow automation, and enterprise systems."
+>
+  <div class="w-full">
+    <ProjectInquirySection id="contact" formId="contact-page-inquiry" />
+    <FAQSection />
+  </div>
+</BaseLayout>

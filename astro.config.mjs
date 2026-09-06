@@ -20,7 +20,6 @@ export default defineConfig({
   integrations: [react(), mdx(), sitemap()],
 
   redirects: {
-    '/contact': '/book-a-call',
     '/blog': '/page/1'
   },
 

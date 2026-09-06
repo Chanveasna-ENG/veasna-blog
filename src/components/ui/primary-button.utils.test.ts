@@ -23,7 +23,9 @@ describe('resolvePrimaryButtonClasses', () => {
 
   it('applies fullWidth layout classes when fullWidth is true', () => {
     const { containerClass } = resolvePrimaryButtonClasses({ fullWidth: true });
-    expect(containerClass).toContain('w-full text-center justify-center');
+    expect(containerClass).toContain(
+      'w-full flex items-center justify-center text-center'
+    );
     expect(containerClass).not.toContain('inline-flex');
   });
 

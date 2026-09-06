@@ -63,10 +63,11 @@ function resolveBigHeaderConfig(
 ): ResolvedHeaderConfig {
   const align = props.align ?? 'center';
   const dividerConfig = resolveDividerConfig(props.divider, false);
+  const bottomMargin = dividerConfig.show ? 'mb-8' : 'mb-0';
   const containerClass =
     align === 'center'
-      ? 'max-w-4xl mx-auto flex flex-col items-center text-center mb-8'
-      : 'max-w-4xl flex flex-col items-start text-left mb-8';
+      ? `max-w-4xl mx-auto flex flex-col items-center text-center ${bottomMargin}`
+      : `max-w-4xl flex flex-col items-start text-left ${bottomMargin}`;
 
   return {
     align,
@@ -114,10 +115,11 @@ function resolveNormalHeaderConfig(
 ): ResolvedHeaderConfig {
   const align = props.align ?? 'center';
   const dividerConfig = resolveDividerConfig(props.divider, true);
+  const bottomMargin = dividerConfig.show ? 'mb-6 md:mb-8' : 'mb-0';
   const containerClass =
     align === 'center'
-      ? 'max-w-5xl mx-auto flex flex-col items-center text-center mt-6 md:mt-8 mb-6 md:mb-8'
-      : 'max-w-5xl flex flex-col items-start text-left mt-6 md:mt-8 mb-6 md:mb-8';
+      ? `max-w-5xl mx-auto flex flex-col items-center text-center mt-6 md:mt-8 ${bottomMargin}`
+      : `max-w-5xl flex flex-col items-start text-left mt-6 md:mt-8 ${bottomMargin}`;
 
   return {
     align,

@@ -85,6 +85,8 @@ describe('resolveHeaderConfig', () => {
     );
     expect(config.showDivider).toBe(false);
     expect(config.headingSpacing).toBe('none');
+    expect(config.containerClass).toContain('mb-0');
+    expect(config.containerClass).not.toContain('mb-6 md:mb-8');
   });
 
   it('resolves size="big" with hero defaults', () => {
@@ -101,7 +103,7 @@ describe('resolveHeaderConfig', () => {
     expect(config.paragraphVariant).toBe('lead');
     expect(config.showDivider).toBe(false);
     expect(config.containerClass).toBe(
-      'max-w-4xl mx-auto flex flex-col items-center text-center mb-8'
+      'max-w-4xl mx-auto flex flex-col items-center text-center mb-0'
     );
   });
 
@@ -112,6 +114,9 @@ describe('resolveHeaderConfig', () => {
     );
     expect(config.showDivider).toBe(true);
     expect(config.dividerVariant).toBe('diamond');
+    expect(config.containerClass).toBe(
+      'max-w-4xl mx-auto flex flex-col items-center text-center mb-8'
+    );
   });
 
   it('resolves size="small" with compact card defaults', () => {

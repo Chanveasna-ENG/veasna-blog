@@ -23,7 +23,7 @@ describe('Pricing Utility', () => {
 
   it('encodes inquiry URL with subject parameter properly', () => {
     expect(getInquiryUrl('n8n Workflow Automation')).toBe(
-      '#contact?subject=n8n%20Workflow%20Automation'
+      '/contact?subject=n8n%20Workflow%20Automation'
     );
   });
 });

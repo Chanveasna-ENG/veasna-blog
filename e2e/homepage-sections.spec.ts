@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 const EXPLORE_ALL_REGEX = /Explore All Articles/i;
 const SCOPE_BUILD_REGEX = /Scope This Build/i;
-const CONTACT_SUBJECT_REGEX = /#contact\?subject=/;
+const CONTACT_SUBJECT_REGEX = /\/contact\?subject=/;
 const PY_12_REGEX = /py-12/;
 const MD_PY_16_REGEX = /md:py-16/;
 const LEAD_PARAGRAPH_REGEX =
@@ -21,6 +21,14 @@ const MT_6_REGEX = /mt-6/;
 const SM_MT_8_REGEX = /sm:mt-8/;
 const BOOK_FREE_CALL_REGEX = /Book a Free Call/i;
 const READ_ARCHITECTURE_REGEX = /Read Architecture/i;
+const MB_0_REGEX = /mb-0/;
+const MB_6_REGEX = /mb-6/;
+const MB_8_REGEX = /mb-8/;
+const INITIATE_DISCUSSION_REGEX = /Initiate Discussion/i;
+const W_FULL_REGEX = /w-full/;
+const FLEX_REGEX = /flex/;
+const ITEMS_CENTER_REGEX = /items-center/;
+const JUSTIFY_CENTER_REGEX = /justify-center/;
 
 test.describe('Homepage Expanded Sections & Navigation', () => {
   test('header renders updated navigation links', async ({ page }) => {
@@ -50,7 +58,7 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     );
     await expect(nav.getByRole('link', { name: 'Contact' })).toHaveAttribute(
       'href',
-      '/#contact'
+      '/contact'
     );
   });
 
@@ -384,5 +392,48 @@ test.describe('Homepage Expanded Sections & Navigation', () => {
     const pricingList = page.locator('section#pricing ul');
     await expect(pricingList.first()).toBeVisible();
     await expect(pricingList.first().locator('li').first()).toContainText('✦');
+  });
+
+  test('hero section collapses dead space when divider is absent', async ({
+    page
+  }) => {
+    await page.goto('/');
+    const heroHeader = page.locator(
+      'section.overflow-hidden div.medieval-frame > div.max-w-4xl'
+    );
+    await expect(heroHeader).toBeVisible();
+    await expect(heroHeader).toHaveClass(MB_0_REGEX);
+    await expect(heroHeader).not.toHaveClass(MB_8_REGEX);
+
+    const heroParagraph = heroHeader.locator('p');
+    await expect(heroParagraph).toBeVisible();
+    await expect(heroParagraph).toHaveClass(MB_6_REGEX);
+  });
+
+  test('fullWidth buttons enforce flexbox centering and full container width', async ({
+    page
+  }) => {
+    await page.goto('/');
+
+    // 1. Architect section fullWidth secondary button
+    const architectButton = page
+      .locator('section#architect')
+      .getByRole('link', { name: INITIATE_DISCUSSION_REGEX });
+    await expect(architectButton).toBeVisible();
+    await expect(architectButton).toHaveClass(W_FULL_REGEX);
+    await expect(architectButton).toHaveClass(FLEX_REGEX);
+    await expect(architectButton).toHaveClass(ITEMS_CENTER_REGEX);
+    await expect(architectButton).toHaveClass(JUSTIFY_CENTER_REGEX);
+
+    // 2. Pricing section fullWidth primary button
+    const pricingButton = page
+      .locator('section#pricing')
+      .getByRole('link', { name: SCOPE_BUILD_REGEX })
+      .first();
+    await expect(pricingButton).toBeVisible();
+    await expect(pricingButton).toHaveClass(W_FULL_REGEX);
+    await expect(pricingButton).toHaveClass(FLEX_REGEX);
+    await expect(pricingButton).toHaveClass(ITEMS_CENTER_REGEX);
+    await expect(pricingButton).toHaveClass(JUSTIFY_CENTER_REGEX);
   });
 });

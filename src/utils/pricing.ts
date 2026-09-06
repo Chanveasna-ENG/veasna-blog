@@ -80,5 +80,5 @@ export function formatStartingPrice(amount: number, currency = 'USD'): string {
 }
 
 export function getInquiryUrl(ctaSubject: string): string {
-  return `#contact?subject=${encodeURIComponent(ctaSubject)}`;
+  return `/contact?subject=${encodeURIComponent(ctaSubject)}`;
 }

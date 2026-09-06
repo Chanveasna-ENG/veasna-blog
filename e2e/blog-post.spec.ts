@@ -10,6 +10,7 @@ const BACK_TO_PORTFOLIO_REGEX = /Back to Portfolio/i;
 const PAGE_1_REGEX = /\/page\/1/;
 const PORTFOLIO_REGEX = /\/portfolio/;
 const BOOK_CALL_URL_REGEX = /\/book-a-call/;
+const CONTACT_URL_REGEX = /\/contact/;
 const PROGRESS_WIDTH_REGEX = /width:\s*([1-9]\d*(\.\d+)?%|100%)/;
 const PARCHMENT_CODE_THEME_REGEX = /github-light/;
 const BOOK_CONSULTATION_REGEX = /Book Consultation/i;
@@ -330,7 +331,7 @@ test.describe('Single Blog Post Layout & Reading Experience', () => {
       name: HIRE_US_REGEX
     });
     await expect(hireBtn).toBeVisible();
-    await expect(hireBtn).toHaveAttribute('href', BOOK_CALL_URL_REGEX);
+    await expect(hireBtn).toHaveAttribute('href', CONTACT_URL_REGEX);
 
     // Verify sharp rectangular headshot (no rounded-full)
     const hireImg = stickyAside.locator('img[alt="Chanveasna Eng"]');

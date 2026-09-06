@@ -21,7 +21,7 @@ export function resolvePrimaryButtonClasses(
   };
 
   const widthClasses = isFullWidth
-    ? 'w-full text-center justify-center'
+    ? 'w-full flex items-center justify-center text-center'
     : 'inline-flex items-center justify-center';
 
   const containerClass = [
